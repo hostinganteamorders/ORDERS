@@ -1,12 +1,111 @@
 'use client';
 
 import { useRef, useState, useEffect } from "react";
+import Image from "next/image";
+
+const portfolioItems = [
+    {
+        title: "Rumah Sampah Digital",
+        description: "Aplikasi mobile untuk manajemen rumah sampah digital dengan sistem tracking dan reward.",
+        technologies: ["Flutter", "Firebase", "Dart"],
+        image: "/images/portofolio/RSD.png",
+    },
+    {
+        title: "Bank Sampah Pinabetengan",
+        description: "Platform digital untuk manajemen bank sampah dengan sistem pencatatan transaksi.",
+        technologies: ["React Native", "Django", "Python"],
+        image: "/images/portofolio/PInabengan.png",
+    },
+    {
+        title: "Website Tanah Nyiur Lestari",
+        description: "Website company profile dengan sistem informasi dan manajemen konten dinamis.",
+        technologies: ["Django", "Python", "JavaScript"],
+        image: "/images/portofolio/TNL.png",
+    },
+    {
+        title: "TRC Blockchain",
+        description: "Sistem manajemen sampah dengan teknologi blockchain untuk reward token.",
+        technologies: ["Blockchain", "React", "Node.js"],
+        image: "/images/portofolio/TRC.png",
+    },
+    {
+        title: "Solideo Kuliner App",
+        description: "Aplikasi pemesanan makanan dengan sistem real-time ordering.",
+        technologies: ["Flutter", "Firebase", "Dart"],
+        image: "/images/portofolio/ss_solideo.jpg",
+    },
+    {
+        title: "Website Desa Kapoya",
+        description: "Website resmi Desa Kapoya dengan sistem informasi desa dan layanan publik.",
+        technologies: ["Node.js", "Express", "MongoDB"],
+        image: "/images/portofolio/webdes.jpg",
+    },
+    {
+        title: "Pharmacy Website",
+        description: "Website sistem manajemen apotek dengan fitur inventory dan penjualan.",
+        technologies: ["CodeIgniter", "MySQL", "PHP"],
+        image: "/images/portofolio/farmasi.png",
+    },
+    {
+        title: "Orders Management",
+        description: "Sistem manajemen pesanan untuk bisnis dengan dashboard analytics.",
+        technologies: ["React", "Node.js", "PostgreSQL"],
+        image: "/images/portofolio/orders_management.jpg",
+    },
+    {
+        title: "Identifikasi Nilam",
+        description: "Aplikasi identifikasi tanaman nilam menggunakan teknologi AI.",
+        technologies: ["Python", "TensorFlow", "Flutter"],
+        image: "/images/portofolio/Identifikasi_nilam.jpg",
+    },
+    {
+        title: "Rakit - Assembly App",
+        description: "Aplikasi untuk membantu proses perakitan dengan panduan visual.",
+        technologies: ["React Native", "Node.js", "MongoDB"],
+        image: "/images/portofolio/rakit.png",
+    },
+    {
+        title: "Project 1",
+        description: "Solusi digital custom untuk kebutuhan bisnis.",
+        technologies: ["React", "Tailwind", "Node.js"],
+        image: "/images/portofolio/1.png",
+    },
+    {
+        title: "Project 2",
+        description: "Platform digital dengan fitur lengkap dan modern.",
+        technologies: ["Next.js", "TypeScript", "Prisma"],
+        image: "/images/portofolio/2.png",
+    },
+    {
+        title: "Project 3",
+        description: "Aplikasi web responsif dengan UI/UX terbaik.",
+        technologies: ["Vue.js", "Vuetify", "Firebase"],
+        image: "/images/portofolio/3.png",
+    },
+    {
+        title: "Project 4",
+        description: "Sistem informasi terintegrasi untuk enterprise.",
+        technologies: ["Angular", "Spring Boot", "MySQL"],
+        image: "/images/portofolio/4.png",
+    },
+    {
+        title: "Project 5",
+        description: "Mobile app cross-platform dengan performa tinggi.",
+        technologies: ["Flutter", "Dart", "Firebase"],
+        image: "/images/portofolio/5.png",
+    },
+    {
+        title: "Project 6",
+        description: "Website e-commerce dengan fitur pembayaran lengkap.",
+        technologies: ["Laravel", "Vue.js", "Stripe"],
+        image: "/images/portofolio/6.png",
+    },
+];
 
 export default function PortfolioSection() {
     const sliderRef = useRef<HTMLDivElement>(null);
     const [activeIdx, setActiveIdx] = useState(0);
 
-    // Update activeIdx on scroll
     useEffect(() => {
         const slider = sliderRef.current;
         if (!slider) return;
@@ -20,68 +119,18 @@ export default function PortfolioSection() {
 
         slider.addEventListener("scroll", onScroll, { passive: true });
         return () => slider.removeEventListener("scroll", onScroll);
-    }, []); const portfolioItems = [
-        {
-            title: "Rumah Sampah Digital",
-            description: "Aplikasi mobile untuk manajemen rumah sampah digital dengan sistem tracking dan reward untuk pengguna.",
-            technologies: ["Flutter", "Firebase", "Dart"],
-            image: "/images/portofolio/RSD.png",
-            imageAlt: "Rumah Sampah Digital App Screenshot"
-        },
-        {
-            title: "Bank Sampah Pinabetengan",
-            description: "Platform digital untuk manajemen bank sampah dengan sistem pencatatan transaksi dan laporan otomatis.",
-            technologies: ["React Native", "Django", "Python"],
-            image: "/images/portofolio/PInabengan.png",
-            imageAlt: "Bank Sampah Pinabetengan App Screenshot"
-        },
-        {
-            title: "Website Tanah Nyiur Lestari",
-            description: "Website company profile dengan sistem informasi dan manajemen konten yang dinamis.",
-            technologies: ["Django", "Python", "JavaScript"],
-            image: "/images/portofolio/TNL.png",
-            imageAlt: "Tanah Nyiur Lestari Website Screenshot"
-        },
-        {
-            title: "TRC Blockchain - Waste Management System",
-            description: "TRC (Tonsea Recycle Center) adalah sistem manajemen sampah inovatif yang mengintegrasikan teknologi blockchain untuk memberikan reward berupa token TRC kepada pengguna yang berkontribusi dalam program daur ulang sampah.",
-            technologies: ["Blockchain", "React", "Node.js", "Web3"],
-            image: "/images/portofolio/TRC.png",
-            imageAlt: "TRC Blockchain Waste Management System Screenshot"
-        }, {
-            title: "Solideo Kuliner App",
-            description: "Aplikasi pemesanan makanan dengan sistem real-time ordering dan manajemen resto yang terintegrasi.",
-            technologies: ["Flutter", "Firebase", "Dart"],
-            image: "/images/portofolio/ss_solideo.jpg",
-            imageAlt: "Solideo Kuliner App Screenshot"
-        },
-        {
-            title: "Website Desa Kapoya",
-            description: "Website resmi Desa Kapoya, Minahasa Selatan, Sulawesi Utara dengan sistem informasi desa dan layanan publik digital.",
-            technologies: ["Node.js", "Express", "MongoDB", "JavaScript"],
-            image: "/images/portofolio/webdes.jpg",
-            imageAlt: "Website Desa Kapoya Screenshot"
-        },
-        {
-            title: "Pharmacy Website",
-            description: "Website sistem manajemen apotek dengan fitur inventory, penjualan, dan laporan yang terintegrasi dengan database.",
-            technologies: ["CodeIgniter", "MySQL", "PHP"],
-            image: "/images/portofolio/farmasi.png",
-            imageAlt: "Pharmacy Website Screenshot"
-        }
-    ]; return (
-        <section id="portofolio" className="bg-light py-8 md:py-12 relative overflow-hidden">
-            {/* Enhanced Background Elements */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#FF7A00]/10 to-transparent rounded-bl-full"></div>
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr from-[#3D8C95]/10 to-transparent rounded-tr-full"></div>
-            <div className="absolute top-1/4 left-10 w-8 h-8 rounded-full bg-[#FF7A00]/20 animate-pulse"></div>
-            <div className="absolute bottom-1/4 right-10 w-6 h-6 rounded-full bg-[#3D8C95]/20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+    }, []);
 
-            <div className="container-content relative z-10">
+    return (
+        <section id="portofolio" className="section bg-slate-50">
+            <div className="container-content">
+                {/* Header */}
                 <div className="text-center mb-12">
-
-                    <h2 className="text-4xl font-bold mb-3">Karya Kami</h2>
-
+                    <span className="badge-primary mb-4">Portfolio</span>
+                    <h2 className="mb-4">Karya Kami</h2>
+                    <p className="text-lg max-w-2xl mx-auto">
+                        Berbagai proyek yang telah kami kerjakan untuk klien dari berbagai industri.
+                    </p>
                 </div>
 
                 {/* Mobile Slider */}
@@ -98,48 +147,23 @@ export default function PortfolioSection() {
                                         key={index}
                                         className="w-full flex-shrink-0 px-4"
                                         style={{ scrollSnapAlign: 'start' }}
-                                    >                                        <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl group transition-all duration-500 hover:-translate-y-3 border border-gray-100/50 backdrop-blur-sm relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-[#FF7A00]/5 before:via-transparent before:to-[#3D8C95]/5 before:opacity-0 before:transition-opacity before:duration-500 hover:before:opacity-100">
-                                            {/* Project Image */}
-                                            <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                                                <div className="absolute inset-0 bg-gradient-to-br from-[#FF7A00]/10 via-transparent to-[#3D8C95]/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                                <img
-                                                    src={item.image}
-                                                    alt={item.imageAlt}
-                                                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                                                />
-                                            </div>
-
-                                            {/* Modern Content Section */}
-                                            <div className="p-6 relative z-10">
-                                                {/* Background Pattern */}
-                                                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#FF7A00]/5 to-transparent rounded-bl-full group-hover:from-[#FF7A00]/10 transition-all duration-500"></div>
-
-                                                <h3 className="text-xl font-bold text-[#061E44] mb-3 group-hover:text-[#FF7A00] transition-colors duration-300">{item.title}</h3>
-                                                <p className="text-gray-600 mb-4 leading-relaxed">{item.description}</p>
-
-                                                {/* Technology Tags */}
-                                                <div className="flex flex-wrap gap-2">
-                                                    {item.technologies.map((tech, techIndex) => (
-                                                        <span key={techIndex} className="bg-gradient-to-r from-[#FF7A00]/10 to-[#3D8C95]/10 text-[#061E44] px-3 py-1.5 rounded-full text-sm font-medium border border-[#FF7A00]/20 hover:border-[#FF7A00]/40 hover:bg-gradient-to-r hover:from-[#FF7A00]/20 hover:to-[#3D8C95]/20 transition-all duration-300">
-                                                            {tech}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
+                                    >
+                                        <PortfolioCard item={item} />
                                     </div>
                                 ))}
                             </div>
-                        </div>                        {/* Slider Dots Indicator */}
-                        <div className="flex justify-center items-center mt-6 space-x-2 bg-transparent">
+                        </div>
+
+                        {/* Slider Dots */}
+                        <div className="flex justify-center items-center mt-6 gap-2">
                             {portfolioItems.map((_, idx) => (
                                 <button
                                     key={idx}
-                                    type="button"
-                                    className={`h-3 w-3 rounded-full border-0 outline-none shadow-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF7A00] focus-visible:ring-offset-2 transition-all duration-300 ${activeIdx === idx
-                                        ? 'bg-[#FF7A00] scale-110'
-                                        : 'bg-[#FF7A00]/30 hover:bg-[#FF7A00]/50'
-                                        }`}
+                                    className={`h-2 rounded-full transition-all duration-300 ${
+                                        activeIdx === idx
+                                            ? 'bg-orange-500 w-6'
+                                            : 'bg-slate-300 w-2 hover:bg-slate-400'
+                                    }`}
                                     onClick={() => {
                                         const slider = sliderRef.current;
                                         if (slider) {
@@ -152,40 +176,54 @@ export default function PortfolioSection() {
                             ))}
                         </div>
                     </div>
-                </div>                {/* Desktop Grid */}
-                <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-2 gap-8 mt-12">
-                    {portfolioItems.map((item, index) => (<div key={index} className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl group transition-all duration-500 hover:-translate-y-3 border border-gray-100/50 backdrop-blur-sm relative before:absolute before:inset-0 before:bg-gradient-to-br before:from-[#FF7A00]/5 before:via-transparent before:to-[#3D8C95]/5 before:opacity-0 before:transition-opacity before:duration-500 hover:before:opacity-100">
-                        {/* Project Image */}
-                        <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#FF7A00]/10 via-transparent to-[#3D8C95]/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                            <img
-                                src={item.image}
-                                alt={item.imageAlt}
-                                className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
+                </div>
 
-                        {/* Modern Content Section */}
-                        <div className="p-6 relative z-10">
-                            {/* Background Pattern */}
-                            <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-[#FF7A00]/5 to-transparent rounded-bl-full group-hover:from-[#FF7A00]/10 transition-all duration-500"></div>
-
-                            <h3 className="text-xl font-bold text-[#061E44] mb-3 group-hover:text-[#FF7A00] transition-colors duration-300">{item.title}</h3>
-                            <p className="text-gray-600 mb-4 leading-relaxed">{item.description}</p>
-
-                            {/* Technology Tags */}
-                            <div className="flex flex-wrap gap-2">
-                                {item.technologies.map((tech, techIndex) => (
-                                    <span key={techIndex} className="bg-gradient-to-r from-[#FF7A00]/10 to-[#3D8C95]/10 text-[#061E44] px-3 py-1.5 rounded-full text-sm font-medium border border-[#FF7A00]/20 hover:border-[#FF7A00]/40 hover:bg-gradient-to-r hover:from-[#FF7A00]/20 hover:to-[#3D8C95]/20 transition-all duration-300">
-                                        {tech}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                {/* Desktop Grid */}
+                <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {portfolioItems.map((item, index) => (
+                        <PortfolioCard key={index} item={item} />
                     ))}
                 </div>
             </div>
         </section>
+    );
+}
+
+function PortfolioCard({ item }: { item: typeof portfolioItems[0] }) {
+    return (
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-slate-100 group cursor-pointer">
+            {/* Image */}
+            <div className="relative h-48 bg-slate-100 overflow-hidden">
+                <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+
+            {/* Content */}
+            <div className="p-5">
+                <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-orange-500 transition-colors">
+                    {item.title}
+                </h3>
+                <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+                    {item.description}
+                </p>
+
+                {/* Technologies */}
+                <div className="flex flex-wrap gap-1.5">
+                    {item.technologies.map((tech, techIndex) => (
+                        <span
+                            key={techIndex}
+                            className="bg-slate-100 text-slate-600 px-2 py-1 rounded-md text-xs font-medium"
+                        >
+                            {tech}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 }

@@ -1,544 +1,215 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import SpotlightCard from './SpotlightCard';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ZapIcon, ArrowRight01Icon, AiChat02Icon, SparklesIcon } from '@hugeicons/core-free-icons';
 
-// Data slides untuk slideshow (diperbarui sesuai permintaan)
-const SLIDE_INTERVAL_MS = 10000; // durasi perpindahan otomatis antar slide (10 detik)
-const slides = [
-    {
-        image: '/images/ecosistem/AI_1.png',
-        alt: 'Tim kami lolos AIDEA Nation oleh BRIN - cuplikan aktivitas inovasi AI tahap pertama',
-        title: 'Finalis AIDEA Nation BRIN',
-        description: 'Kami berhasil lolos seleksi AIDEA Nation yang diselenggarakan Badan Riset dan Inovasi Nasional (BRIN) sebagai salah satu finalis berkat solusi AI berorientasi keberlanjutan.'
-    },
-    {
-        image: '/images/ecosistem/AI_2.png',
-        alt: 'Pengembangan lanjutan solusi AI berkelanjutan - dokumentasi internal',
-        title: 'Inovasi AI Berkelanjutan',
-        description: 'Pengembangan berkelanjutan platform kami untuk mendukung efisiensi proses bisnis dan dampak lingkungan yang positif.'
-    },
-    {
-        image: '/images/ecosistem/Menteri_1.jpg',
-        alt: 'Menteri Pariwisata Widiyanti Putri Wardhana memperhatikan inovasi lingkungan kami',
-        title: 'Apresiasi Kementerian Pariwisata',
-        description: 'Inovasi dan kontribusi kami di sektor lingkungan mendapat perhatian Menteri Pariwisata Widiyanti Putri Wardhana.'
-    },
-    {
-        image: '/images/ecosistem/BACIRARO.png',
-        alt: 'Logo ekosistem daur ulang Baciraro Recycle',
-        title: 'Ekosistem Baciraro Recycle',
-        description: 'Bagian dari ekosistem Baciraro Recycle dalam mendorong ekonomi sirkular dan pengelolaan limbah yang bertanggung jawab.'
-    }
+const stats = [
+  { value: '50+', label: 'Proyek Selesai' },
+  { value: '30+', label: 'Klien Puas' },
+  { value: '5+', label: 'Tahun Pengalaman' },
+];
+
+const partners = [
+  { src: '/images/sponsor/Baciraro.png', alt: 'Baciraro' },
+  { src: '/images/sponsor/TanaNyiurLestari.png', alt: 'Tana Nyiur Lestari' },
+  { src: '/images/sponsor/TrashRecycleCenter.png', alt: 'Trash Recycle Center' },
+  { src: '/images/sponsor/ELMAST.png', alt: 'ELMast' },
 ];
 
 export default function HeroSection() {
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [scrollY, setScrollY] = useState(0);
-    const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
 
-    // Check if device is mobile
-    useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+  const openChatbot = () => {
+    const chatbotButton = document.querySelector('[aria-label="Buka chat"]') as HTMLButtonElement;
+    if (chatbotButton) {
+      chatbotButton.click();
+    }
+  };
 
-    // Parallax effect handler (optimized for mobile)
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
+  return (
+    <section
+      ref={heroRef}
+      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50/30 pt-20"
+    >
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Gradient Orbs - Static */}
+        <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl" />
+        
+        {/* Grid Pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: `linear-gradient(to right, #0F172A 1px, transparent 1px), linear-gradient(to bottom, #0F172A 1px, transparent 1px)`,
+            backgroundSize: '64px 64px',
+          }}
+        />
+      </div>
 
-        // Use passive listener for better performance
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+      <div className="container-content relative z-10 py-12 lg:py-0">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-200px)]">
+          {/* Left Column - Content */}
+          <div className="flex flex-col gap-8 text-center lg:text-left">
+            {/* Heading */}
+            <h1
+              className={`text-balance transition-all duration-700 delay-100 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
+              Solusi Digital{' '}
+              <span className="gradient-text">Terdepan</span>{' '}
+              untuk Bisnis Masa Depan
+            </h1>
 
-    // Auto-play slideshow functionality
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, SLIDE_INTERVAL_MS);
+            {/* Description */}
+            <p
+              className={`text-lg lg:text-xl max-w-xl mx-auto lg:mx-0 transition-all duration-700 delay-200 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
+              ORDERS hadir sebagai partner digital terpercaya yang menghadirkan 
+              inovasi teknologi untuk mengakselerasi pertumbuhan bisnis Anda.
+            </p>
 
-        return () => clearInterval(timer);
-    }, []);
+            {/* CTA Buttons */}
+            <div
+              className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-700 delay-300 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
+              <Link href="/contact" className="btn-primary text-base">
+                <HugeiconsIcon icon={ZapIcon} size={20} />
+                Mulai Sekarang
+              </Link>
+              <Link href="/portfolio" className="btn-outline text-base">
+                Lihat Portfolio
+                <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
+              </Link>
+            </div>
 
-    // Chatbot event listener - Updated to trigger FloatingActionButtons
-    useEffect(() => {
-        const handleOpenChatbot = () => {
-            // Trigger chatbot opening in FloatingActionButtons
-            const chatbotButton = document.querySelector('[aria-label="Buka chat"]') as HTMLButtonElement;
-            if (chatbotButton) {
-                chatbotButton.click();
-            }
-        };
+            {/* AI Assistant Card */}
+            <div
+              className={`transition-all duration-700 delay-400 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
+              <button
+                onClick={openChatbot}
+                className="w-full sm:w-auto card-hover p-4 flex items-center gap-4 text-left group"
+              >
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-sky-500 flex items-center justify-center text-white shrink-0">
+                  <HugeiconsIcon icon={AiChat02Icon} size={24} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-primary">AI Assistant</p>
+                  <p className="text-foreground font-semibold">Tanya Orders AI</p>
+                  <p className="text-sm text-muted truncate">Siap membantu pertanyaan Anda</p>
+                </div>
+                <HugeiconsIcon icon={ArrowRight01Icon} size={20} className="text-muted group-hover:text-primary group-hover:translate-x-1 transition-all" />
+              </button>
+            </div>
 
-        window.addEventListener('openChatbot', handleOpenChatbot);
-        return () => window.removeEventListener('openChatbot', handleOpenChatbot);
-    }, []);
+            {/* Stats */}
+            <div
+              className={`grid grid-cols-3 gap-6 pt-8 border-t border-slate-200 transition-all duration-700 delay-500 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
+            >
+              {stats.map((stat, index) => (
+                <div key={index} className="text-center lg:text-left">
+                  <p className="text-2xl lg:text-3xl font-heading font-bold text-foreground">
+                    {stat.value}
+                  </p>
+                  <p className="text-sm text-muted">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-    // Owen notification dihapus
-
-    // Navigation functions
-    const nextSlide = useCallback(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, []);
-
-    const prevSlide = useCallback(() => {
-        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-    }, []);
-
-    const goToSlide = useCallback((index: number) => {
-        setCurrentSlide(index);
-    }, []);
-
-    return (
-        <>
-            {/* Google Fonts Import */}
-            <link
-                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-                rel="stylesheet"
-            />            <section
-                className="relative min-h-screen flex items-center justify-center text-white font-inter overflow-hidden"
-                style={{ minHeight: '100vh' }}
-            >                {/* Parallax Background Layer */}
-                <div
-                    className="absolute inset-0 w-full h-full parallax-element"
-                    style={{
-                        backgroundImage: 'url(/images/ling.png)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center center',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundAttachment: 'scroll', // Always scroll for mobile compatibility
-                        transform: `translate3d(0, ${scrollY * (isMobile ? 0.1 : 0.3)}px, 0)`, // Hardware accelerated with translate3d
-                        willChange: 'transform',
-                        minHeight: '120vh'
-                    }}
+          {/* Right Column - Visual */}
+          <div
+            className={`relative transition-all duration-1000 delay-300 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+            }`}
+          >
+            {/* Main Image Container */}
+            <div className="relative aspect-square max-w-lg mx-auto">
+              {/* Background Glow - Static */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-sky-500/20 rounded-3xl blur-2xl scale-90" />
+              
+              {/* Image Frame */}
+              <div className="relative bg-white rounded-3xl shadow-large overflow-hidden border border-slate-200">
+                <Image
+                  src="/images/ling.png"
+                  alt="ORDERS Digital Solutions"
+                  width={600}
+                  height={600}
+                  className="w-full h-full object-cover"
+                  priority
                 />
-
-                {/* Dark overlay */}
-                <div className="absolute inset-0 bg-black/60 z-1" />
-
-                {/* Dot pattern overlay */}
-                <div className="absolute inset-0 dot-pattern opacity-20 z-2" />                <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
-                    <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[80vh] lg:min-h-auto">                        {/* Kolom Kiri - Konten Statis */}                        <div
-                        className="flex flex-col gap-6 lg:gap-8 order-2 lg:order-1 text-center lg:text-left parallax-element"
-                        style={{
-                            transform: `translate3d(0, ${scrollY * (isMobile ? -0.05 : -0.1)}px, 0)`, // Hardware accelerated
-                        }}
-                    ><h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight">
-                            <span className="text-white">Solusi Digital Terdepan untuk </span><span className="text-custom-orange">Bisnis Masa Depan</span>
-                        </h1>
-
-                        <p className="text-base sm:text-lg text-gray-200 max-w-lg mx-auto lg:mx-0">
-                            ORDERS hadir sebagai partner digital terpercaya yang menghadirkan inovasi teknologi untuk mengakselerasi pertumbuhan bisnis Anda.
-                        </p>
-
-                        <div className="button-grid-container mt-4">
-                            {/* Owen Chatbot CTA Button - Takes 2x2 grid space */}
-                            <div
-                                className="owen-button cursor-pointer transform hover:scale-105 transition-all duration-300"
-                                onClick={() => {
-                                    // Trigger chatbot opening in FloatingActionButtons
-                                    const chatbotButton = document.querySelector('[aria-label="Buka chat"]') as HTMLButtonElement;
-                                    if (chatbotButton) {
-                                        chatbotButton.click();
-                                    }
-                                }}
-                            >
-                                <SpotlightCard
-                                    className="hover:bg-gray-900/80 transition-all duration-300 h-full"
-                                    spotlightColor="rgba(34, 197, 94, 0.4)"
-                                >
-                                    <div className="flex items-center gap-4 p-4 h-full">
-                                        <div className="text-4xl animate-bounce">🤖</div>
-                                        <div className="flex-1">
-                                            <p className="font-bold text-green-400 text-sm tracking-wider">💬 AI ASSISTANT</p>
-                                            <h3 className="text-xl font-bold text-white mt-1">Tanya Orders AI</h3>
-                                            <p className="text-gray-200 text-sm mt-2">
-                                                Assistant Digital ORDERS siap membantu Anda
-                                            </p>
-                                        </div>
-                                        <div className="text-green-400 text-2xl">→</div>
-                                    </div>
-                                </SpotlightCard>
-                            </div>
-
-                            {/* Contact Button */}
-                            <Link href="/contact" className="contact-button">
-                                <button className="bg-custom-orange text-white font-bold py-4 px-6 rounded-lg transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 w-full h-full">
-                                    Hubungi Kami
-                                </button>
-                            </Link>
-
-                            {/* Services Button */}
-                            <Link href="/portfolio" className="services-button">
-                                <button className="bg-gray-700 text-white font-bold py-4 px-6 rounded-lg hover:bg-gray-600 transition-colors duration-300 hover:shadow-lg transform hover:scale-105 w-full h-full">
-                                    Lihat Portfolio
-                                </button>
-                            </Link>
-                        </div>                            {/* Eco Digital Initiative Card */}                            <SpotlightCard
-                            className="mt-8 lg:mt-12 hover:bg-gray-900/80 transition-all duration-300"
-                            spotlightColor="rgba(34, 197, 94, 0.4)"
-                        >
-                            <p className="font-bold text-green-400 text-sm tracking-wider">🌱 ECO DIGITAL INITIATIVE</p>
-                            <h3 className="text-xl lg:text-2xl font-bold mt-2 text-white">Teknologi Ramah Lingkungan</h3>
-                            <p className="text-gray-200 mt-2 text-sm lg:text-base">
-                                Komitmen ORDERS dalam mengembangkan solusi digital yang berkelanjutan dan mendukung praktik ramah lingkungan.
-                            </p>
-                            <div className="flex items-center justify-between mt-4">
-                                <Link href="/ecodigital" className="inline-block text-green-400 font-semibold group text-sm lg:text-base">
-                                    Pelajari Lebih Lanjut
-                                    <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none ml-1">
-                                        →
-                                    </span>
-                                </Link>
-
-                                {/* Mini Owen CTA */}
-                                <button
-                                    onClick={() => {
-                                        // Trigger chatbot opening in FloatingActionButtons
-                                        const chatbotButton = document.querySelector('[aria-label="Buka chat"]') as HTMLButtonElement;
-                                        if (chatbotButton) {
-                                            chatbotButton.click();
-                                        }
-                                    }}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 hover:scale-105 flex items-center gap-1"
-                                >
-                                    <span>🤖</span>
-                                    <span>Tanya Owen</span>
-                                </button>
-                            </div>
-                        </SpotlightCard>
-
-                        {/* Mitra Lingkungan */}                            <div className="mt-6 lg:mt-8">
-                            <p className="text-xs lg:text-sm text-gray-300 font-medium tracking-wider">SUPPORTED BY:</p>                                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 lg:gap-x-8 gap-y-3 lg:gap-y-4 mt-3 lg:mt-4">
-                                <div className="hover:scale-105 transition-all duration-300 bg-white/10 p-2 lg:p-4 rounded-xl backdrop-blur-sm">
-                                    <Image
-                                        src="/images/sponsor/Baciraro.png"
-                                        alt="Baciraro"
-                                        width={60}
-                                        height={30}
-                                        className="lg:w-28 lg:h-14 object-contain rounded-lg"
-                                    />
-                                </div>
-                                <div className="hover:scale-105 transition-all duration-300 bg-white/10 p-2 lg:p-4 rounded-xl backdrop-blur-sm">
-                                    <Image
-                                        src="/images/sponsor/TanaNyiurLestari.png"
-                                        alt="Tana Nyiur Lestari"
-                                        width={60}
-                                        height={30}
-                                        className="lg:w-28 lg:h-14 object-contain rounded-lg"
-                                    />
-                                </div>
-                                <div className="hover:scale-105 transition-all duration-300 bg-white/10 p-2 lg:p-4 rounded-xl backdrop-blur-sm">
-                                    <Image
-                                        src="/images/sponsor/TrashRecycleCenter.png"
-                                        alt="Trash Recycle Center"
-                                        width={60}
-                                        height={30}
-                                        className="lg:w-28 lg:h-14 object-contain rounded-lg"
-                                    />
-                                </div>
-                                <div className="hover:scale-105 transition-all duration-300 bg-white/10 p-2 lg:p-4 rounded-xl backdrop-blur-sm">
-                                    <Image
-                                        src="/images/sponsor/ELMAST.png"
-                                        alt="ELMast"
-                                        width={60}
-                                        height={30}
-                                        className="lg:w-28 lg:h-14 object-contain rounded-lg"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </div>                        {/* Kolom Kanan - Slideshow Dinamis */}
-                        <div className="order-1 lg:order-2">
-                            <div className="relative w-full h-[280px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[600px] rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-lg lg:max-w-none bg-gray-900">
-
-                                {/* Slides Container */}
-                                <div className="relative w-full h-full">
-                                    {slides.map((slide, index) => (
-                                        <div
-                                            key={index}
-                                            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'
-                                                }`}
-                                        >
-                                            <Image
-                                                src={slide.image}
-                                                alt={slide.alt}
-                                                fill
-                                                className="w-full h-full"
-                                                style={{
-                                                    objectFit: isMobile ? 'contain' : 'cover',
-                                                    objectPosition: isMobile ? 'center top' : 'center center'
-                                                }}
-                                                priority={index === 0}
-                                                sizes="(max-width: 768px) 100vw, 50vw"
-                                            />
-                                            {/* Overlay gradient untuk kontras */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
-                                            {/* Title & description overlay per slide (hanya saat aktif untuk SEO & aksesibilitas) */}
-                                            {index === currentSlide && (
-                                                <div className="absolute bottom-20 left-0 right-0 px-6">
-                                                    <h4 className="text-lg sm:text-xl font-semibold text-white drop-shadow-md">
-                                                        {slide.title}
-                                                    </h4>
-                                                    <p className="mt-2 text-xs sm:text-sm text-gray-200 max-w-md">
-                                                        {slide.description}
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Navigation Arrows */}
-                                <button
-                                    onClick={prevSlide}
-                                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-                                    aria-label="Previous slide"
-                                >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                    </svg>
-                                </button>
-
-                                <button
-                                    onClick={nextSlide}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300 hover:scale-110 backdrop-blur-sm"
-                                    aria-label="Next slide"
-                                >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-
-                                {/* Dots Indicators */}
-                                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3">
-                                    {slides.map((_, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => goToSlide(index)}
-                                            className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
-                                                ? 'bg-custom-orange scale-125'
-                                                : 'bg-white/50 hover:bg-white/70'
-                                                }`}
-                                            aria-label={`Go to slide ${index + 1}`}
-                                        />
-                                    ))}
-                                </div>
-
-                                {/* Slide Description Overlay (alt fallback) */}
-                                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                                    <p className="text-white text-sm font-medium opacity-90">
-                                        {slides[currentSlide].alt}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>                {/* Decorative Elements */}
-                <div className="absolute top-20 left-10 w-32 h-32 bg-custom-orange-glow rounded-full blur-3xl animate-pulse" style={{ zIndex: 3 }} />
-                <div className="absolute bottom-20 right-10 w-40 h-40 bg-green-400/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s', zIndex: 3 }} />
-
-                {/* Owen Notification Popup - DIHAPUS */}
-            </section>            {/* Custom Styles */}
-            <style jsx>{`
-                .dot-pattern {
-                    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0);
-                    background-size: 40px 40px;
-                }
                 
-                .font-inter {
-                    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-                }
+                {/* Overlay Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
+                
+                {/* Floating Badge */}
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="glass rounded-2xl p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
+                        <HugeiconsIcon icon={SparklesIcon} size={20} className="text-orange-500" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">Eco Digital Initiative</p>
+                        <p className="text-xs text-muted">Teknologi Ramah Lingkungan</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-                /* Custom Orange Color */
-                .text-custom-orange {
-                    color: #ff6c00;
-                }
+              {/* Floating Element - Orange (Static, no animation) */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-500 rounded-2xl shadow-glow-primary flex items-center justify-center">
+                <HugeiconsIcon icon={ZapIcon} size={40} color="white" />
+              </div>
+            </div>
+          </div>
+        </div>
 
-                .bg-custom-orange {
-                    background-color: #ff6c00;
-                }
-
-                .hover-custom-orange:hover {
-                    color: #ff6c00;
-                }
-
-                .bg-custom-orange:hover {
-                    background-color: #e55a00;
-                }                .bg-custom-orange-glow {
-                    background-color: rgba(255, 108, 0, 0.1);
-                }
-
-                /* Button Grid Layout */
-                .button-grid-container {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
-                    grid-template-rows: repeat(2, 1fr);
-                    gap: 16px;
-                    max-width: 600px;
-                    margin: 0 auto;
-                }
-
-                .owen-button {
-                    grid-column: span 2 / span 2;
-                    grid-row: span 2 / span 2;
-                }
-
-                .contact-button {
-                    grid-column-start: 3;
-                    grid-row-start: 1;
-                }
-
-                .services-button {
-                    grid-column-start: 3;
-                    grid-row-start: 2;
-                }
-
-                /* Responsive adjustments for mobile */
-                @media (max-width: 768px) {
-                    .button-grid-container {
-                        grid-template-columns: 1fr;
-                        grid-template-rows: auto auto auto;
-                        gap: 12px;
-                        max-width: 100%;
-                    }
-
-                    .owen-button {
-                        grid-column: 1;
-                        grid-row: 1;
-                    }
-
-                    .contact-button {
-                        grid-column: 1;
-                        grid-row: 2;
-                    }
-
-                    .services-button {
-                        grid-column: 1;
-                        grid-row: 3;
-                    }
-                }
-
-                /* Ensure proper centering on larger screens */
-                @media (min-width: 1024px) {
-                    .button-grid-container {
-                        margin: 0;
-                    }
-                }
-
-                /* Owen Notification Animation */
-                @keyframes slide-in-right {
-                    0% {
-                        transform: translateX(100%);
-                        opacity: 0;
-                    }
-                    100% {
-                        transform: translateX(0);
-                        opacity: 1;
-                    }
-                }
-
-                .animate-slide-in-right {
-                    animation: slide-in-right 0.5s ease-out;
-                }
-
-                /* Parallax Performance Optimization */
-                .parallax-element {
-                    will-change: transform;
-                    transform: translate3d(0, 0, 0);
-                    backface-visibility: hidden;
-                    perspective: 1000px;
-                }
-
-                /* Mobile Touch Optimization */
-                @media (hover: none) and (pointer: coarse) {
-                    /* Enable hardware acceleration for smooth parallax on touch devices */
-                    .parallax-element {
-                        -webkit-transform: translate3d(0, 0, 0);
-                        transform: translate3d(0, 0, 0);
-                        -webkit-backface-visibility: hidden;
-                        backface-visibility: hidden;
-                        -webkit-perspective: 1000px;
-                        perspective: 1000px;
-                        -webkit-overflow-scrolling: touch;
-                    }
-                }                /* Mobile Optimization for Background with Parallax */
-                @media (max-width: 768px) {
-                    section {
-                        min-height: 100vh !important;
-                        min-height: 100dvh !important; /* Dynamic viewport height for mobile */
-                    }
-                    
-                    /* Optimize background for mobile parallax */
-                    .absolute.inset-0 {
-                        background-attachment: scroll !important;
-                        background-size: cover !important;
-                        background-position: center center !important;
-                        min-height: 120vh !important;
-                        /* Transform will be handled by inline styles for mobile */
-                    }
-                    
-                    /* Mobile slideshow container optimization */
-                    .order-1.lg\\:order-2 > div {
-                        height: 280px !important;
-                        background-color: #1f2937 !important; /* Darker background to make contained images stand out */
-                    }
-                    
-                    /* Ensure smooth scrolling on mobile */
-                    * {
-                        -webkit-transform: translate3d(0, 0, 0);
-                        transform: translate3d(0, 0, 0);
-                    }
-                }
-
-                @media (max-width: 480px) {
-                    /* Very small screens - slightly shorter container */
-                    .order-1.lg\\:order-2 > div {
-                        height: 250px !important;
-                        margin: 0 auto !important;
-                    }
-                }
-
-                @media (max-width: 640px) {
-                    /* Extra small screens */
-                    .absolute.inset-0 {
-                        background-size: cover !important;
-                        background-position: center 20% !important; /* Adjust vertical position */
-                        min-height: 130vh !important;
-                    }
-                }
-
-                /* Smooth scrolling for better UX */
-                html {
-                    scroll-behavior: smooth;
-                }
-
-                /* Custom scrollbar for webkit browsers */
-                ::-webkit-scrollbar {
-                    width: 8px;
-                }
-
-                ::-webkit-scrollbar-track {
-                    background: #1a202c;
-                }
-
-                ::-webkit-scrollbar-thumb {
-                    background: #4a5568;
-                    border-radius: 4px;
-                }
-
-                ::-webkit-scrollbar-thumb:hover {
-                    background: #718096;
-                }
-            `}</style>
-        </>
-    );
+        {/* Partners Section */}
+        <div
+          className={`mt-16 lg:mt-0 pb-8 transition-all duration-700 delay-700 ${
+            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          }`}
+        >
+          <p className="text-sm text-muted text-center mb-6 font-medium tracking-wider uppercase">
+            Didukung oleh
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
+            {partners.map((partner, index) => (
+              <div
+                key={index}
+                className="relative h-10 w-24 lg:h-12 lg:w-32 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 cursor-pointer"
+              >
+                <Image
+                  src={partner.src}
+                  alt={partner.alt}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

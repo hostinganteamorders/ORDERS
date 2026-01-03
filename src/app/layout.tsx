@@ -1,13 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from 'next/font/google';
-import "./globals.css";
-import ChatBot from '@/components/ChatBot';
-
-const inter = Inter({ subsets: ['latin'] });
+import type { Metadata } from 'next';
+import './globals.css';
+import FloatingActionButtons from '@/components/FloatingActionButtons';
 
 export const metadata: Metadata = {
-  title: "Order | Digital Solutions Company",
-  description: "Professional digital solutions for your business needs",
+  title: 'ORDERS | Digital Solutions Company',
+  description: 'Solusi digital terdepan untuk bisnis masa depan. Partner digital terpercaya yang menghadirkan inovasi teknologi.',
+  keywords: ['digital agency', 'web development', 'app development', 'digital solutions', 'indonesia'],
 };
 
 export default function RootLayout({
@@ -16,12 +14,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
-      <body
-        className={`${inter.className} antialiased`}
-      >
+    <html lang="id" className="scroll-smooth">
+      <body className="font-body antialiased bg-background text-foreground">
         {children}
-        <ChatBot />
+        <FloatingActionButtons />
       </body>
     </html>
   );
