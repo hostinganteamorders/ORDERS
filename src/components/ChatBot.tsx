@@ -131,7 +131,7 @@ export default function ChatBot() {
                                 <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 border-2 border-white"></span>
                             </div>
                             <div>
-                                <h3 className="font-bold text-lg">Orders AI</h3>
+                                <h3 className="font-bold text-lg">MegaLLM AI</h3>
                                 <p className="text-xs text-orange-100">Digital Assistant</p>
                             </div>
                         </div>
@@ -215,7 +215,7 @@ export default function ChatBot() {
                             </button>
                         </div>
                         <p className="text-xs text-gray-400 mt-2 text-center">
-                            Powered by Orders AI • Tekan Enter untuk kirim
+                            Powered by MegaLLM AI • Tekan Enter untuk kirim
                         </p>
                     </div>
                 </div>
