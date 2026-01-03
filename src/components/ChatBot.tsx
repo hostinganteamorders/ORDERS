@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { chatBotAPI, ChatMessage, createMessage, FALLBACK_RESPONSES } from '@/lib/chatbot';
+import { renderMarkdown } from '@/lib/markdown';
 
 export default function ChatBot() {
     const [isOpen, setIsOpen] = useState(false);
@@ -159,7 +160,14 @@ export default function ChatBot() {
                                         : 'bg-white text-gray-800 shadow-md rounded-bl-none'
                                         }`}
                                 >
-                                    <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                                    {message.role === 'user' ? (
+                                        <p className="text-sm whitespace-pre-wrap break-words text-white">{message.content}</p>
+                                    ) : (
+                                        <div
+                                            className="text-sm break-words prose prose-sm prose-gray max-w-none"
+                                            dangerouslySetInnerHTML={{ __html: renderMarkdown(message.content) }}
+                                        />
+                                    )}
                                     <p className={`text-xs mt-1 ${message.role === 'user' ? 'text-orange-100' : 'text-gray-400'
                                         }`}>
                                         {message.timestamp.toLocaleTimeString('id-ID', {
@@ -196,7 +204,8 @@ export default function ChatBot() {
                                 onChange={(e) => setInputValue(e.target.value)}
                                 onKeyPress={handleKeyPress}
                                 placeholder="Ketik pesan Anda..."
-                                className="flex-1 resize-none border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent max-h-32"
+                                className="flex-1 resize-none border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent max-h-32 placeholder:text-gray-400"
+                                style={{ color: '#000000' }}
                                 rows={1}
                                 disabled={isLoading}
                             />
@@ -215,7 +224,7 @@ export default function ChatBot() {
                             </button>
                         </div>
                         <p className="text-xs text-gray-400 mt-2 text-center">
-                            Powered by MegaLLM AI • Tekan Enter untuk kirim
+                            Powered by Orders 2k26 • Tekan Enter untuk kirim
                         </p>
                     </div>
                 </div>
