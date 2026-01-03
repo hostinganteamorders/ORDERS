@@ -14,6 +14,29 @@ export interface ChatError {
   status?: number;
 }
 
+export type ModelId = 'openai-gpt-oss-120b' | 'deepseek-ai/deepseek-v3.1';
+
+export interface ModelConfig {
+  id: ModelId;
+  name: string;
+  description: string;
+}
+
+export const AVAILABLE_MODELS: ModelConfig[] = [
+  {
+    id: 'deepseek-ai/deepseek-v3.1',
+    name: 'DeepSeek V3.1',
+    description: 'Fast and efficient model'
+  },
+  {
+    id: 'openai-gpt-oss-120b',
+    name: 'GPT OSS 120B',
+    description: 'Large open-source model'
+  }
+];
+
+export const DEFAULT_MODEL: ModelId = 'deepseek-ai/deepseek-v3.1';
+
 export class ChatBotAPI {
   private baseUrl: string;
 
@@ -23,7 +46,8 @@ export class ChatBotAPI {
 
   async sendMessage(
     message: string,
-    conversationHistory?: Array<{ role: string; content: string }>
+    conversationHistory?: Array<{ role: string; content: string }>,
+    model?: ModelId
   ): Promise<{ message: string; model: string }> {
     const response = await fetch(`${this.baseUrl}/chat`, {
       method: 'POST',
@@ -32,7 +56,8 @@ export class ChatBotAPI {
       },
       body: JSON.stringify({
         message,
-        conversationHistory
+        conversationHistory,
+        model
       }),
     });
 
