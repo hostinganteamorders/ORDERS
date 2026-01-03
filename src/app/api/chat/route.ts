@@ -1,13 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+// MegaLLM API compatible - uses OpenAI SDK format
+// Base URL and API key configured via environment variables
+
 // Inisialisasi OpenAI client
 const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     baseURL: process.env.OPENAI_BASE_URL,
 });
 
-const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+// Available models for MegaLLM API
+const AVAILABLE_MODELS = [
+    'openai-gpt-oss-120b',
+    'deepseek-ai/deepseek-v3.1'
+];
+
+const MODEL = process.env.OPENAI_MODEL || 'deepseek-ai/deepseek-v3.1';
 
 export async function POST(request: NextRequest) {
     try {
@@ -78,7 +87,7 @@ Jika ditanya kontak: WhatsApp (tombol di website), Email: info@orders.co.id`;
                 model: MODEL,
                 messages: messages,
                 temperature: 0.7,
-                max_tokens: 500,
+                max_tokens: 300,
             });
 
             const aiMessage = response.choices[0].message.content;
