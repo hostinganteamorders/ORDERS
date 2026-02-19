@@ -47,9 +47,8 @@ export default function CTASection() {
           <div className="relative z-10 grid lg:grid-cols-2 gap-12 p-8 md:p-12 lg:p-16 items-center">
             {/* Left Content */}
             <div
-              className={`text-center lg:text-left transition-all duration-1000 ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-              }`}
+              className={`text-center lg:text-left transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                }`}
             >
               <h2 className="text-white text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                 Siap Wujudkan Proyek{' '}
@@ -70,7 +69,7 @@ export default function CTASection() {
                 </span>
               </h2>
               <p className="text-slate-300 text-lg mb-8 max-w-lg mx-auto lg:mx-0">
-                Dapatkan konsultasi gratis dengan tim ahli kami untuk memilih 
+                Dapatkan konsultasi gratis dengan tim ahli kami untuk memilih
                 solusi terbaik sesuai kebutuhan bisnis Anda.
               </p>
 
@@ -114,9 +113,8 @@ export default function CTASection() {
 
             {/* Right Visual */}
             <div
-              className={`relative transition-all duration-1000 delay-200 ${
-                isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-              }`}
+              className={`relative transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+                }`}
             >
               <div className="relative max-w-md mx-auto">
                 {/* Main Image */}

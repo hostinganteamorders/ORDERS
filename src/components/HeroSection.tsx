@@ -1,16 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+import React from 'react';
 import Link from 'next/link';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { ZapIcon, ArrowRight01Icon, AiChat02Icon, SparklesIcon } from '@hugeicons/core-free-icons';
-
-const stats = [
-  { value: '50+', label: 'Proyek Selesai' },
-  { value: '30+', label: 'Klien Puas' },
-  { value: '5+', label: 'Tahun Pengalaman' },
-];
+import Image from 'next/image';
+import { ArrowRight, Zap } from 'lucide-react';
 
 const partners = [
   { src: '/images/sponsor/Baciraro.png', alt: 'Baciraro' },
@@ -20,196 +13,131 @@ const partners = [
 ];
 
 export default function HeroSection() {
-  const [isVisible, setIsVisible] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const openChatbot = () => {
-    const chatbotButton = document.querySelector('[aria-label="Buka chat"]') as HTMLButtonElement;
-    if (chatbotButton) {
-      chatbotButton.click();
-    }
-  };
-
   return (
-    <section
-      ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-orange-50/30 pt-20"
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Gradient Orbs - Static */}
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-sky-500/10 rounded-full blur-3xl" />
-        
-        {/* Grid Pattern */}
-        <div 
-          className="absolute inset-0 opacity-[0.02]"
+    <main className="overflow-hidden">
+      <section className="relative">
+        {/* Grid Background */}
+        <div
+          className="absolute inset-0 -z-10 opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(to right, #0F172A 1px, transparent 1px), linear-gradient(to bottom, #0F172A 1px, transparent 1px)`,
-            backgroundSize: '64px 64px',
+            backgroundSize: '35px 35px',
           }}
         />
-      </div>
 
-      <div className="container-content relative z-10 py-12 lg:py-0">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-200px)]">
-          {/* Left Column - Content */}
-          <div className="flex flex-col gap-8 text-center lg:text-left">
-            {/* Heading */}
-            <h1
-              className={`text-balance transition-all duration-700 delay-100 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              Solusi Digital{' '}
-              <span className="gradient-text">Terdepan</span>{' '}
-              untuk Bisnis Masa Depan
-            </h1>
+        {/* Radial Mask Overlay */}
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background: 'radial-gradient(ellipse 80% 60% at 50% 0%, transparent 70%, white 100%)',
+          }}
+        />
 
-            {/* Description */}
-            <p
-              className={`text-lg lg:text-xl max-w-xl mx-auto lg:mx-0 transition-all duration-700 delay-200 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              ORDERS hadir sebagai partner digital terpercaya yang menghadirkan 
-              inovasi teknologi untuk mengakselerasi pertumbuhan bisnis Anda.
-            </p>
+        {/* Blue Glow Orb */}
+        <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-80 w-2/3 -translate-x-1/2 rounded-full bg-blue-300/20 blur-3xl" />
 
-            {/* CTA Buttons */}
-            <div
-              className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start transition-all duration-700 delay-300 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <Link href="/contact" className="btn-primary text-base">
-                <HugeiconsIcon icon={ZapIcon} size={20} />
-                Mulai Sekarang
-              </Link>
-              <Link href="/portfolio" className="btn-outline text-base">
-                Lihat Portfolio
-                <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
-              </Link>
-            </div>
+        <div className="relative py-24 lg:py-32">
+          <div className="mx-auto max-w-5xl px-6 md:px-12">
+            <div className="text-center sm:mx-auto sm:w-10/12 lg:w-4/5">
 
-            {/* AI Assistant Card */}
-            <div
-              className={`transition-all duration-700 delay-400 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <button
-                onClick={openChatbot}
-                className="w-full sm:w-auto card-hover p-4 flex items-center gap-4 text-left group"
+              {/* Badge "New" */}
+              <Link
+                href="/portfolio"
+                className="mx-auto mb-8 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-1 pr-3 py-1 text-sm shadow-sm hover:shadow-md transition-shadow duration-200"
               >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-sky-500 flex items-center justify-center text-white shrink-0">
-                  <HugeiconsIcon icon={AiChat02Icon} size={24} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-primary">AI Assistant</p>
-                  <p className="text-foreground font-semibold">Tanya Orders AI</p>
-                  <p className="text-sm text-muted truncate">Siap membantu pertanyaan Anda</p>
-                </div>
-                <HugeiconsIcon icon={ArrowRight01Icon} size={20} className="text-muted group-hover:text-primary group-hover:translate-x-1 transition-all" />
-              </button>
+                <span className="rounded-full bg-orange-500 px-2 py-0.5 text-xs font-semibold text-white">
+                  New
+                </span>
+                <span className="text-slate-600">Lihat project terbaru kami</span>
+                <span className="h-4 w-px bg-slate-200" />
+                <ArrowRight className="h-4 w-4 text-slate-400" />
+              </Link>
+
+              {/* Heading */}
+              <h1 className="mt-2 text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl xl:text-6xl xl:leading-[1.1]">
+                Solusi Digital{' '}
+                <span
+                  style={{
+                    background: 'linear-gradient(90deg, #ff7a00, #3d8c95)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Terdepan
+                </span>{' '}
+                untuk Bisnis Masa Depan
+              </h1>
+
+              {/* Description — desktop */}
+              <p className="mx-auto mt-8 hidden max-w-2xl text-lg text-slate-500 sm:block">
+                ORDERS hadir sebagai partner digital terpercaya yang menghadirkan inovasi
+                teknologi untuk mengakselerasi pertumbuhan bisnis Anda dengan solusi modern
+                dan terukur.
+              </p>
+
+              {/* Description — mobile */}
+              <p className="mx-auto mt-6 max-w-md text-base text-slate-500 sm:hidden">
+                Partner digital terpercaya untuk akselerasi bisnis Anda dengan inovasi teknologi modern.
+              </p>
+
+              {/* CTA */}
+              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 rounded-xl bg-orange-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-orange-500/30 transition-all duration-200 hover:-translate-y-0.5 hover:bg-orange-600 hover:shadow-orange-500/40"
+                >
+                  <Zap className="h-4 w-4" />
+                  <span>Mulai Sekarang</span>
+                </Link>
+                <Link
+                  href="/portfolio"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-base font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+                >
+                  <span>Lihat Portfolio</span>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
+                </Link>
+              </div>
             </div>
 
             {/* Stats */}
-            <div
-              className={`grid grid-cols-3 gap-6 pt-8 border-t border-slate-200 transition-all duration-700 delay-500 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center lg:text-left">
-                  <p className="text-2xl lg:text-3xl font-heading font-bold text-foreground">
-                    {stat.value}
-                  </p>
-                  <p className="text-sm text-muted">{stat.label}</p>
+            <div className="mx-auto mt-16 grid max-w-lg grid-cols-3 gap-6 border-t border-slate-200 pt-10">
+              {[
+                { value: '50+', label: 'Proyek Selesai' },
+                { value: '30+', label: 'Klien Puas' },
+                { value: '5+', label: 'Tahun Pengalaman' },
+              ].map((stat) => (
+                <div key={stat.label} className="text-center">
+                  <p className="text-2xl font-bold text-slate-900 lg:text-3xl">{stat.value}</p>
+                  <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Right Column - Visual */}
-          <div
-            className={`relative transition-all duration-1000 delay-300 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-            }`}
-          >
-            {/* Main Image Container */}
-            <div className="relative aspect-square max-w-lg mx-auto">
-              {/* Background Glow - Static */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-sky-500/20 rounded-3xl blur-2xl scale-90" />
-              
-              {/* Image Frame */}
-              <div className="relative bg-white rounded-3xl shadow-large overflow-hidden border border-slate-200">
-                <Image
-                  src="/images/ling.png"
-                  alt="ORDERS Digital Solutions"
-                  width={600}
-                  height={600}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-                
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent" />
-                
-                {/* Floating Badge */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="glass rounded-2xl p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center">
-                        <HugeiconsIcon icon={SparklesIcon} size={20} className="text-orange-500" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-foreground">Eco Digital Initiative</p>
-                        <p className="text-xs text-muted">Teknologi Ramah Lingkungan</p>
-                      </div>
-                    </div>
+            {/* Partner Logos */}
+            <div className="mx-auto mt-14 max-w-3xl">
+              <p className="mb-6 text-center text-xs font-semibold uppercase tracking-widest text-slate-400">
+                Dipercaya oleh
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
+                {partners.map((partner) => (
+                  <div
+                    key={partner.alt}
+                    className="relative h-10 w-24 opacity-50 grayscale transition-all duration-300 hover:opacity-90 hover:grayscale-0 lg:h-12 lg:w-32"
+                  >
+                    <Image
+                      src={partner.src}
+                      alt={partner.alt}
+                      fill
+                      className="object-contain"
+                    />
                   </div>
-                </div>
-              </div>
-
-              {/* Floating Element - Orange (Static, no animation) */}
-              <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-500 rounded-2xl shadow-glow-primary flex items-center justify-center">
-                <HugeiconsIcon icon={ZapIcon} size={40} color="white" />
+                ))}
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Partners Section */}
-        <div
-          className={`mt-16 lg:mt-0 pb-8 transition-all duration-700 delay-700 ${
-            isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <p className="text-sm text-muted text-center mb-6 font-medium tracking-wider uppercase">
-            Didukung oleh
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-8 lg:gap-12">
-            {partners.map((partner, index) => (
-              <div
-                key={index}
-                className="relative h-10 w-24 lg:h-12 lg:w-32 grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-300 cursor-pointer"
-              >
-                <Image
-                  src={partner.src}
-                  alt={partner.alt}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
   );
 }

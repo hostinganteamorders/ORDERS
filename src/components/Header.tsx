@@ -9,6 +9,7 @@ const navigation = [
   { href: '/dashboard', label: 'Layanan' },
   { href: '/pricing', label: 'Harga' },
   { href: '/portfolio', label: 'Portfolio' },
+  { href: '/ecodigital', label: 'EcoDigital' },
   { href: '/team', label: 'Tim' },
   { href: '/contact', label: 'Kontak' },
 ];
@@ -43,11 +44,10 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
             ? 'py-2 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 shadow-soft'
             : 'py-4 bg-transparent'
-        }`}
+          }`}
       >
         <div className="container-content">
           <nav className="flex items-center justify-between">
@@ -71,9 +71,8 @@ export default function Header() {
                   ORDERS
                 </span>
                 <span
-                  className={`text-xs text-muted transition-opacity duration-300 ${
-                    isScrolled ? 'opacity-0 h-0' : 'opacity-100'
-                  }`}
+                  className={`text-xs text-muted transition-opacity duration-300 ${isScrolled ? 'opacity-0 h-0' : 'opacity-100'
+                    }`}
                 >
                   Organize. Develop. Thrive.
                 </span>
@@ -86,11 +85,10 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    isActive(item.href)
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(item.href)
                       ? 'text-primary bg-primary/10'
                       : 'text-foreground/70 hover:text-foreground hover:bg-accent'
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -134,9 +132,8 @@ export default function Header() {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${
-          isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
+        className={`fixed inset-0 z-40 lg:hidden transition-opacity duration-300 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          }`}
       >
         {/* Backdrop */}
         <div
@@ -146,9 +143,8 @@ export default function Header() {
 
         {/* Menu Panel */}
         <div
-          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-large transform transition-transform duration-300 ease-out ${
-            isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-large transform transition-transform duration-300 ease-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
         >
           <div className="flex flex-col h-full p-6">
             {/* Close Button */}
@@ -181,11 +177,10 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-lg font-medium transition-all duration-200 ${
-                    isActive(item.href)
+                  className={`block px-4 py-3 rounded-xl text-lg font-medium transition-all duration-200 ${isActive(item.href)
                       ? 'text-primary bg-primary/10'
                       : 'text-foreground hover:bg-accent'
-                  }`}
+                    }`}
                   style={{
                     animationDelay: `${index * 50}ms`,
                   }}
