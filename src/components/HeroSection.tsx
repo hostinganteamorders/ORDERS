@@ -4,6 +4,18 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Zap } from 'lucide-react';
+import { Playfair_Display, Plus_Jakarta_Sans, Outfit } from 'next/font/google';
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  weight: ['400', '600', '700']
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700', '800']
+});
 
 const partners = [
   { src: '/images/sponsor/Baciraro.png', alt: 'Baciraro' },
@@ -14,7 +26,7 @@ const partners = [
 
 export default function HeroSection() {
   return (
-    <main className="overflow-hidden">
+    <main className={`overflow-hidden ${outfit.className}`}>
       <section className="relative">
         {/* Grid Background */}
         <div
@@ -54,9 +66,10 @@ export default function HeroSection() {
               </Link>
 
               {/* Heading */}
-              <h1 className="mt-2 text-4xl font-bold leading-tight tracking-tight text-slate-900 md:text-5xl xl:text-6xl xl:leading-[1.1]">
+              <h1 className="mt-2 text-4xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl xl:text-6xl xl:leading-[1.1]">
                 Solusi Digital{' '}
                 <span
+                  className={`${playfair.className} italic font-bold pr-1`}
                   style={{
                     background: 'linear-gradient(90deg, #ff7a00, #3d8c95)',
                     WebkitBackgroundClip: 'text',
@@ -65,6 +78,7 @@ export default function HeroSection() {
                 >
                   Terdepan
                 </span>{' '}
+                <br className="hidden sm:block" />
                 untuk Bisnis Masa Depan
               </h1>
 

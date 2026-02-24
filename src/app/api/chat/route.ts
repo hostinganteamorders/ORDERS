@@ -1,48 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-// MegaLLM API compatible - uses OpenAI SDK format
-// Base URL and API key configured via environment variables
+// ===== Rate Limiter =====
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 20; // 20 messages per minute per IP
 
-// Inisialisasi OpenAI client
+function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
+    const now = Date.now();
+    const entry = rateLimitMap.get(ip);
+
+    // Clean up expired entries periodically
+    if (rateLimitMap.size > 1000) {
+        for (const [key, val] of rateLimitMap.entries()) {
+            if (val.resetTime < now) rateLimitMap.delete(key);
+        }
+    }
+
+    if (!entry || entry.resetTime < now) {
+        rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+        return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1 };
+    }
+
+    if (entry.count >= MAX_REQUESTS_PER_WINDOW) {
+        return { allowed: false, remaining: 0 };
+    }
+
+    entry.count++;
+    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - entry.count };
+}
+
+// ===== OpenAI Client =====
 const client = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
     baseURL: process.env.OPENAI_BASE_URL,
 });
 
-// Available models for MegaLLM API
-const AVAILABLE_MODELS = [
-    'openai-gpt-oss-120b',
-    'deepseek-ai/deepseek-v3.1'
-];
-
 const MODEL = process.env.OPENAI_MODEL || 'deepseek-ai/deepseek-v3.1';
 
-export async function POST(request: NextRequest) {
-    try {
-        const { message, conversationHistory } = await request.json();
-
-        if (!message || typeof message !== 'string') {
-            return NextResponse.json(
-                { error: 'Message is required' },
-                { status: 400 }
-            );
-        }
-
-        // Cek apakah API key tersedia
-        if (!process.env.OPENAI_API_KEY) {
-            console.warn('OPENAI_API_KEY not configured, using fallback responses');
-            const fallbackResponses = getFallbackResponse(message);
-            return NextResponse.json({
-                message: fallbackResponses,
-                model: 'fallback'
-            });
-        }
-
-        // Coba koneksi ke OpenAI API
-        try {
-            // Siapkan system prompt
-            const systemPrompt = `Kamu adalah Orders AI, asisten digital dari Orders - sebuah perusahaan yang menyediakan layanan digital seperti pembuatan website, aplikasi, desain grafis, dan layanan IT lainnya. 
+// ===== System Prompt =====
+const SYSTEM_PROMPT = `Kamu adalah Orders AI, asisten digital dari Orders - sebuah perusahaan yang menyediakan layanan digital seperti pembuatan website, aplikasi, desain grafis, dan layanan IT lainnya. 
 
 Tugas kamu:
 - Membantu menjawab pertanyaan tentang layanan Orders
@@ -51,6 +48,7 @@ Tugas kamu:
 - Menjawab dalam Bahasa Indonesia yang natural dan ramah
 - Berikan jawaban yang singkat, jelas, dan informatif
 - Gunakan emoji untuk membuat percakapan lebih menarik
+- Gunakan format markdown (bold, list, dll) untuk jawaban yang terstruktur
 
 Layanan Orders:
 • 🌐 Web Development - Website modern dan responsif
@@ -62,32 +60,178 @@ Layanan Orders:
 
 Jika ditanya kontak: WhatsApp (tombol di website), Email: info@orders.co.id`;
 
-            // Buat messages array dengan conversation history
-            const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
-                { role: 'system', content: systemPrompt }
-            ];
+// ===== Input Validation =====
+function validateMessage(message: unknown): { valid: boolean; error?: string } {
+    if (!message || typeof message !== 'string') {
+        return { valid: false, error: 'Message is required and must be a string' };
+    }
+    if (message.length > 4000) {
+        return { valid: false, error: 'Message is too long (max 4000 characters)' };
+    }
+    if (message.trim().length === 0) {
+        return { valid: false, error: 'Message cannot be empty' };
+    }
+    return { valid: true };
+}
 
-            // Tambahkan conversation history jika ada
-            if (conversationHistory && Array.isArray(conversationHistory)) {
-                conversationHistory.forEach((msg: any) => {
-                    if (msg.role && msg.content) {
-                        messages.push({
-                            role: msg.role as 'user' | 'assistant',
-                            content: msg.content
-                        });
+function validateConversationHistory(history: unknown): Array<{ role: string; content: string }> {
+    if (!history || !Array.isArray(history)) return [];
+
+    return history
+        .filter((msg: any) => msg?.role && msg?.content && typeof msg.content === 'string')
+        .map((msg: any) => ({
+            role: msg.role as 'user' | 'assistant',
+            content: msg.content.slice(0, 4000) // Truncate overly long history items
+        }))
+        .slice(-10); // Max 10 history messages
+}
+
+// ===== POST Handler =====
+export async function POST(request: NextRequest) {
+    try {
+        // Rate limiting
+        const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+            || request.headers.get('x-real-ip')
+            || 'unknown';
+
+        const rateLimit = checkRateLimit(ip);
+        if (!rateLimit.allowed) {
+            return NextResponse.json(
+                { error: 'Terlalu banyak permintaan. Silakan tunggu beberapa saat.' },
+                {
+                    status: 429,
+                    headers: {
+                        'Retry-After': '60',
+                        'X-RateLimit-Remaining': '0'
+                    }
+                }
+            );
+        }
+
+        const body = await request.json();
+        const { message, conversationHistory, stream = false } = body;
+
+        // Validate input
+        const validation = validateMessage(message);
+        if (!validation.valid) {
+            return NextResponse.json({ error: validation.error }, { status: 400 });
+        }
+
+        // Check API key
+        if (!process.env.OPENAI_API_KEY) {
+            console.warn('OPENAI_API_KEY not configured, using fallback responses');
+            const fallbackResponse = getFallbackResponse(message);
+
+            if (stream) {
+                // Return SSE-formatted fallback for stream mode
+                const encoder = new TextEncoder();
+                const readable = new ReadableStream({
+                    start(controller) {
+                        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ fallback: true, message: fallbackResponse, model: 'fallback' })}\n\n`));
+                        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+                        controller.close();
+                    }
+                });
+                return new Response(readable, {
+                    headers: {
+                        'Content-Type': 'text/event-stream',
+                        'Cache-Control': 'no-cache',
+                        'Connection': 'keep-alive',
                     }
                 });
             }
 
-            // Tambahkan pesan user terbaru
-            messages.push({ role: 'user', content: message });
+            return NextResponse.json({
+                message: fallbackResponse,
+                model: 'fallback'
+            });
+        }
 
-            // Panggil OpenAI API
+        // Build messages array
+        const validHistory = validateConversationHistory(conversationHistory);
+        const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+            { role: 'system', content: SYSTEM_PROMPT },
+            ...validHistory.map(msg => ({
+                role: msg.role as 'user' | 'assistant',
+                content: msg.content
+            })),
+            { role: 'user', content: message.trim() }
+        ];
+
+        // ===== Streaming Mode =====
+        if (stream) {
+            try {
+                const completion = await client.chat.completions.create({
+                    model: MODEL,
+                    messages,
+                    temperature: 0.7,
+                    max_tokens: 1000,
+                    stream: true,
+                });
+
+                const encoder = new TextEncoder();
+                const readable = new ReadableStream({
+                    async start(controller) {
+                        try {
+                            for await (const chunk of completion) {
+                                const content = chunk.choices[0]?.delta?.content;
+                                if (content) {
+                                    const data = JSON.stringify({ content, model: MODEL });
+                                    controller.enqueue(encoder.encode(`data: ${data}\n\n`));
+                                }
+                            }
+                            controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+                            controller.close();
+                        } catch (streamError: any) {
+                            console.error('Stream error:', streamError);
+                            const errorData = JSON.stringify({
+                                fallback: true,
+                                message: getFallbackResponse(message),
+                                model: 'fallback'
+                            });
+                            controller.enqueue(encoder.encode(`data: ${errorData}\n\n`));
+                            controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+                            controller.close();
+                        }
+                    }
+                });
+
+                return new Response(readable, {
+                    headers: {
+                        'Content-Type': 'text/event-stream',
+                        'Cache-Control': 'no-cache',
+                        'Connection': 'keep-alive',
+                        'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+                    }
+                });
+            } catch (apiError: any) {
+                console.error('OpenAI stream API error:', apiError);
+                const fallbackResponse = getFallbackResponse(message);
+                const encoder = new TextEncoder();
+                const readable = new ReadableStream({
+                    start(controller) {
+                        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ fallback: true, message: fallbackResponse, model: 'fallback' })}\n\n`));
+                        controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+                        controller.close();
+                    }
+                });
+                return new Response(readable, {
+                    headers: {
+                        'Content-Type': 'text/event-stream',
+                        'Cache-Control': 'no-cache',
+                        'Connection': 'keep-alive',
+                    }
+                });
+            }
+        }
+
+        // ===== Non-Streaming Mode =====
+        try {
             const response = await client.chat.completions.create({
                 model: MODEL,
-                messages: messages,
+                messages,
                 temperature: 0.7,
-                max_tokens: 300,
+                max_tokens: 1000,
             });
 
             const aiMessage = response.choices[0].message.content;
@@ -95,15 +239,17 @@ Jika ditanya kontak: WhatsApp (tombol di website), Email: info@orders.co.id`;
             return NextResponse.json({
                 message: aiMessage,
                 model: MODEL
+            }, {
+                headers: {
+                    'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+                }
             });
-
         } catch (apiError: any) {
             console.error('OpenAI API error:', apiError);
 
-            // Jika error dari API, gunakan fallback
-            const fallbackResponses = getFallbackResponse(message);
+            const fallbackResponse = getFallbackResponse(message);
             return NextResponse.json({
-                message: fallbackResponses,
+                message: fallbackResponse,
                 model: 'fallback',
                 error: apiError.message
             });
@@ -118,11 +264,10 @@ Jika ditanya kontak: WhatsApp (tombol di website), Email: info@orders.co.id`;
     }
 }
 
-// Fungsi untuk memberikan response fallback yang cerdas
+// ===== Fallback Responses =====
 function getFallbackResponse(message: string): string {
     const lowerMessage = message.toLowerCase();
 
-    // Deteksi pertanyaan tentang layanan
     if (lowerMessage.includes('layanan') || lowerMessage.includes('service') || lowerMessage.includes('jasa')) {
         return `🎯 Orders menyediakan berbagai layanan digital profesional:
 
@@ -136,7 +281,6 @@ function getFallbackResponse(message: string): string {
 Tertarik dengan layanan tertentu? Tanya saya lebih detail atau hubungi tim kami!`;
     }
 
-    // Pertanyaan tentang harga
     if (lowerMessage.includes('harga') || lowerMessage.includes('biaya') || lowerMessage.includes('price')) {
         return `💰 Untuk informasi harga yang akurat dan sesuai kebutuhan Anda, saya sarankan:
 
@@ -149,7 +293,6 @@ Hubungi tim sales kami untuk mendapatkan penawaran terbaik! 📞
 Mau saya jelaskan lebih detail tentang layanan tertentu?`;
     }
 
-    // Pertanyaan tentang kontak
     if (lowerMessage.includes('kontak') || lowerMessage.includes('hubungi') || lowerMessage.includes('contact')) {
         return `📞 Hubungi Orders:
 
@@ -163,7 +306,6 @@ Tim kami siap membantu Anda! Biasanya respon dalam 1-2 jam di hari kerja.
 Ada yang bisa saya bantu saat ini?`;
     }
 
-    // Pertanyaan tentang portfolio
     if (lowerMessage.includes('portfolio') || lowerMessage.includes('portofolio') || lowerMessage.includes('project')) {
         return `🎨 Orders telah menangani berbagai project:
 
@@ -176,7 +318,6 @@ Ada yang bisa saya bantu saat ini?`;
 Lihat portfolio lengkap kami di halaman Portfolio atau tanya saya tentang jenis project tertentu yang Anda minati!`;
     }
 
-    // Pertanyaan tentang proses
     if (lowerMessage.includes('proses') || lowerMessage.includes('cara') || lowerMessage.includes('bagaimana')) {
         return `⚙️ Proses kerja Orders:
 
@@ -191,7 +332,6 @@ Lihat portfolio lengkap kami di halaman Portfolio atau tanya saya tentang jenis 
 Proses transparan dengan update berkala. Tertarik mulai project?`;
     }
 
-    // Salam
     if (lowerMessage.includes('halo') || lowerMessage.includes('hai') || lowerMessage.includes('hi') || lowerMessage.includes('hello')) {
         return `👋 Halo! Saya Orders AI, asisten digital Orders.
 
@@ -204,7 +344,6 @@ Saya bisa membantu Anda dengan:
 Apa yang bisa saya bantu hari ini?`;
     }
 
-    // Pertanyaan tentang teknologi
     if (lowerMessage.includes('teknologi') || lowerMessage.includes('tech') || lowerMessage.includes('stack')) {
         return `💻 Orders menggunakan teknologi modern:
 
@@ -218,7 +357,6 @@ Apa yang bisa saya bantu hari ini?`;
 Kami selalu menggunakan best practices dan teknologi terkini untuk memastikan product berkualitas tinggi!`;
     }
 
-    // Response umum
     return `Terima kasih atas pertanyaan Anda! 😊
 
 Saat ini Orders AI sedang dalam mode offline, tapi saya tetap bisa membantu dengan:
@@ -238,6 +376,6 @@ export async function GET() {
     return NextResponse.json({
         status: 'ok',
         message: 'Chat API is running',
-        version: '1.0.0'
+        version: '2.0.0'
     });
 }
