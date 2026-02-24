@@ -260,10 +260,10 @@ export default function ChatBot() {
                     <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 flex items-center justify-between flex-shrink-0">
                         <div className="flex items-center space-x-3">
                             <div className="relative">
-                                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                                    <span className="text-2xl">🤖</span>
+                                <div className="w-11 h-11 flex items-center justify-center overflow-visible drop-shadow-md">
+                                    <img src="https://api.dicebear.com/9.x/toon-head/svg?seed=Jessica&backgroundColor=transparent" alt="Orders AI Avatar" className="w-full h-full object-contain" />
                                 </div>
-                                <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-400 border-2 border-white"></span>
+                                <span className="absolute bottom-0 -right-1 block h-3 w-3 rounded-full bg-green-400 border-2 border-orange-500"></span>
                             </div>
                             <div>
                                 <h3 className="font-bold text-lg leading-tight">Orders AI</h3>
@@ -303,8 +303,8 @@ export default function ChatBot() {
                         {/* Welcome State - shown when no messages */}
                         {messages.length === 0 && !isTyping && (
                             <div className="flex flex-col items-center justify-center py-8 px-4 text-center animate-fadeIn">
-                                <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-                                    <span className="text-3xl">🤖</span>
+                                <div className="w-20 h-20 flex items-center justify-center mb-2 drop-shadow-lg">
+                                    <img src="https://api.dicebear.com/9.x/toon-head/svg?seed=Jessica&backgroundColor=transparent" alt="Orders AI Avatar" className="w-full h-full object-contain" />
                                 </div>
                                 <h4 className="font-bold text-gray-800 text-lg mb-1">Halo! Saya Orders AI</h4>
                                 <p className="text-gray-500 text-sm mb-6 max-w-[280px]">
