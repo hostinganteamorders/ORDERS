@@ -76,10 +76,10 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-slate-400 mb-6 max-w-sm">
-              Solusi digital modern untuk membantu bisnis Anda bertumbuh dan 
-              beradaptasi di era digital dengan teknologi terdepan.
+              Orders Manado hadir sebagai solusi digital modern untuk membantu bisnis Anda bertumbuh dan
+              beradaptasi di era digital dengan teknologi terdepan di Manado dan sekitarnya.
             </p>
-            
+
             {/* Social Links */}
             <div className="flex items-center gap-3">
               {socialLinks.map((social) => (

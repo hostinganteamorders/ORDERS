@@ -84,14 +84,14 @@ export default function HeroSection() {
 
               {/* Description — desktop */}
               <p className="mx-auto mt-8 hidden max-w-2xl text-lg text-slate-500 sm:block">
-                ORDERS hadir sebagai partner digital terpercaya yang menghadirkan inovasi
+                ORDERS Manado hadir sebagai partner digital terpercaya yang menghadirkan inovasi
                 teknologi untuk mengakselerasi pertumbuhan bisnis Anda dengan solusi modern
                 dan terukur.
               </p>
 
               {/* Description — mobile */}
               <p className="mx-auto mt-6 max-w-md text-base text-slate-500 sm:hidden">
-                Partner digital terpercaya untuk akselerasi bisnis Anda dengan inovasi teknologi modern.
+                Partner digital terpercaya di Manado untuk akselerasi bisnis Anda dengan inovasi teknologi modern.
               </p>
 
               {/* CTA */}

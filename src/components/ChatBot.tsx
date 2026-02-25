@@ -223,9 +223,9 @@ export default function ChatBot() {
             {/* Chat Toggle Button */}
             <button
                 onClick={toggleChat}
-                className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 p-3 sm:p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 ${isOpen
-                    ? 'bg-red-500 hover:bg-red-600'
-                    : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[90] p-3 sm:p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 ${isOpen
+                    ? 'hidden sm:block bg-red-500 hover:bg-red-600'
+                    : 'block bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
                     }`}
                 aria-label={isOpen ? 'Tutup chat' : 'Buka Orders AI chat'}
                 aria-expanded={isOpen}
@@ -254,7 +254,7 @@ export default function ChatBot() {
                     role="dialog"
                     aria-label="Orders AI Chat"
                     aria-modal="false"
-                    className="fixed z-50 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slideUp inset-x-2 bottom-20 max-h-[85vh] sm:inset-auto sm:bottom-24 sm:right-6 sm:w-[400px] sm:h-[620px] sm:max-h-none border border-gray-200/50"
+                    className="fixed z-[100] bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-slideUp inset-x-0 bottom-0 h-[85dvh] sm:inset-auto sm:bottom-24 sm:right-6 sm:w-[400px] sm:h-[620px] sm:max-h-[calc(100vh-120px)] border border-gray-200/50"
                 >
                     {/* Header */}
                     <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 flex items-center justify-between flex-shrink-0">
@@ -272,25 +272,36 @@ export default function ChatBot() {
                                 </p>
                             </div>
                         </div>
-                        <button
-                            onClick={handleClearChat}
-                            className={`text-white rounded-lg p-2 transition-all duration-200 ${showClearConfirm
-                                ? 'bg-red-600 hover:bg-red-700 scale-110'
-                                : 'hover:bg-white/20'
-                                }`}
-                            title={showClearConfirm ? 'Klik lagi untuk konfirmasi hapus' : 'Hapus percakapan'}
-                            aria-label={showClearConfirm ? 'Konfirmasi hapus percakapan' : 'Hapus percakapan'}
-                        >
-                            {showClearConfirm ? (
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        <div className="flex items-center space-x-1 sm:space-x-2">
+                            <button
+                                onClick={handleClearChat}
+                                className={`text-white rounded-lg p-2 transition-all duration-200 ${showClearConfirm
+                                    ? 'bg-red-600 hover:bg-red-700 scale-110'
+                                    : 'hover:bg-white/20'
+                                    }`}
+                                title={showClearConfirm ? 'Klik lagi untuk konfirmasi hapus' : 'Hapus percakapan'}
+                                aria-label={showClearConfirm ? 'Konfirmasi hapus percakapan' : 'Hapus percakapan'}
+                            >
+                                {showClearConfirm ? (
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                                    </svg>
+                                ) : (
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                )}
+                            </button>
+                            <button
+                                onClick={toggleChat}
+                                className="sm:hidden text-white rounded-lg p-2 transition-all duration-200 hover:bg-white/20"
+                                aria-label="Tutup chat"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 </svg>
-                            ) : (
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
-                            )}
-                        </button>
+                            </button>
+                        </div>
                     </div>
 
                     {/* Messages Container */}

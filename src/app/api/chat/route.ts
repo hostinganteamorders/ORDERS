@@ -72,7 +72,7 @@ const SYSTEM_PROMPT = `Kamu adalah Orders AI — asisten digital resmi dari Orde
 • ☁️ Cloud Solutions - Hosting, server, infrastruktur IT
 • 🛠️ IT Consulting - Konsultasi teknologi bisnis
 
-Jika ditanya kontak: WhatsApp (tombol di website), Email: info@orders.co.id`;
+Jika ditanya kontak: WhatsApp (tombol di website), Email: teamorders2k25@gmail.com`;
 
 // ===== Input Validation =====
 function validateMessage(message: unknown): { valid: boolean; error?: string } {
@@ -350,9 +350,9 @@ Mau saya jelaskan lebih detail tentang layanan tertentu?`;
         return `📞 Hubungi Orders:
 
 • **WhatsApp**: Klik tombol WhatsApp di kanan bawah
-• **Email**: info@orders.co.id
-• **Website**: www.orders.co.id
-• **Social Media**: @orders.digital
+• **Email**: teamorders2k25@gmail.com
+• **Website**: www.ordersapp.tech
+• **Social Media**: ada di halaman kontak
 
 Tim kami siap membantu Anda! Biasanya respon dalam 1-2 jam di hari kerja. 
 
