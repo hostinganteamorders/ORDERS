@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: 'ORDERS | Digital Solutions Company',
   description: 'Solusi digital terdepan untuk bisnis masa depan. Partner digital terpercaya yang menghadirkan inovasi teknologi.',
   keywords: ['digital agency', 'web development', 'app development', 'digital solutions', 'indonesia'],
+  icons: {
+    icon: '/logo_header.svg',
+  },
 };
 
 export default function RootLayout({
