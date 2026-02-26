@@ -2,6 +2,7 @@
 droid --resume 7c030f22-e739-4dac-a68b-2cb68128a370
 This is a modern Next.js application for a digital solutions company, featuring an integrated AI chatbot.
 
+
 ## 🚀 Features
 
 - **Modern Design**: Built with Next.js 15, TypeScript, and Tailwind CSS
