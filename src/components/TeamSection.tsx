@@ -48,6 +48,14 @@ export default function TeamSection() {
         }
     ];
 
+    const humanRelations = [
+        {
+            name: 'Given Tambalean',
+            role: 'Human Relations',
+            avatar: '/images/team/p9.jpeg',
+        }
+    ];
+
     return (
         <section id="team" className="py-12 md:py-32">
             <div className="mx-auto max-w-3xl px-8 lg:px-0">
@@ -101,6 +109,28 @@ export default function TeamSection() {
                     <h3 className="mb-6 text-lg font-medium">Creative & Marketing</h3>
                     <div data-rounded="full" className="grid grid-cols-2 gap-4 border-t py-6 md:grid-cols-4">
                         {creativeMarketing.map((member, index) => (
+                            <div key={index}>
+                                <div className="bg-background size-20 rounded-full border p-0.5 shadow shadow-zinc-950/5">
+                                    <img 
+                                        className="aspect-square rounded-full object-cover" 
+                                        src={member.avatar} 
+                                        alt={member.name} 
+                                        height="460" 
+                                        width="460" 
+                                        loading="lazy" 
+                                    />
+                                </div>
+                                <span className="mt-2 block text-sm font-medium">{member.name}</span>
+                                <span className="text-muted-foreground block text-xs text-gray-500">{member.role}</span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mt-6">
+                    <h3 className="mb-6 text-lg font-medium">Human Relations</h3>
+                    <div data-rounded="full" className="grid grid-cols-2 gap-4 border-t py-6 md:grid-cols-4">
+                        {humanRelations.map((member, index) => (
                             <div key={index}>
                                 <div className="bg-background size-20 rounded-full border p-0.5 shadow shadow-zinc-950/5">
                                     <img 
