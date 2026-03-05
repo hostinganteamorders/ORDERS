@@ -88,36 +88,28 @@ const WebsitePackageCard = ({
     <div className="text-center mb-6">
         <h3 className="text-xl font-bold text-[#061E44] mb-2">{pkg.name}</h3>
         <div className="text-3xl font-bold text-[#FF7A00] mb-4">{pkg.price}</div>
-    </div>        <div className="space-y-3 mb-6 flex-1">
+    </div>        <div className="space-y-3 mb-6 flex-1 overflow-hidden">
         {pkg.features.map((feature, i) => (
             <div key={i} className="flex items-start space-x-2">
                 <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-600 text-sm">{feature}</span>
+                <span className="text-gray-600 text-xs sm:text-sm leading-relaxed">{feature}</span>
             </div>
         ))}
 
-        <div className="flex items-start space-x-2">
-            <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-gray-600 text-sm">{pkg.maintenance}</span>
-        </div>
-
-        <div className="flex items-start space-x-2">
-            <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            <span className="text-gray-600 text-sm">{pkg.revisions}</span>
+        <div className="pt-4 border-t border-gray-50 mt-auto">
+            <div className="flex items-start space-x-2">
+                <svg className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                <span className="text-gray-500 text-[10px] sm:text-xs italic">{pkg.revisions}</span>
+            </div>
         </div>
 
         {pkg.bonus && (
-            <div className="flex items-start space-x-2">
-                <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-[#FF7A00] text-sm font-medium">{pkg.bonus}</span>
+            <div className="flex items-start space-x-2 mt-2 bg-orange-50 p-2 rounded-lg">
+                <span className="text-[#FF7A00] text-[10px] sm:text-xs font-bold uppercase tracking-wider">{pkg.bonus}</span>
             </div>
         )}
     </div>
@@ -348,88 +340,87 @@ export default function PricingSection() {
             designSliderRef.current.scrollTo({ left: 0, behavior: 'smooth' });
         }
     }, [activeTab]);    // Website packages data
-    const websitePackages: WebsitePackage[] = [        {
+    const websitePackages: WebsitePackage[] = [
+        {
             name: 'Starter',
-            price: 'Mulai dari Rp 300.000',
+            price: 'Rp 750.000',
             features: [
-                '✅ Landing Page/Company Profile (1-3 Halaman)',
-                '✅ Responsive Design (Mobile & Desktop)',
-                '✅ Contact Form & Google Maps Integration',
-                '✅ Basic SEO Setup (Meta Tags, Keywords)',
-                '✅ SSL Certificate & Domain Setup'
+                '✅ Landing Page / One-Page Website',
+                '✅ Desain Modern & Responsive (Mobile Friendly)',
+                '✅ Integrasi WhatsApp Chat & Google Maps',
+                '✅ Basic SEO (Terdaftar di Google Search)',
+                '✅ Free SSL (HTTPS) untuk Keamanan',
+                '✅ Kapasitas Hosting Sesuai Kebutuhan',
+                '✅ Domain .com / .my.id (Opsional)'
             ],
-            maintenance: 'Biaya Maintenance: Rp 100.000 / bulan',
-            revisions: 'Maksimal 3x Revisi'
-        },{
+            maintenance: 'Maintenance Ringan: Rp 100.000 / bln',
+            revisions: '3x Revisi Desain'
+        },
+        {
             name: 'Company',
-            price: 'Mulai dari Rp 750.000',
+            price: 'Rp 1.250.000',
             features: [
-                '✅ Multi Page Website (5-8 Halaman)',
-                '✅ Gallery & Portfolio Section',
-                '✅ Advanced SEO Optimization',
-                '✅ Social Media Integration',
-                '✅ Admin Panel Lengkap dengan User Management',
-                '✅ Contact Form dengan Email Notification',
-                '✅ Testimonial & Review System'
+                '✅ Website Company Profile (5-8 Halaman)',
+                '✅ Halaman Portofolio / Galeri Layanan',
+                '✅ Form Kontak & Notifikasi Email',
+                '✅ SEO Standard (Pencarian Keyword Bisnis)',
+                '✅ Admin Panel untuk Update Konten Sendiri',
+                '✅ Integrasi Social Media Feed',
+                '✅ Slider Dashboard yang Menarik',
+                '✅ Kecepatan Akses Website Dioptimalkan'
             ],
-            maintenance: 'Biaya Maintenance: Rp 200.000 / bulan',
-            revisions: 'Maksimal 5x Revisi'
-        },        {
+            maintenance: 'Maintenance Full: Rp 200.000 / bln',
+            revisions: '5x Revisi Desain'
+        },
+        {
             name: 'Business',
-            price: 'Mulai dari Rp 1.700.000',
+            price: 'Rp 3.000.000',
             features: [
-                '✅ E-commerce Platform dengan Katalog Produk',
-                '✅ Payment Gateway Integration (Midtrans/Xendit)',
-                '✅ Inventory Management System',
-                '✅ User Registration & Login System',
-                '✅ Email Marketing Integration',
-                '✅ Analytics Dashboard & Reports',
-                '✅ API Integration (Shipping, Payment)',
-                '✅ Advanced Admin Panel dengan Multi-Role',
-                '✅ Shopping Cart & Wishlist'
+                '✅ Toko Online / E-Commerce System',
+                '✅ Manajemen Produk & Inventaris Aktif',
+                '✅ Keranjang Belanja & Fitur Wishlist',
+                '✅ WhatsApp Checkout (Order via WA)',
+                '✅ Dashboard Laporan Penjualan & Stok',
+                '✅ Sistem Registrasi & Login Member',
+                '✅ Fitur Diskon & Kupon Promosi',
+                '✅ Optimasi SEO E-commerce (Indexing Produk)'
             ],
-            maintenance: 'Biaya Maintenance: Rp 500.000 / bulan',
-            revisions: 'Maksimal 10x Revisi'
-        },        {
+            maintenance: 'Support Prioritas: Rp 450.000 / bln',
+            revisions: '10x Revisi / Free Update Konten'
+        },
+        {
             name: 'Ultimate',
-            price: 'Mulai dari Rp 5.000.000',
+            price: 'Rp 7.000.000',
             features: [
-                '✅ Custom Web Application (Unlimited Pages)',
-                '✅ Complex Database Architecture',
-                '✅ Multiple User Roles & Permissions',
-                '✅ Advanced Security Features (2FA, Encryption)',
-                '✅ Third-party API Integrations',
-                '✅ Custom CMS Development',
-                '✅ Performance Optimization & CDN',
-                '✅ Dedicated Support Team',
-                '✅ Mobile App Integration Ready',
-                '✅ Advanced Analytics & Reporting',
-                '✅ Automated Backup & Recovery',
-                '✅ Enterprise-level Scalability & Architecture'
+                '✅ Web Application Custom (SaaS / ERP / CRM)',
+                '✅ Arsitektur Database Kompleks & Skalabel',
+                '✅ Sistem Multi-User & Manajemen Izin (Roles)',
+                '✅ Keamanan Berlapis (2FA & Data Encryption)',
+                '✅ Integrasi API Pihak Ketiga (Logistik/Lainnya)',
+                '✅ Custom CMS Khusus Sesuai Alur Bisnis',
+                '✅ Performa Enterprise (Load Balancing / CDN)',
+                '✅ Pendampingan Teknis & Training Admin',
+                '✅ Backup Data Otomatis & Recovery System'
             ],
-            maintenance: 'Biaya Maintenance: Rp 1.000.000 / bulan',
-            revisions: 'Maksimal 15x Revisi'
+            maintenance: 'Dedicated Support: Rp 950.000 / bln',
+            revisions: 'Unlimited selama Masa Pengembangan'
         },
         {
             name: 'Undangan Digital',
             price: 'Rp 150.000',
             features: [
-                '✅ Doa & Ucapan Interaktif',
-                '✅ Animation Menarik & Modern',
-                '✅ Sistem Reservasi Kehadiran',
-                '✅ Google Calendar Integration',
-                '✅ Fitur Music Background',
-                '✅ Galeri Foto & Video',
-                '✅ Peta Lokasi Interaktif',
-                '✅ Fitur Cerita Cinta',
-                '✅ Tombol Share Social Media',
-                '✅ Request Desain Custom',
-                '✅ Countdown Timer Pernikahan',
-                '✅ Template Design Premium'
+                '✅ Link Undangan Custom (Nama Tamu)',
+                '✅ Desain Animasi Modern & Elegan',
+                '✅ Musik Latar (Auto-play Ready)',
+                '✅ Galeri Foto & Video Pre-wedding',
+                '✅ Hitung Mundur (Countdown Timer)',
+                '✅ RSVP & Buku Tamu (Ucapan Tamu)',
+                '✅ Integrasi Peta Lokasi & Penunjuk Arah',
+                '✅ Fitur Tambah ke Google Calendar'
             ],
-            maintenance: 'Tanpa Biaya Maintenance',
-            revisions: 'Maksimal 3x Revisi',
-            bonus: '🆕 PAKET BARU! Special Price!'
+            maintenance: 'Aktif Selamanya (Tanpa Biaya Bulanan)',
+            revisions: 'Sampai Hari-H (S&K Berlaku)',
+            bonus: '🔥 Promo Spesial: Aktif Selamanya!'
         }
     ];
 
@@ -467,7 +458,7 @@ export default function PricingSection() {
         'Pengembangan Aplikasi Mobile (Android)',
         'Integrasi API Pihak Ketiga',
         'Pengujian & Peluncuran Aplikasi',
-        'Free Maintenance & Dukungan Selama 1 Bulan'
+        'Dukungan Teknis Pasca Peluncuran'
     ];    // Design services data
     const designServices: DesignService[] = [
         {
@@ -584,9 +575,8 @@ export default function PricingSection() {
                                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mt-8">
                                     <h4 className="font-semibold text-[#061E44] mb-3">Catatan Penting:</h4>
                                     <ul className="space-y-2 text-gray-700">
-                                        <li>• Harga paket di atas belum termasuk biaya hosting.</li>
-                                        <li>• Biaya maintenance hanya mencakup perubahan/update konten, bukan penambahan fitur.</li>
-                                        <li>• Biaya penambahan fitur baru mulai dari Rp 100.000.</li>
+                                        <li>• Harga paket di atas belum termasuk biaya hosting & domain (Kecuali paket tertentu).</li>
+                                        <li>• Biaya penambahan fitur baru di luar paket mulai dari Rp 100.000.</li>
                                     </ul>
                                 </div>
                             </motion.div>
@@ -683,16 +673,16 @@ export default function PricingSection() {
                                                 className="overflow-x-auto scrollbar-hide"
                                                 style={{ scrollSnapType: 'x mandatory' }}
                                             >                                            <div className="flex">
-                                                {designServices.map((service, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className="w-full flex-shrink-0 px-4"
-                                                        style={{ scrollSnapAlign: 'start' }}
-                                                    >
-                                                        <DesignServiceCard service={service} index={index} />
-                                                    </div>
-                                                ))}
-                                            </div>
+                                                    {designServices.map((service, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className="w-full flex-shrink-0 px-4"
+                                                            style={{ scrollSnapAlign: 'start' }}
+                                                        >
+                                                            <DesignServiceCard service={service} index={index} />
+                                                        </div>
+                                                    ))}
+                                                </div>
                                             </div>                                        {/* Slider Dots Indicator */}
                                             <div className="flex justify-center items-center mt-6 space-x-2">
                                                 {designServices.map((service, idx) => (
@@ -768,7 +758,8 @@ export function HostingSection() {
         };
 
         slider.addEventListener("scroll", onScroll, { passive: true });
-        return () => slider.removeEventListener("scroll", onScroll);    }, []);
+        return () => slider.removeEventListener("scroll", onScroll);
+    }, []);
 
     // Hosting packages data - Updated pricing based on market reference  
     const hostingPackages: HostingPackage[] = [
