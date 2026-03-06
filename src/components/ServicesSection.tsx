@@ -1,407 +1,151 @@
 'use client';
 
-import { useRef, useState, useEffect } from "react";
-import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import {
+  HoverSlider,
+  HoverSliderImage,
+  HoverSliderImageWrap,
+  TextStaggerHover,
+} from '@/components/ui/animated-slideshow';
+import { ArrowRight } from 'lucide-react';
 
-export default function ServicesSection() {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const [activeIdx, setActiveIdx] = useState(0);
-  // Add state for selected service
-  const [selectedService, setSelectedService] = useState(0);
-  const [previousService, setPreviousService] = useState(0);
-  // Add state for expanded service on mobile
-  const [expandedService, setExpandedService] = useState<number | null>(null);
-  // Add state for transition control
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
-  // Add state for image modal
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalImage, setModalImage] = useState<{src: string, alt: string} | null>(null);
-  // Update activeIdx on scroll
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+const SLIDES = [
+  {
+    id: 'slide-web',
+    title: 'Pembuatan Website',
+    imageUrl: '/images/services/web.png',
+  },
+  {
+    id: 'slide-app',
+    title: 'Pembuatan Aplikasi',
+    imageUrl: '/images/services/android.png',
+  },
+  {
+    id: 'slide-design',
+    title: 'Desain Digital',
+    imageUrl: '/images/services/desaingrafis.png',
+  },
+  {
+    id: 'slide-video',
+    title: 'Video & Photo Editing',
+    imageUrl: '/images/services/video_foto.png',
+  },
+  {
+    id: 'slide-seo',
+    title: 'Mahasiswa & Bisnis',
+    imageUrl: '/images/services/mood_board.png',
+  },
+];
 
-    const onScroll = () => {
-      const scrollLeft = slider.scrollLeft;
-      const containerWidth = slider.clientWidth;
-      const newActiveIdx = Math.round(scrollLeft / containerWidth);
-      setActiveIdx(newActiveIdx);
-    };
+interface ServicesSectionProps {
+  /** Show the dark CTA bar at the bottom. Default: false (home page).
+   *  Pass true on the dedicated services page. */
+  showCTA?: boolean;
+}
 
-    slider.addEventListener("scroll", onScroll, { passive: true });
-    return () => slider.removeEventListener("scroll", onScroll);
-  }, []);
-  // Handle service selection with proper transition
-  const handleServiceSelect = (index: number) => {
-    if (selectedService !== index && !isTransitioning) {
-      setPreviousService(selectedService);
-      setSlideDirection(index > selectedService ? 'right' : 'left');
-      setIsTransitioning(true);
-
-      // Start exit animation, then change service
-      setTimeout(() => {
-        setSelectedService(index);
-        // End transition after enter animation
-        setTimeout(() => {
-          setIsTransitioning(false);
-        }, 600);
-      }, 300);
-    }
-  };
-
-  // Handle image click to open modal
-  const handleImageClick = (imageSrc: string, imageAlt: string) => {
-    setModalImage({ src: imageSrc, alt: imageAlt });
-    setIsModalOpen(true);
-    // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden';
-  };
-
-  // Handle modal close
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-    setModalImage(null);
-    // Restore body scroll
-    document.body.style.overflow = 'unset';
-  };
-
-  // Handle escape key to close modal
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isModalOpen) {
-        handleModalClose();
-      }
-    };
-
-    if (isModalOpen) {
-      document.addEventListener('keydown', handleEscape);
-      return () => document.removeEventListener('keydown', handleEscape);
-    }
-  }, [isModalOpen]);
-
-  const services = [
-    {
-      title: "Pembuatan Website",
-      description: "Company Profile, E-commerce, Landing Page, Portfolio, Blog",
-      icon: "M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3s-4.5 4.03-4.5 9 2.015 9 4.5 9z",
-      bgColor: "bg-orange-50",
-      iconBgColor: "text-orange-500",
-      image: "/images/services/web.png"
-    },
-    {
-      title: "Pembuatan Aplikasi",
-      description: "Mobile App (Flutter/React Native), Web App (Fullstack)",
-      icon: "M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3",
-      bgColor: "bg-teal-50",
-      iconBgColor: "text-teal-500",
-      image: "/images/services/android.png"
-    },
-    {
-      title: "Desain Digital",
-      description: "UI/UX, Logo, Poster, Social Media Content",
-      icon: "M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42",
-      bgColor: "bg-teal-50",
-      iconBgColor: "text-teal-500",
-      image: "/images/services/desaingrafis.png"
-    },
-    {
-      title: "Layanan Digital Khusus Mahasiswa",
-      description: "Website portfolio, aplikasi skripsi, desain presentasi akademik dengan harga terjangkau untuk mahasiswa",
-      icon: "M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5",
-      bgColor: "bg-purple-50",
-      iconBgColor: "text-purple-500",
-      image: "/images/services/less.png"
-    },
-    {
-      title: "Kerja Sama Bisnis",
-      description: "Konsep visual yang menjadi panduan dalam proses pengembangan desain dan strategi bisnis berkelanjutan",
-      icon: "M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z",
-      bgColor: "bg-orange-50",
-      iconBgColor: "text-orange-500",
-      image: "/images/services/mood_board.png"
-    },
-    {
-      title: "Photo Editing",
-      description: "Penyuntingan dan manipulasi foto profesional untuk kebutuhan visual Anda",
-      icon: "M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z",
-      bgColor: "bg-orange-50",
-      iconBgColor: "text-orange-500",
-      image: "/images/services/video_foto.png"
-    },
-    {
-      title: "Video Editing",
-      description: "Pembuatan dan penyuntingan video untuk konten marketing dan media sosial",
-      icon: "M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0118 18.375m1.125-1.125H5.25m13.5 0a1.125 1.125 0 01-1.125 1.125m0-2.25a1.125 1.125 0 00-1.125 1.125m1.125-1.125h1.5m-1.5 0a1.125 1.125 0 01-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0112 18.375m9.75-12.75c0 .621-.504 1.125-1.125 1.125H5.25a1.125 1.125 0 110-2.25h15.75a1.125 1.125 0 011.125 1.125z",
-      bgColor: "bg-teal-50",
-      iconBgColor: "text-teal-500",
-      image: "/images/services/video.png"
-    },
-  ];
-  // Memisahkan services menjadi left dan right
-  const leftServices = services.slice(0, 4); // 4 services di kiri
-  const rightServices = services.slice(4, 7); // 3 services di kanan
-
-  return (<section id="layanan" className="bg-gradient-to-br from-gray-50 to-orange-50/30 py-8 md:py-12 relative overflow-hidden">
-    <div className="container-content relative z-10">      <div className="text-center mb-8 md:mb-12 mt-16 md:mt-20">
-      <h2 className="text-3xl md:text-4xl font-bold mb-3 text-orange-600 md:bg-gradient-to-r md:from-orange-600 md:to-orange-500 md:bg-clip-text md:text-transparent">
-        Layanan Kami
-      </h2>
-      <div className="w-20 h-1 bg-orange-500 mx-auto rounded-full"></div>
-    </div>{/* Mobile View (Dropdown Layout) - Visible only on small screens */}
-      <div className="md:hidden space-y-3 px-2 mb-8">
-        {services.map((service, index) => (
-          <div key={index} className="bg-white rounded-2xl shadow hover:shadow-md transition-all duration-300">
-            {/* Service Header - Always Visible */}
-            <div
-              className="p-4 cursor-pointer flex items-center justify-between"
-              onClick={() => setExpandedService(expandedService === index ? null : index)}
-            >
-              <div className="flex items-center flex-1 min-w-0">
-                <div className={`${service.bgColor} p-3 rounded-lg mr-3 flex-shrink-0`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
-                    className={`w-6 h-6 ${service.iconBgColor}`}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d={service.icon} />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-800 truncate">{service.title}</h3>
-              </div>
-
-              {/* Dropdown Arrow */}
-              <div className="ml-4 flex-shrink-0">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${expandedService === index ? 'rotate-180' : ''}`}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Expanded Content - Image and Description */}
-            <div className={`overflow-hidden transition-all duration-500 ${expandedService === index ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-              <div className="px-4 pb-6 border-t border-gray-100">                {/* Service Image */}
-                <div className="mt-4 mb-4 flex justify-center">
-                  <div className="relative w-full max-w-sm bg-white p-3 rounded-xl shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300"
-                       onClick={() => handleImageClick(service.image, service.title)}>
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      width={400}
-                      height={250}
-                      className={`rounded-lg w-full h-auto object-contain hover:scale-105 transition-transform duration-300 ${service.title === 'Desain Digital' ? 'scale-150' :
-                        service.title === 'Pembuatan Aplikasi' ? 'scale-150' : ''
-                        }`}
-                      priority={expandedService === index}
-                    />
-                    {/* Zoom Icon Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-20 rounded-lg">
-                      <div className="bg-white bg-opacity-80 p-2 rounded-full">
-                        <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Service Description */}
-                <div className="px-2">
-                  <p className="text-gray-700 text-sm leading-relaxed text-center font-medium">{service.description}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+export default function ServicesSection({ showCTA = false }: ServicesSectionProps) {
+  return (
+    <section id="layanan" className="bg-slate-50 relative overflow-hidden">
+      {/* Decorative blobs */}
+      <div className="pointer-events-none absolute top-0 right-0 -translate-y-12 translate-x-1/3">
+        <div className="w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-orange-400/8 to-transparent blur-3xl" />
+      </div>
+      <div className="pointer-events-none absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4">
+        <div className="w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-teal-400/8 to-transparent blur-3xl" />
       </div>
 
-      {/* Desktop View (Three-Column Layout) - Hidden on small screens */}
-      <div className="hidden md:grid md:grid-cols-3 gap-8 items-center">
-        {/* Left Column Services */}
-        <div className="space-y-5">
-          {leftServices.map((service, index) => (<div
-            key={index}
-            className={`bg-white rounded-2xl p-5 shadow hover:shadow-md transition-all duration-300 group cursor-pointer ${selectedService === index ? 'ring-2 ring-orange-500' : ''}`}
-            onClick={() => handleServiceSelect(index)}
-          >
-            {/* Icon Container */}
-            <div className="flex items-center mb-3">
-              <div className={`${service.bgColor} p-2.5 rounded-lg mr-3`}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
-                  className={`w-5 h-5 ${service.iconBgColor}`}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d={service.icon} />
-                </svg>
-              </div>
-              <h3 className="text-base font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">{service.title}</h3>
-            </div>
+      {/* ── Hover Slider ── */}
+      <HoverSlider className="relative z-10 min-h-[85vh] flex flex-col justify-center px-6 md:px-12 lg:px-24 py-24">
 
-            <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+        {/* Section label */}
+        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-orange-500/10 text-orange-600 border border-orange-500/20 mb-6 self-start">
+          Layanan Digital
+        </span>
+
+        {/* Heading */}
+        <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight max-w-2xl leading-tight">
+          Solusi Tepat Untuk{' '}
+          <span className="text-orange-500">Pertumbuhan</span> Bisnis Anda
+        </h2>
+        <p className="text-slate-500 text-lg mb-14 max-w-xl">
+          Hover atau ketuk pada layanan untuk melihat pratinjau visual. Kami siap mewujudkan ide digital Anda.
+        </p>
+
+        {/* Split layout */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-10 md:gap-16 w-full mb-10">
+
+          {/* Left — service list */}
+          <div className="flex flex-col space-y-4 md:space-y-6 w-full lg:w-1/2 order-2 lg:order-1 items-center lg:items-start text-center lg:text-left">
+            {SLIDES.map((slide, index) => (
+              <TextStaggerHover
+                key={slide.id}
+                index={index}
+                text={slide.title}
+                className="cursor-pointer text-2xl sm:text-3xl md:text-5xl font-extrabold uppercase tracking-tighter text-slate-900"
+              />
+            ))}
           </div>
-          ))}
-        </div>        {/* Center Image Column */}
-        <div className="flex justify-center items-center">
-          <div className="relative w-full max-w-lg bg-white p-6 overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300" 
-               style={{ minHeight: '300px' }}
-               onClick={() => handleImageClick(services[selectedService].image, services[selectedService].title)}>
-            {/* Previous Image - Exit Animation */}
-            {isTransitioning && (
-              <div className={`absolute inset-6 z-20 ${slideDirection === 'right'
-                ? 'animate-[slideOutLeft_0.3s_ease-in_forwards]'
-                : 'animate-[slideOutRight_0.3s_ease-in_forwards]'
-                }`}>                <Image
-                  src={services[previousService].image}
-                  alt={services[previousService].title}
-                  width={600}
-                  height={380}
-                  className={`w-full h-auto object-contain ${services[previousService].title === 'Desain Digital' ? 'scale-150' :
-                    services[previousService].title === 'Pembuatan Aplikasi' ? 'scale-150' : ''
-                    }`}
-                  priority
+
+          {/* Right — image stack */}
+          <HoverSliderImageWrap className="w-full lg:w-1/2 max-w-sm md:max-w-md lg:max-w-lg rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/10 ring-1 ring-slate-200 order-1 lg:order-2 aspect-[4/3] sm:aspect-auto">
+            {SLIDES.map((slide, index) => (
+              <div key={slide.id}>
+                <HoverSliderImage
+                  index={index}
+                  imageUrl={slide.imageUrl}
+                  src={slide.imageUrl}
+                  alt={slide.title}
+                  className={cn(
+                    "size-full max-h-[420px] object-contain drop-shadow-2xl transition-transform duration-500",
+                    (slide.title === "Desain Digital" || slide.title === "Pembuatan Aplikasi") && "scale-110"
+                  )}
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
-            )}
+            ))}
+          </HoverSliderImageWrap>
+        </div>
+      </HoverSlider>
 
-            {/* Current Image - Enter Animation */}
-            <div className={`relative z-10 ${isTransitioning
-              ? `${slideDirection === 'right'
-                ? 'animate-[slideInFromRight_0.6s_ease-out_0.3s_both]'
-                : 'animate-[slideInFromLeft_0.6s_ease-out_0.3s_both]'
-              }`
-              : 'opacity-100'
-              }`}>              <Image
-                src={services[selectedService].image}
-                alt={services[selectedService].title}
-                width={600}
-                height={380}
-                className={`w-full h-auto object-contain hover:scale-105 transition-transform duration-300 ${services[selectedService].title === 'Desain Digital' ? 'scale-150' :
-                  services[selectedService].title === 'Pembuatan Aplikasi' ? 'scale-150' : ''
-                  }`}
-                priority
-              />
+      {/* ── CTA Bar — only on the services page ── */}
+      {showCTA && (
+        <div className="relative z-10 container-content pb-24">
+          <div className="bg-slate-900 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
+            {/* Glowing bg */}
+            <div className="absolute top-0 right-0 w-full h-full opacity-30 pointer-events-none">
+              <div className="absolute right-[-10%] top-[-50%] w-[60%] h-[200%] bg-orange-500/30 blur-[100px] rounded-full transform rotate-12" />
             </div>
 
-            {/* Zoom Icon Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-20">
-              <div className="bg-white bg-opacity-80 p-3 rounded-full">
-                <svg className="w-8 h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
-                </svg>
+            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+              <div className="text-center md:text-left text-white max-w-xl">
+                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-orange-500">
+                  Siap Meluncurkan Projek Anda?
+                </h3>
+                <p className="text-slate-300 text-lg">
+                  Jadwalkan konsultasi gratis hari ini. Mari diskusikan bagaimana kami bisa membantu
+                  mencapai target bisnis Anda.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full sm:w-auto">
+                <a
+                  href="/pricing"
+                  className="px-8 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-400 transition-all duration-300 shadow-[0_0_40px_rgba(249,115,22,0.4)] hover:shadow-[0_0_60px_rgba(249,115,22,0.6)] flex items-center justify-center gap-2"
+                >
+                  Lihat Paket Harga
+                </a>
+                <a
+                  href="/contact"
+                  className="px-8 py-4 bg-white/10 text-white font-bold rounded-xl border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-300 backdrop-blur-sm flex items-center justify-center gap-2"
+                >
+                  Hubungi Kami <ArrowRight className="size-4" />
+                </a>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Right Column Services */}
-        <div className="space-y-5">
-          {rightServices.map((service, index) => (
-            <div
-              key={index}
-              className={`bg-white rounded-2xl p-5 shadow hover:shadow-md transition-all duration-300 group cursor-pointer ${selectedService === index + 4 ? 'ring-2 ring-orange-500' : ''}`}
-              onClick={() => handleServiceSelect(index + 4)}
-            >
-              {/* Icon Container */}
-              <div className="flex items-center mb-3">
-                <div className={`${service.bgColor} p-2.5 rounded-lg mr-3`}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
-                    className={`w-5 h-5 ${service.iconBgColor}`}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d={service.icon} />
-                  </svg>
-                </div>
-                <h3 className="text-base font-semibold text-gray-800 group-hover:text-orange-600 transition-colors">{service.title}</h3>
-              </div>
-
-              <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>      {/* Call to Action Section */}
-      <div className="mt-12 md:mt-16 text-center">        <div className="bg-gradient-to-r from-orange-500/10 via-orange-400/5 to-teal-500/10 rounded-2xl p-6 md:p-8 mx-auto max-w-4xl border border-orange-200/30 backdrop-blur-sm">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
-          <div className="text-center md:text-left">
-            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mb-2 md:mb-3">
-              Tertarik dengan layanan kami?
-            </h3>
-            <p className="text-gray-600 text-base md:text-lg mb-2">
-              Dapatkan penawaran terbaik untuk kebutuhan digital Anda
-            </p>
-            <div className="flex items-center justify-center md:justify-start gap-2 text-sm text-orange-600 font-medium">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span>Harga terjangkau & kualitas premium</span>
-            </div>
-          </div>            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto">
-            <a
-              href="/pricing"
-              className="group px-6 md:px-8 py-3 md:py-4 bg-orange-500 text-white font-semibold rounded-xl hover:bg-orange-600 transition-all duration-300 hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base"
-            >
-              <span>Lihat Paket & Harga</span>
-              <svg className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>              <a
-              href="/contact"
-              className="px-6 md:px-8 py-3 md:py-4 bg-white text-orange-500 font-semibold rounded-xl border-2 border-orange-500 hover:bg-orange-50 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base"
-            >
-              <svg className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-              </svg>
-              <span>Konsultasi Gratis</span>
-            </a>
-          </div>
-        </div>      </div>
-      </div>
-    </div>
-
-    {/* Image Modal */}
-    {isModalOpen && modalImage && (
-      <div 
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-md"
-        onClick={handleModalClose}
-      >
-        <div className="relative max-w-4xl max-h-screen w-full h-full flex items-center justify-center p-4">
-          {/* Close Button */}
-          <button
-            onClick={handleModalClose}
-            className="absolute top-4 right-4 z-10 bg-white bg-opacity-20 hover:bg-opacity-30 text-white p-2 rounded-full transition-all duration-300 backdrop-blur-sm"
-            aria-label="Close modal"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          {/* Modal Image */}
-          <div 
-            className="relative max-w-full max-h-full animate-[zoomIn_0.3s_ease-out]"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              src={modalImage.src}
-              alt={modalImage.alt}
-              width={800}
-              height={600}
-              className="w-auto h-auto max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-              priority
-            />
-            
-            {/* Image Title */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 rounded-b-lg">
-              <h3 className="text-white text-lg font-semibold text-center">{modalImage.alt}</h3>
-            </div>
-          </div>
-
-          {/* Click Outside Hint */}
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm opacity-70">
-            Klik di luar gambar atau tekan ESC untuk menutup
-          </div>
-        </div>
-      </div>
-    )}
-  </section>
+      )}
+    </section>
   );
 }

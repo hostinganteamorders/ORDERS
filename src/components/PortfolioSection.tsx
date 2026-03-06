@@ -110,71 +110,81 @@ export default function PortfolioSection() {
         const slider = sliderRef.current;
         if (!slider) return;
 
-        const onScroll = () => {
-            const scrollLeft = slider.scrollLeft;
-            const containerWidth = slider.clientWidth;
-            const newActiveIdx = Math.round(scrollLeft / containerWidth);
-            setActiveIdx(newActiveIdx);
+        const handleScroll = () => {
+            const slideWidth = slider.clientWidth;
+            if (slideWidth > 0) {
+                // Calculate based on scroll percentage for better accuracy
+                const maxScroll = slider.scrollWidth - slider.clientWidth;
+                if (maxScroll > 0) {
+                    const scrollFraction = slider.scrollLeft / maxScroll;
+                    const newActiveIdx = Math.round(scrollFraction * (portfolioItems.length - 1));
+                    setActiveIdx(Math.min(Math.max(0, newActiveIdx), portfolioItems.length - 1));
+                } else {
+                    setActiveIdx(0);
+                }
+            }
         };
 
-        slider.addEventListener("scroll", onScroll, { passive: true });
-        return () => slider.removeEventListener("scroll", onScroll);
+        slider.addEventListener("scroll", handleScroll, { passive: true });
+        // Initial call to set active index if already scrolled
+        handleScroll();
+
+        return () => slider.removeEventListener("scroll", handleScroll);
     }, []);
+
+    const scrollToSlide = (idx: number) => {
+        const slider = sliderRef.current;
+        if (!slider) return;
+        const slideWidth = slider.clientWidth;
+        if (slideWidth > 0) {
+            slider.scrollTo({
+                left: idx * slideWidth,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     return (
         <section id="portofolio" className="section bg-slate-50">
             <div className="container-content">
-                {/* Header */}
-                <div className="text-center mb-12">
-                    <span className="badge-primary mb-4">Portfolio</span>
-                    <h2 className="mb-4">Karya Kami</h2>
-                    <p className="text-lg max-w-2xl mx-auto">
-                        Berbagai proyek yang telah kami kerjakan untuk klien dari berbagai industri.
-                    </p>
-                </div>
 
                 {/* Mobile Slider */}
                 <div className="md:hidden">
-                    <div className="relative">
-                        <div
-                            ref={sliderRef}
-                            className="overflow-x-auto scrollbar-hide"
-                            style={{ scrollSnapType: 'x mandatory' }}
-                        >
-                            <div className="flex">
-                                {portfolioItems.map((item, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-full flex-shrink-0 px-4"
-                                        style={{ scrollSnapAlign: 'start' }}
-                                    >
-                                        <PortfolioCard item={item} />
-                                    </div>
-                                ))}
+                    {/* Scroll container IS the flex container — each child = exactly 1 slide width */}
+                    <div
+                        ref={sliderRef}
+                        className="flex overflow-x-scroll portfolio-slider-wrap"
+                        style={{
+                            scrollSnapType: 'x mandatory',
+                            msOverflowStyle: 'none',
+                            scrollbarWidth: 'none',
+                        } as React.CSSProperties}
+                    >
+                        <style dangerouslySetInnerHTML={{ __html: `.portfolio-slider-wrap::-webkit-scrollbar { display: none; }` }} />
+                        {portfolioItems.map((item, index) => (
+                            <div
+                                key={index}
+                                className="flex-none w-full px-3"
+                                style={{ scrollSnapAlign: 'start' }}
+                            >
+                                <PortfolioCard item={item} />
                             </div>
-                        </div>
+                        ))}
+                    </div>
 
-                        {/* Slider Dots */}
-                        <div className="flex justify-center items-center mt-6 gap-2">
-                            {portfolioItems.map((_, idx) => (
-                                <button
-                                    key={idx}
-                                    className={`h-2 rounded-full transition-all duration-300 ${
-                                        activeIdx === idx
-                                            ? 'bg-orange-500 w-6'
-                                            : 'bg-slate-300 w-2 hover:bg-slate-400'
+                    {/* Pagination Dots */}
+                    <div className="flex justify-center items-center gap-2.5 mt-5 pb-10">
+                        {portfolioItems.map((_, idx) => (
+                            <button
+                                key={idx}
+                                onClick={() => scrollToSlide(idx)}
+                                aria-label={`Go to slide ${idx + 1}`}
+                                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${activeIdx === idx
+                                    ? 'bg-orange-500 scale-125 ring-4 ring-orange-500/20'
+                                    : 'bg-slate-300 hover:bg-slate-400'
                                     }`}
-                                    onClick={() => {
-                                        const slider = sliderRef.current;
-                                        if (slider) {
-                                            const containerWidth = slider.clientWidth;
-                                            slider.scrollTo({ left: idx * containerWidth, behavior: 'smooth' });
-                                        }
-                                    }}
-                                    aria-label={`Go to slide ${idx + 1}`}
-                                />
-                            ))}
-                        </div>
+                            />
+                        ))}
                     </div>
                 </div>
 

@@ -55,26 +55,23 @@ export default function AboutSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span
-            className={`badge-secondary mb-4 transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`badge-secondary mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Tentang Kami
           </span>
           <h2
-            className={`mb-6 transition-all duration-700 delay-100 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             Inovasi dari Anak Muda{' '}
             <span className="gradient-text">Berbakat</span>
           </h2>
           <p
-            className={`text-lg transition-all duration-700 delay-200 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`text-lg transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
-            Orders adalah startup yang didirikan oleh sekelompok anak muda kreatif 
+            Orders adalah startup yang didirikan oleh sekelompok anak muda kreatif
             dengan satu visi: menghadirkan solusi digital yang memukau dan efektif.
           </p>
         </div>
@@ -83,15 +80,14 @@ export default function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left - Image */}
           <div
-            className={`relative transition-all duration-1000 delay-200 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
-            }`}
+            className={`relative transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+              }`}
           >
             <div className="relative aspect-square max-w-md mx-auto">
               {/* Background Elements */}
               <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-sky-500/10 rounded-3xl -rotate-6 scale-95" />
               <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/10 to-orange-500/10 rounded-3xl rotate-3 scale-95" />
-              
+
               {/* Main Image */}
               <div className="relative bg-white rounded-3xl shadow-large overflow-hidden">
                 <Image
@@ -107,9 +103,8 @@ export default function AboutSection() {
 
           {/* Right - Content */}
           <div
-            className={`transition-all duration-1000 delay-300 ${
-              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
-            }`}
+            className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+              }`}
           >
             {/* Features Grid */}
             <div className="grid sm:grid-cols-2 gap-4">
@@ -135,7 +130,7 @@ export default function AboutSection() {
             {/* Quote */}
             <div className="mt-8 p-6 bg-gradient-to-r from-orange-500/5 to-sky-500/5 rounded-2xl border-l-4 border-orange-500">
               <p className="text-foreground italic">
-                &ldquo;Kami percaya bahwa kemajuan digital harus dapat diakses oleh semua 
+                &ldquo;Kami percaya bahwa kemajuan digital harus dapat diakses oleh semua
                 bisnis, besar maupun kecil. Inilah yang mendorong kami untuk terus berinovasi.&rdquo;
               </p>
               <p className="text-sm text-muted mt-3 font-medium">
@@ -149,16 +144,14 @@ export default function AboutSection() {
         <div className="mt-24">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <span
-              className={`badge-primary mb-4 transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`badge-primary mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Visi & Misi
             </span>
             <h3
-              className={`text-3xl md:text-4xl font-bold transition-all duration-700 delay-100 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`text-3xl md:text-4xl font-bold transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               Komitmen Kami untuk{' '}
               <span className="gradient-text">Indonesia</span>
@@ -168,36 +161,34 @@ export default function AboutSection() {
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Vision Card */}
             <div
-              className={`card-hover p-8 transition-all duration-700 delay-200 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`card-hover p-8 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white">
-                  <HugeiconsIcon icon={ViewIcon} size={28} />
+                <div className="flex items-center justify-center">
+                  <img src="https://api.dicebear.com/9.x/shapes/svg?seed=Vision&backgroundColor=transparent" alt="Visi" className="w-12 h-12 object-contain" />
                 </div>
                 <h4 className="text-2xl font-bold">Visi</h4>
               </div>
               <p className="text-muted leading-relaxed">
-                Menjadi mitra digital terdepan yang mendorong inovasi dan pertumbuhan 
+                Menjadi mitra digital terdepan yang mendorong inovasi dan pertumbuhan
                 berkelanjutan bagi setiap bisnis di Indonesia.
               </p>
             </div>
 
             {/* Mission Card */}
             <div
-              className={`card-hover p-8 transition-all duration-700 delay-300 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
+              className={`card-hover p-8 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                }`}
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 flex items-center justify-center text-white">
-                  <HugeiconsIcon icon={ShieldCheck} size={28} />
+                <div className="flex items-center justify-center">
+                  <img src="https://api.dicebear.com/9.x/shapes/svg?seed=Mission&backgroundColor=transparent" alt="Misi" className="w-12 h-12 object-contain" />
                 </div>
                 <h4 className="text-2xl font-bold">Misi</h4>
               </div>
               <p className="text-muted leading-relaxed">
-                Memberikan solusi digital berkualitas tinggi yang fleksibel dan terjangkau, 
+                Memberikan solusi digital berkualitas tinggi yang fleksibel dan terjangkau,
                 serta mengedepankan praktik ramah lingkungan dalam setiap proyek.
               </p>
             </div>
@@ -205,13 +196,12 @@ export default function AboutSection() {
 
           {/* Bottom CTA */}
           <div
-            className={`mt-12 text-center transition-all duration-700 delay-400 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
+            className={`mt-12 text-center transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              }`}
           >
             <div className="inline-flex items-center gap-4 p-4 bg-gradient-to-r from-orange-500/5 to-sky-500/5 rounded-2xl">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-sky-500 flex items-center justify-center text-white">
-                <HugeiconsIcon icon={Globe02Icon} size={24} />
+              <div className="flex items-center justify-center">
+                <img src="https://api.dicebear.com/9.x/shapes/svg?seed=Indonesia&backgroundColor=transparent" alt="Globe" className="w-12 h-12 object-contain" />
               </div>
               <div className="text-left">
                 <p className="font-semibold text-foreground">

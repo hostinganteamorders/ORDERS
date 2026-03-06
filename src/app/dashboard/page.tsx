@@ -14,7 +14,7 @@ export default function DashboardPage() {
 
 
                 {/* Services Section */}
-                <ServicesSection />
+                <ServicesSection showCTA={true} />
             </main>            <Footer />
         </>
     );

@@ -45,8 +45,8 @@ export default function Header() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-            ? 'py-2 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 shadow-soft'
-            : 'py-4 bg-transparent'
+          ? 'py-2 bg-white/90 backdrop-blur-xl border-b border-slate-200/50 shadow-soft'
+          : 'py-4 bg-transparent'
           }`}
       >
         <div className="container-content">
@@ -86,8 +86,8 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(item.href)
-                      ? 'text-primary bg-primary/10'
-                      : 'text-foreground/70 hover:text-foreground hover:bg-accent'
+                    ? 'text-primary bg-primary/10'
+                    : 'text-foreground/70 hover:text-foreground hover:bg-accent'
                     }`}
                 >
                   {item.label}
@@ -146,9 +146,12 @@ export default function Header() {
           className={`absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-white shadow-large transform transition-transform duration-300 ease-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
         >
-          <div className="flex flex-col h-full p-6">
+          <div
+            className="flex flex-col h-full overflow-y-auto"
+            style={{ paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom))' }}
+          >
             {/* Close Button */}
-            <div className="flex justify-end mb-8">
+            <div className="flex justify-end p-4 mb-2 sticky top-0 bg-white z-10">
               <button
                 onClick={() => setIsMenuOpen(false)}
                 className="p-2 rounded-lg hover:bg-accent transition-colors"
@@ -171,15 +174,15 @@ export default function Header() {
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex-1 space-y-2">
+            <nav className="flex-1 space-y-1 px-4">
               {navigation.map((item, index) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-lg font-medium transition-all duration-200 ${isActive(item.href)
-                      ? 'text-primary bg-primary/10'
-                      : 'text-foreground hover:bg-accent'
+                  className={`flex items-center px-4 py-4 rounded-xl text-lg font-medium transition-all duration-200 min-h-[56px] ${isActive(item.href)
+                    ? 'text-primary bg-primary/10'
+                    : 'text-foreground hover:bg-accent'
                     }`}
                   style={{
                     animationDelay: `${index * 50}ms`,
@@ -191,7 +194,7 @@ export default function Header() {
             </nav>
 
             {/* CTA Button */}
-            <div className="pt-6 border-t border-slate-200">
+            <div className="px-4 pt-6 pb-4 border-t border-slate-200 mt-4">
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}

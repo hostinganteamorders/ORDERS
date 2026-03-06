@@ -200,13 +200,13 @@ export default function WhyOrdersSection() {
                       Konsultasi
                     </span>
                     <div className="size-8 rounded-full ring-2 ring-white overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white text-xs font-bold">
-                      RA
+                      <img src="https://api.dicebear.com/9.x/lorelei/svg?seed=Felix&backgroundColor=transparent" alt="RA" className="w-full h-full object-cover" />
                     </div>
                   </div>
                   {/* Avatar row left */}
                   <div className="relative ml-[calc(50%-1rem)] flex items-center gap-2.5">
                     <div className="size-9 rounded-full ring-2 ring-white overflow-hidden bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center text-white text-xs font-bold">
-                      DV
+                      <img src="https://api.dicebear.com/9.x/lorelei/svg?seed=Aneka&backgroundColor=transparent" alt="DV" className="w-full h-full object-cover" />
                     </div>
                     <span className="block h-fit rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 shadow-sm">
                       Development
@@ -218,7 +218,7 @@ export default function WhyOrdersSection() {
                       Delivery
                     </span>
                     <div className="size-8 rounded-full ring-2 ring-white overflow-hidden bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-white text-xs font-bold">
-                      TR
+                      <img src="https://api.dicebear.com/9.x/lorelei/svg?seed=Jasper&backgroundColor=transparent" alt="TR" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
