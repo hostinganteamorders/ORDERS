@@ -19,7 +19,6 @@ const footerSections = [
     title: 'Perusahaan',
     links: [
       { label: 'Tentang Kami', href: '/dashboard' },
-      { label: 'Tim Kami', href: '/team' },
       { label: 'Karir', href: '/contact' },
       { label: 'Kontak', href: '/contact' },
     ],

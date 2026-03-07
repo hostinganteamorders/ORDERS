@@ -10,7 +10,6 @@ const navigation = [
   { href: '/pricing', label: 'Harga' },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/ecodigital', label: 'EcoDigital' },
-  { href: '/team', label: 'Tim' },
   { href: '/contact', label: 'Kontak' },
 ];
 

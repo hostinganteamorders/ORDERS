@@ -1,149 +1,188 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import {
-  HoverSlider,
-  HoverSliderImage,
-  HoverSliderImageWrap,
-  TextStaggerHover,
-} from '@/components/ui/animated-slideshow';
+import { motion } from 'framer-motion';
+import FlipCard, { type FlipCardData } from '@/components/ui/FlipCard';
 import { ArrowRight } from 'lucide-react';
 
-const SLIDES = [
+/* ─── DiceBear Dylan API ──────────────────────────────────────── */
+// Style: "dylan" — friendly character avatars by Natalia Spivak (CC BY 4.0)
+// API: https://api.dicebear.com/9.x/dylan/svg?seed=<name>&backgroundColor=<hex>&radius=20
+
+function diceBearUrl(seed: string, bgColor: string): string {
+  return `https://api.dicebear.com/9.x/dylan/svg?seed=${seed}&backgroundColor=${bgColor}&radius=20&size=80`;
+}
+
+/* ─── Service Data ────────────────────────────────────────────── */
+const SERVICES: FlipCardData[] = [
   {
-    id: 'slide-web',
+    iconUrl: diceBearUrl('WebDeveloper', 'ffdfbf'),
     title: 'Pembuatan Website',
-    imageUrl: '/images/services/web.png',
+    tagline: 'Wajah digital bisnis Anda di internet',
+    description:
+      'Kami buatkan halaman online untuk bisnis Anda agar bisa ditemukan di Google dan terlihat profesional — seperti brosur digital yang bisa diakses siapa saja, kapan saja.',
+    features: [
+      'Tampil profesional di Google',
+      'Bisa dibuka di HP & laptop',
+      'Mudah dikelola sendiri',
+      'Dilengkapi form kontak',
+    ],
+    gradient: 'linear-gradient(135deg, #FF7A00, #FF9F44)',
+    accentColor: '#FF7A00',
   },
   {
-    id: 'slide-app',
+    iconUrl: diceBearUrl('MobileApp', '80cbc4'),
     title: 'Pembuatan Aplikasi',
-    imageUrl: '/images/services/android.png',
+    tagline: 'Aplikasi HP untuk Android & iOS',
+    description:
+      'Kami buatkan aplikasi khusus untuk bisnis Anda yang bisa diunduh di HP pelanggan — seperti Gojek atau Tokopedia, tapi sesuai kebutuhan bisnis Anda.',
+    features: [
+      'Tersedia di Android & iPhone',
+      'Notifikasi ke pelanggan',
+      'Mudah dipakai siapa saja',
+      'Bisa terima pesanan online',
+    ],
+    gradient: 'linear-gradient(135deg, #3D8C95, #5BB8C4)',
+    accentColor: '#3D8C95',
   },
   {
-    id: 'slide-design',
+    iconUrl: diceBearUrl('Designer', 'ffd5dc'),
     title: 'Desain Digital',
-    imageUrl: '/images/services/desaingrafis.png',
+    tagline: 'Logo, poster, & desain menarik',
+    description:
+      'Kami desainkan logo, poster promosi, brosur, kartu nama, dan semua kebutuhan visual bisnis Anda agar terlihat lebih profesional dan menarik.',
+    features: [
+      'Logo & brand identity',
+      'Desain poster / banner',
+      'Kartu nama & brosur',
+      'Konten sosial media',
+    ],
+    gradient: 'linear-gradient(135deg, #6C5CE7, #A29BFE)',
+    accentColor: '#6C5CE7',
   },
   {
-    id: 'slide-video',
+    iconUrl: diceBearUrl('Filmmaker', '81d4fa'),
     title: 'Video & Photo Editing',
-    imageUrl: '/images/services/video_foto.png',
+    tagline: 'Edit video & foto untuk promosi',
+    description:
+      'Kami bantu edit video promosi, company profile, konten TikTok/Reels, dan foto produk agar bisnis Anda lebih menarik di mata pelanggan.',
+    features: [
+      'Video promosi singkat',
+      'Edit foto produk',
+      'Konten TikTok & Reels',
+      'Video company profile',
+    ],
+    gradient: 'linear-gradient(135deg, #0984E3, #74B9FF)',
+    accentColor: '#0984E3',
   },
   {
-    id: 'slide-seo',
+    iconUrl: diceBearUrl('Student', 'a5d6a7'),
     title: 'Mahasiswa & Bisnis',
-    imageUrl: '/images/services/mood_board.png',
+    tagline: 'Tugas, skripsi, & kebutuhan bisnis',
+    description:
+      'Kami bantu mahasiswa dan pelaku bisnis dalam pembuatan slide presentasi, desain infografis, laporan digital, dan kebutuhan lainnya agar hasilnya rapi dan profesional.',
+    features: [
+      'Slide presentasi menarik',
+      'Desain infografis',
+      'Laporan & proposal',
+      'Poster ilmiah & bisnis',
+    ],
+    gradient: 'linear-gradient(135deg, #00B894, #55EFC4)',
+    accentColor: '#00B894',
   },
 ];
 
+/* ─── Section Props ───────────────────────────────────────────── */
 interface ServicesSectionProps {
-  /** Show the dark CTA bar at the bottom. Default: false (home page).
-   *  Pass true on the dedicated services page. */
   showCTA?: boolean;
 }
 
+/* ─── Component ───────────────────────────────────────────────── */
 export default function ServicesSection({ showCTA = false }: ServicesSectionProps) {
   return (
-    <section id="layanan" className="bg-slate-50 relative overflow-hidden">
+    <section id="layanan" className="services-section">
       {/* Decorative blobs */}
-      <div className="pointer-events-none absolute top-0 right-0 -translate-y-12 translate-x-1/3">
-        <div className="w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-orange-400/8 to-transparent blur-3xl" />
-      </div>
-      <div className="pointer-events-none absolute bottom-0 left-0 translate-y-1/3 -translate-x-1/4">
-        <div className="w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-teal-400/8 to-transparent blur-3xl" />
-      </div>
+      <div className="services-blob services-blob--top" />
+      <div className="services-blob services-blob--bottom" />
 
-      {/* ── Hover Slider ── */}
-      <HoverSlider className="relative z-10 min-h-[85vh] flex flex-col justify-center px-6 md:px-12 lg:px-24 py-24">
+      <div className="services-container">
+        {/* ── Header ── */}
+        <div className="services-header">
+          <motion.span
+            className="services-badge"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            Layanan Kami
+          </motion.span>
 
-        {/* Section label */}
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-orange-500/10 text-orange-600 border border-orange-500/20 mb-6 self-start">
-          Layanan Digital
-        </span>
+          <motion.h2
+            className="services-heading"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Solusi Tepat Untuk{' '}
+            <span className="services-heading-accent">Pertumbuhan</span>{' '}
+            Bisnis Anda
+          </motion.h2>
 
-        {/* Heading */}
-        <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight max-w-2xl leading-tight">
-          Solusi Tepat Untuk{' '}
-          <span className="text-orange-500">Pertumbuhan</span> Bisnis Anda
-        </h2>
-        <p className="text-slate-500 text-lg mb-14 max-w-xl">
-          Hover atau ketuk pada layanan untuk melihat pratinjau visual. Kami siap mewujudkan ide digital Anda.
-        </p>
-
-        {/* Split layout */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between gap-10 md:gap-16 w-full mb-10">
-
-          {/* Left — service list */}
-          <div className="flex flex-col space-y-4 md:space-y-6 w-full lg:w-1/2 order-2 lg:order-1 items-center lg:items-start text-center lg:text-left">
-            {SLIDES.map((slide, index) => (
-              <TextStaggerHover
-                key={slide.id}
-                index={index}
-                text={slide.title}
-                className="cursor-pointer text-2xl sm:text-3xl md:text-5xl font-extrabold uppercase tracking-tighter text-slate-900"
-              />
-            ))}
-          </div>
-
-          {/* Right — image stack */}
-          <HoverSliderImageWrap className="w-full lg:w-1/2 max-w-sm md:max-w-md lg:max-w-lg rounded-3xl overflow-hidden shadow-2xl shadow-slate-900/10 ring-1 ring-slate-200 order-1 lg:order-2 aspect-[4/3] sm:aspect-auto">
-            {SLIDES.map((slide, index) => (
-              <div key={slide.id}>
-                <HoverSliderImage
-                  index={index}
-                  imageUrl={slide.imageUrl}
-                  src={slide.imageUrl}
-                  alt={slide.title}
-                  className={cn(
-                    "size-full max-h-[420px] object-contain drop-shadow-2xl transition-transform duration-500",
-                    (slide.title === "Desain Digital" || slide.title === "Pembuatan Aplikasi") && "scale-110"
-                  )}
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
-            ))}
-          </HoverSliderImageWrap>
+          <motion.p
+            className="services-subheading"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            Arahkan kursor atau ketuk kartu untuk melihat detail layanan. Kami siap
+            mewujudkan ide digital Anda dengan hasil yang profesional.
+          </motion.p>
         </div>
-      </HoverSlider>
 
-      {/* ── CTA Bar — only on the services page ── */}
+        {/* ── Cards Grid ── */}
+        <div className="services-grid">
+          {SERVICES.map((service, index) => (
+            <FlipCard key={service.title} data={service} index={index} />
+          ))}
+        </div>
+      </div>
+
+      {/* ── CTA Bar ── */}
       {showCTA && (
-        <div className="relative z-10 container-content pb-24">
-          <div className="bg-slate-900 rounded-3xl p-8 md:p-12 relative overflow-hidden shadow-2xl">
-            {/* Glowing bg */}
-            <div className="absolute top-0 right-0 w-full h-full opacity-30 pointer-events-none">
-              <div className="absolute right-[-10%] top-[-50%] w-[60%] h-[200%] bg-orange-500/30 blur-[100px] rounded-full transform rotate-12" />
-            </div>
+        <div className="services-cta-wrapper">
+          <motion.div
+            className="services-cta"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Glow */}
+            <div className="services-cta-glow" />
 
-            <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="text-center md:text-left text-white max-w-xl">
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 text-orange-500">
+            <div className="services-cta-inner">
+              <div className="services-cta-text">
+                <h3 className="services-cta-title">
                   Siap Meluncurkan Projek Anda?
                 </h3>
-                <p className="text-slate-300 text-lg">
-                  Jadwalkan konsultasi gratis hari ini. Mari diskusikan bagaimana kami bisa membantu
-                  mencapai target bisnis Anda.
+                <p className="services-cta-desc">
+                  Jadwalkan konsultasi gratis hari ini. Mari diskusikan bagaimana
+                  kami bisa membantu mencapai target bisnis Anda.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full sm:w-auto">
-                <a
-                  href="/pricing"
-                  className="px-8 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-400 transition-all duration-300 shadow-[0_0_40px_rgba(249,115,22,0.4)] hover:shadow-[0_0_60px_rgba(249,115,22,0.6)] flex items-center justify-center gap-2"
-                >
+              <div className="services-cta-buttons">
+                <a href="/pricing" className="services-cta-btn-primary">
                   Lihat Paket Harga
                 </a>
-                <a
-                  href="/contact"
-                  className="px-8 py-4 bg-white/10 text-white font-bold rounded-xl border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-300 backdrop-blur-sm flex items-center justify-center gap-2"
-                >
+                <a href="/contact" className="services-cta-btn-outline">
                   Hubungi Kami <ArrowRight className="size-4" />
                 </a>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
     </section>

@@ -195,30 +195,30 @@ export default function WhyOrdersSection() {
               <div className="relative before:absolute before:inset-0 before:mx-auto before:w-px before:bg-slate-200 sm:-my-6 sm:-mr-6 mt-6">
                 <div className="relative flex h-full flex-col justify-center space-y-5 py-6">
                   {/* Avatar row right */}
-                  <div className="relative flex w-[calc(50%+0.875rem)] items-center justify-end gap-2.5">
+                  <div className="relative flex w-[calc(50%+1.25rem)] items-center justify-end gap-3">
                     <span className="block h-fit rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 shadow-sm">
                       Konsultasi
                     </span>
-                    <div className="size-8 rounded-full ring-2 ring-white overflow-hidden bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white text-xs font-bold">
-                      <img src="https://api.dicebear.com/9.x/lorelei/svg?seed=Felix&backgroundColor=transparent" alt="RA" className="w-full h-full object-cover" />
+                    <div className="size-12 rounded-full ring-2 ring-white overflow-hidden bg-white shadow-md flex items-center justify-center border border-orange-100 transition-transform hover:scale-110 hover:z-20">
+                      <img src="/images/team/p1.png" alt="AL" className="w-full h-full object-cover" />
                     </div>
                   </div>
                   {/* Avatar row left */}
-                  <div className="relative ml-[calc(50%-1rem)] flex items-center gap-2.5">
-                    <div className="size-9 rounded-full ring-2 ring-white overflow-hidden bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center text-white text-xs font-bold">
-                      <img src="https://api.dicebear.com/9.x/lorelei/svg?seed=Aneka&backgroundColor=transparent" alt="DV" className="w-full h-full object-cover" />
+                  <div className="relative ml-[calc(50%-1.25rem)] flex items-center gap-3">
+                    <div className="size-12 rounded-full ring-2 ring-white overflow-hidden bg-white shadow-md flex items-center justify-center border border-sky-100 transition-transform hover:scale-110 hover:z-20">
+                      <img src="/images/team/p2.png" alt="KP" className="w-full h-full object-cover" />
                     </div>
                     <span className="block h-fit rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 shadow-sm">
                       Development
                     </span>
                   </div>
                   {/* Avatar row right */}
-                  <div className="relative flex w-[calc(50%+0.875rem)] items-center justify-end gap-2.5">
+                  <div className="relative flex w-[calc(50%+1.25rem)] items-center justify-end gap-3">
                     <span className="block h-fit rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs text-slate-600 shadow-sm">
                       Delivery
                     </span>
-                    <div className="size-8 rounded-full ring-2 ring-white overflow-hidden bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-white text-xs font-bold">
-                      <img src="https://api.dicebear.com/9.x/lorelei/svg?seed=Jasper&backgroundColor=transparent" alt="TR" className="w-full h-full object-cover" />
+                    <div className="size-12 rounded-full ring-2 ring-white overflow-hidden bg-white shadow-md flex items-center justify-center border border-emerald-100 transition-transform hover:scale-110 hover:z-20">
+                      <img src="/images/team/p5.png" alt="OK" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>

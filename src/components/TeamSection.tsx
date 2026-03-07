@@ -1,17 +1,17 @@
 export default function TeamSection() {
     const leadership = [
         {
-            name: 'Aldy Loing',
+            name: 'Aldy',
             role: 'Team Leader',
             avatar: '/images/team/p1.png',
         },
         {
-            name: 'Owen Kalumata',
+            name: 'Owen',
             role: 'Project Manager',
             avatar: '/images/team/p5.png',
         },
         {
-            name: 'Natasya Lumingkewas',
+            name: 'Natasya',
             role: 'Finance Officer',
             avatar: '/images/team/p10.png',
         }
@@ -19,17 +19,17 @@ export default function TeamSection() {
 
     const engineering = [
         {
-            name: 'Kevin Pesik',
+            name: 'Kevin',
             role: 'Developer',
             avatar: '/images/team/p2.png',
         },
         {
-            name: 'Rizky Mema',
+            name: 'Rizky',
             role: 'UI/UX Designer',
             avatar: '/images/team/p7.png',
         },
         {
-            name: 'Jazel Kandou',
+            name: 'Jazel',
             role: 'Quality Control',
             avatar: '/images/team/p3.png',
         }
@@ -37,12 +37,12 @@ export default function TeamSection() {
 
     const creativeMarketing = [
         {
-            name: 'Giordyano Anhar',
+            name: 'Giordyano',
             role: 'Creative Director',
             avatar: '/images/team/p8.png',
         },
         {
-            name: 'Friestha Arikalang',
+            name: 'Friesta',
             role: 'Team Creative',
             avatar: '/images/team/p4.png',
         }
@@ -50,7 +50,7 @@ export default function TeamSection() {
 
     const humanRelations = [
         {
-            name: 'Given Tambalean',
+            name: 'Given',
             role: 'Human Relations',
             avatar: '/images/team/p9.jpeg',
         }
@@ -67,13 +67,13 @@ export default function TeamSection() {
                         {leadership.map((member, index) => (
                             <div key={index}>
                                 <div className="bg-background size-20 rounded-full border p-0.5 shadow shadow-zinc-950/5">
-                                    <img 
-                                        className="aspect-square rounded-full object-cover" 
-                                        src={member.avatar} 
-                                        alt={member.name} 
-                                        height="460" 
-                                        width="460" 
-                                        loading="lazy" 
+                                    <img
+                                        className="aspect-square rounded-full object-cover"
+                                        src={member.avatar}
+                                        alt={member.name}
+                                        height="460"
+                                        width="460"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <span className="mt-2 block text-sm font-medium">{member.name}</span>
@@ -89,13 +89,13 @@ export default function TeamSection() {
                         {engineering.map((member, index) => (
                             <div key={index}>
                                 <div className="bg-background size-20 rounded-full border p-0.5 shadow shadow-zinc-950/5">
-                                    <img 
-                                        className="aspect-square rounded-full object-cover" 
-                                        src={member.avatar} 
-                                        alt={member.name} 
-                                        height="460" 
-                                        width="460" 
-                                        loading="lazy" 
+                                    <img
+                                        className="aspect-square rounded-full object-cover"
+                                        src={member.avatar}
+                                        alt={member.name}
+                                        height="460"
+                                        width="460"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <span className="mt-2 block text-sm font-medium">{member.name}</span>
@@ -111,13 +111,13 @@ export default function TeamSection() {
                         {creativeMarketing.map((member, index) => (
                             <div key={index}>
                                 <div className="bg-background size-20 rounded-full border p-0.5 shadow shadow-zinc-950/5">
-                                    <img 
-                                        className="aspect-square rounded-full object-cover" 
-                                        src={member.avatar} 
-                                        alt={member.name} 
-                                        height="460" 
-                                        width="460" 
-                                        loading="lazy" 
+                                    <img
+                                        className="aspect-square rounded-full object-cover"
+                                        src={member.avatar}
+                                        alt={member.name}
+                                        height="460"
+                                        width="460"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <span className="mt-2 block text-sm font-medium">{member.name}</span>
@@ -133,13 +133,13 @@ export default function TeamSection() {
                         {humanRelations.map((member, index) => (
                             <div key={index}>
                                 <div className="bg-background size-20 rounded-full border p-0.5 shadow shadow-zinc-950/5">
-                                    <img 
-                                        className="aspect-square rounded-full object-cover" 
-                                        src={member.avatar} 
-                                        alt={member.name} 
-                                        height="460" 
-                                        width="460" 
-                                        loading="lazy" 
+                                    <img
+                                        className="aspect-square rounded-full object-cover"
+                                        src={member.avatar}
+                                        alt={member.name}
+                                        height="460"
+                                        width="460"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <span className="mt-2 block text-sm font-medium">{member.name}</span>
