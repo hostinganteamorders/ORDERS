@@ -13,6 +13,7 @@ const config: Config = {
         secondary: '#0EA5E9',
       },
       fontFamily: {
+        sans: ['Inter', 'sans-serif'],
         heading: ['Space Grotesk', 'system-ui', 'sans-serif'],
         body: ['DM Sans', 'system-ui', 'sans-serif'],
       },

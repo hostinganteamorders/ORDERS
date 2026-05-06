@@ -1,61 +1,68 @@
 'use client';
-import Link from 'next/link';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { ArrowRight, Leaf, Recycle, Zap, TrendingUp, CheckCircle2, ChevronRight, Wind, Sprout, Droplets, Trees, Globe } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card } from './ui/card';/* ─────────────────────────────────────────
-   Fonts injected via style tag (Google)
-───────────────────────────────────────── */
-const FontInjector = () => (
-    <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap');
-    .eco-serif  { font-family: 'Playfair Display', Georgia, serif; }
-    .eco-sans   { font-family: 'DM Sans', system-ui, sans-serif; }
-    .eco-kicker {
-      font-family: 'DM Sans', system-ui, sans-serif;
-      font-size: 0.6875rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-  `}</style>
-);
 
-/* ─────────────────────────────────────────
-   Data
-───────────────────────────────────────── */
+import Image from 'next/image';
+import Link from 'next/link';
+import { InfiniteSlider } from '@/components/motion-primitives/infinite-slider';
+import { ProgressiveBlur } from '@/components/motion-primitives/progressive-blur';
+import {
+    ArrowRight,
+    CheckCircle2,
+    Droplets,
+    Globe,
+    Leaf,
+    Recycle,
+    Sprout,
+    TrendingUp,
+    Trees,
+    Wind,
+    Zap,
+} from 'lucide-react';
+import AnimatedHeading from './ecodigital/AnimatedHeading';
+import FadeIn from './ecodigital/FadeIn';
+
+const heroKeywords = [
+    { label: 'Eco-Friendly', icon: Leaf },
+    { label: 'Circular Loop', icon: Recycle },
+    { label: 'Green Cloud', icon: Zap },
+    { label: 'IoT Tracking', icon: TrendingUp },
+    { label: 'Low Carbon', icon: Wind },
+    { label: 'Talenta Hijau', icon: Sprout },
+    { label: 'Resource Mgt', icon: Droplets },
+    { label: 'Sustainable', icon: Trees },
+    { label: 'Local Impact', icon: Globe },
+];
+
 const partners = [
-    { src: '/images/sponsor/Baciraro.png', alt: 'Baciraro' },
-    { src: '/images/sponsor/TanaNyiurLestari.png', alt: 'Tana Nyiur Lestari' },
-    { src: '/images/sponsor/TrashRecycleCenter.png', alt: 'Trash Recycle Center' },
-    { src: '/images/sponsor/ELMAST.png', alt: 'ELMast' },
+    { name: 'Baciraro', logo: '/images/sponsor/Baciraro.png' },
+    { name: 'Tana Nyiur Lestari', logo: '/images/sponsor/TanaNyiurLestari.png' },
+    { name: 'Trash Recycle Center', logo: '/images/sponsor/TrashRecycleCenter.png' },
+    { name: 'ELMast', logo: '/images/sponsor/ELMAST.png' },
 ];
 
 const pillars = [
     {
-        icon: Leaf,
-        num: '01',
+        number: '01',
         title: 'Circular Economy',
-        desc: 'Platform digital untuk pemetaan aliran limbah dan peningkatan keterlacakan material.',
+        description: 'Platform digital untuk pemetaan aliran limbah dan peningkatan keterlacakan material.',
+        icon: Leaf,
     },
     {
-        icon: Recycle,
-        num: '02',
+        number: '02',
         title: 'Baciraro Recycle',
-        desc: 'Ekosistem mitra mendorong circular economy melalui data akurat dan kolaborasi lokal.',
+        description: 'Ekosistem mitra mendorong circular economy melalui data akurat dan kolaborasi lokal.',
+        icon: Recycle,
     },
     {
-        icon: Zap,
-        num: '03',
+        number: '03',
         title: 'Green Infrastructure',
-        desc: 'Arsitektur digital efisiensi tinggi: server hemat energi, desain ringan, jejak karbon minimal.',
+        description: 'Arsitektur digital efisiensi tinggi: server hemat energi, desain ringan, jejak karbon minimal.',
+        icon: Zap,
     },
     {
-        icon: TrendingUp,
-        num: '04',
+        number: '04',
         title: 'Talenta Hijau',
-        desc: 'Program mentoring untuk mempersiapkan generasi karir di ekonomi rendah karbon.',
+        description: 'Program mentoring untuk mempersiapkan generasi karir di ekonomi rendah karbon.',
+        icon: TrendingUp,
     },
 ];
 
@@ -66,458 +73,404 @@ const ecosystemPoints = [
     'Notifikasi otomatis seluruh rantai daur ulang',
 ];
 
-const ecodigitalText = [
+const philosophyParagraphs = [
     'Ecodigital adalah kerangka strategis kami untuk memastikan setiap solusi teknologi yang kami bangun selaras dengan prinsip keberlanjutan. Bukan hanya soal memilih server hemat energi, tetapi bagaimana desain, arsitektur, infrastruktur, alur data, dan siklus hidup produk digital meminimalkan jejak lingkungan sekaligus memaksimalkan dampak sosial positif.',
     'Kami melihat teknologi sebagai katalis ekonomi sirkular — mendukung penelusuran material, optimasi rantai pasok, edukasi perilaku, hingga orkestrasi ekosistem daur ulang melalui data yang akurat dan dapat ditindaklanjuti.',
     'Pendekatan ini memadukan efisiensi energi, desain ringan, pengukuran emisi, serta integrasi ekosistem mitra untuk menghasilkan nilai yang terukur. Inilah jalan kami membangun masa depan digital yang regeneratif, bukan sekadar berkelanjutan.',
 ];
 
-/* ─────────────────────────────────────────
-   Animation helpers
-───────────────────────────────────────── */
-const fadeUp = {
-    hidden: { opacity: 0, y: 28 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.75, ease: 'easeOut' as const } },
-};
+const philosophyFrames = [
+    {
+        src: '/images/ecosistem/p1.jpg',
+        alt: 'Tim EcoDigital di lapangan',
+        title: 'Desain ringan untuk operasi nyata',
+    },
+    {
+        src: '/images/ecosistem/Menteri_1.jpg',
+        alt: 'Kolaborasi keberlanjutan',
+        title: 'Kolaborasi lokal dengan dampak terukur',
+    },
+    {
+        src: '/images/ecosistem/AI_1.png',
+        alt: 'Visual sistem EcoDigital',
+        title: 'Data, otomasi, dan orkestrasi ekosistem',
+    },
+];
 
-const stagger = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
-};
-
-/* ─────────────────────────────────────────
-   Component
-───────────────────────────────────────── */
 export default function EcodigitalSection() {
     return (
-        <>
-            <FontInjector />
+        <div className="bg-black font-sans text-white">
+            <section className="relative isolate min-h-[100svh] overflow-hidden bg-black text-white">
+                <video
+                    className="absolute inset-0 h-full w-full object-cover"
+                    src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260403_050628_c4e32401-fab4-4a27-b7a8-6e9291cd5959.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    aria-hidden="true"
+                />
 
-            {/* ══════════════════════════════════════
-          HERO  — new layout adapted
-      ══════════════════════════════════════ */}
-            <section className="bg-background relative overflow-hidden">
-                <div className="relative pb-32 pt-44">
-                    {/* The radial mask style can be achieved with webkitMaskImage inline */}
-                    <div
-                        className="absolute inset-0 aspect-square md:aspect-auto opacity-65 dark:opacity-5"
-                        style={{
-                            WebkitMaskImage: 'radial-gradient(ellipse at top, black 45%, transparent 75%)',
-                            maskImage: 'radial-gradient(ellipse at top, black 45%, transparent 75%)',
-                        }}
-                    >
-                        <Image
-                            src="/images/ecosistem/p1.jpg"
-                            alt="hero background"
-                            fill
-                            className="object-cover object-top"
-                            priority
-                            quality={100}
-                        />
+                <div className="relative z-10 flex min-h-[100svh] flex-col">
+                    <div className="px-6 pt-24 md:px-12 md:pt-32 lg:px-16 lg:pt-36">
+                        <div className="mx-auto -mr-6 flex max-w-7xl flex-nowrap gap-3 overflow-x-auto pb-2 pr-6 [scrollbar-width:none] md:mr-0 md:flex-wrap md:overflow-visible md:pb-0 md:pr-0 [&::-webkit-scrollbar]:hidden">
+                            {heroKeywords.map((item, index) => {
+                                const Icon = item.icon;
+
+                                return (
+                                    <FadeIn
+                                        key={item.label}
+                                        delay={140 + (index * 80)}
+                                        duration={700}
+                                    >
+                                        <div className="liquid-glass inline-flex shrink-0 items-center gap-2 rounded-full border border-white/15 px-3.5 py-2 text-xs text-white/95 shadow-[0_12px_40px_rgba(0,0,0,0.28)] sm:px-4 sm:text-sm">
+                                            <Icon className="h-4 w-4 text-emerald-300" />
+                                            <span>{item.label}</span>
+                                        </div>
+                                    </FadeIn>
+                                );
+                            })}
+                        </div>
                     </div>
 
-                    <div className="relative z-10 mx-auto w-full max-w-5xl px-6">
-                        <motion.div
-                            initial="hidden"
-                            animate="visible"
-                            variants={stagger}
-                            className="mx-auto mb-16 max-w-xl lg:mb-24"
-                        >
-                            <div className="grid scale-95 grid-cols-3 gap-12">
-                                <motion.div variants={fadeUp} className="ml-auto blur-[1.5px] hover:blur-none transition-all duration-300">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group">
-                                        <Leaf className="size-4 text-emerald-500 group-hover:scale-110 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Eco-Friendly</span>
-                                    </Card>
-                                </motion.div>
-                                <motion.div variants={fadeUp} className="ml-auto">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group border-emerald-500/30">
-                                        <Recycle className="size-4 text-emerald-500 group-hover:rotate-90 transition-transform duration-500" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Circular Loop</span>
-                                    </Card>
-                                </motion.div>
-                                <motion.div variants={fadeUp} className="ml-auto blur-[1.5px] hover:blur-none transition-all duration-300">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group">
-                                        <Zap className="size-4 text-emerald-500 group-hover:scale-110 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Green Cloud</span>
-                                    </Card>
-                                </motion.div>
+                    <div className="flex-1 px-6 md:px-12 lg:px-16">
+                        <div className="mx-auto flex h-full max-w-7xl flex-col justify-end pb-12 lg:pb-16">
+                            <div className="lg:grid lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)] lg:items-end lg:gap-12">
+                                <div className="max-w-3xl drop-shadow-[0_10px_28px_rgba(0,0,0,0.4)]">
+                                    <FadeIn delay={500} duration={1000} className="mb-5">
+                                        <p className="text-xs font-medium uppercase tracking-[0.26em] text-emerald-200">
+                                            EcoDigital • Inisiatif Hijau
+                                        </p>
+                                    </FadeIn>
 
-                                <motion.div variants={fadeUp} className="mr-auto">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group border-emerald-500/30">
-                                        <TrendingUp className="size-4 text-emerald-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">IoT Tracking</span>
-                                    </Card>
-                                </motion.div>
-                                <motion.div variants={fadeUp} className="blur-[1.5px] hover:blur-none transition-all duration-300">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group">
-                                        <Wind className="size-3 sm:size-4 text-emerald-500 group-hover:translate-x-1 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Low Carbon</span>
-                                    </Card>
-                                </motion.div>
-                                <motion.div variants={fadeUp}>
-                                    <Card className="shadow-lg shadow-emerald-900/10 mx-auto flex h-8 sm:h-10 w-fit items-center gap-2 rounded-xl px-3 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group border-emerald-500/50 hover:border-emerald-500 transition-colors">
-                                        <Sprout className="size-3 sm:size-4 text-emerald-600 group-hover:-translate-y-1 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-bold text-emerald-800 max-sm:text-xs">Talenta Hijau</span>
-                                    </Card>
-                                </motion.div>
+                                    <AnimatedHeading
+                                        text={'Teknologi Bersih.\nMasa Depan Hijau.'}
+                                        className="mb-4 font-sans text-4xl font-normal leading-[0.94] text-white md:text-5xl lg:text-6xl xl:text-7xl"
+                                    />
 
-                                <motion.div variants={fadeUp} className="ml-auto blur-[1.5px] hover:blur-none transition-all duration-300">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group">
-                                        <Droplets className="size-3 sm:size-4 text-emerald-500 group-hover:translate-y-1 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Resource Mgt</span>
-                                    </Card>
-                                </motion.div>
-                                <motion.div variants={fadeUp}>
-                                    <Card className="shadow-lg shadow-emerald-900/10 mx-auto flex h-8 sm:h-10 w-fit items-center gap-2 rounded-xl px-3 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group border-emerald-500/30">
-                                        <Trees className="size-3 sm:size-4 text-emerald-500 group-hover:scale-110 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Sustainable</span>
-                                    </Card>
-                                </motion.div>
-                                <motion.div variants={fadeUp} className="blur-[1.5px] hover:blur-none transition-all duration-300">
-                                    <Card className="shadow-lg shadow-emerald-900/10 flex h-8 w-fit items-center gap-2 rounded-xl px-3 sm:h-10 sm:px-4 bg-white/90 backdrop-blur-sm border-white/50 group">
-                                        <Globe className="size-3 sm:size-4 text-emerald-500 group-hover:rotate-12 transition-transform" />
-                                        <span className="eco-sans text-nowrap font-medium text-[#0a1610] max-sm:text-xs">Local Impact</span>
-                                    </Card>
-                                </motion.div>
+                                    <FadeIn delay={800} duration={1000} className="mb-5 max-w-2xl">
+                                        <p className="text-base text-gray-300 md:text-lg">
+                                            EcoDigital adalah ekosistem strategi untuk memastikan setiap solusi digital selaras dengan prinsip keberlanjutan dan jejak karbon minimal.
+                                        </p>
+                                    </FadeIn>
+
+                                    <FadeIn delay={1200} duration={1000}>
+                                        <div className="flex flex-wrap gap-4">
+                                            <Link
+                                                href="/contact"
+                                                className="inline-flex w-full items-center justify-center rounded-lg bg-white px-8 py-3 font-medium text-black transition-colors hover:bg-gray-100 sm:w-auto"
+                                            >
+                                                Mulai Kolaborasi
+                                            </Link>
+                                            <Link
+                                                href="#fondasi"
+                                                className="liquid-glass inline-flex w-full items-center justify-center rounded-lg border border-white/20 px-8 py-3 font-medium text-white transition-colors hover:bg-white hover:text-black sm:w-auto"
+                                            >
+                                                Pelajari Konsep
+                                            </Link>
+                                        </div>
+                                    </FadeIn>
+
+                                    <FadeIn delay={1520} duration={1000} className="mt-8 max-w-2xl">
+                                        <p className="text-xs uppercase tracking-[0.26em] text-white/60">
+                                            Mitra Ekosistem Kami
+                                        </p>
+                                        <div className="mt-3 flex flex-wrap gap-2">
+                                            {partners.map((partner) => (
+                                                <span
+                                                    key={partner.name}
+                                                    className="liquid-glass rounded-full border border-white/10 px-4 py-2 text-sm text-white/88"
+                                                >
+                                                    {partner.name}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </FadeIn>
+                                </div>
+
+                                <div className="mt-8 flex items-end justify-start lg:mt-0 lg:justify-end">
+                                    <FadeIn delay={1400} duration={1000} className="w-full max-w-md">
+                                        <div className="liquid-glass rounded-2xl border border-white/20 px-6 py-5 shadow-[0_18px_50px_rgba(0,0,0,0.34)]">
+                                            <p className="text-lg font-light text-white md:text-xl lg:text-2xl">
+                                                Circular Economy. Green Infrastructure. Talenta Hijau.
+                                            </p>
+                                            <p className="mt-3 text-sm leading-6 text-gray-300">
+                                                Platform ini dibangun untuk membuat dampak lingkungan menjadi transparan, kolaboratif, dan bisa ditindaklanjuti.
+                                            </p>
+                                        </div>
+                                    </FadeIn>
+                                </div>
                             </div>
-                        </motion.div>
-
-                        <div className="mx-auto max-w-2xl text-center">
-                            <motion.p
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                                className="eco-kicker text-emerald-600 mb-5 flex items-center justify-center gap-2 uppercase tracking-widest text-sm font-bold"
-                            >
-                                <Leaf className="h-4 w-4" />
-                                EcoDigital • Inisiatif Hijau
-                            </motion.p>
-                            <motion.h1
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.1 }}
-                                className="text-balance eco-serif text-4xl font-bold sm:text-5xl lg:text-6xl text-[#0a1610] leading-tight"
-                            >
-                                Teknologi Bersih.<br />
-                                <span className="text-emerald-500">Masa Depan Hijau.</span>
-                            </motion.h1>
-                            <motion.p
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.2 }}
-                                className="eco-sans mt-6 text-balance text-stone-600 text-lg sm:text-xl leading-relaxed max-w-xl mx-auto"
-                            >
-                                EcoDigital adalah ekosistem strategi untuk memastikan setiap solusi digital selaras dengan prinsip keberlanjutan dan jejak karbon minimal.
-                            </motion.p>
-
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                                className="mt-10 flex flex-wrap gap-4 justify-center"
-                            >
-                                <Link
-                                    href="/contact"
-                                    className="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-500 text-white rounded-full px-8 h-12 eco-sans font-medium text-base shadow-lg shadow-emerald-600/20 group transition-colors"
-                                >
-                                    <span className="text-nowrap mr-2">Mulai Kolaborasi</span>
-                                    <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                                </Link>
-                                <Link
-                                    href="#pillars"
-                                    className="inline-flex items-center justify-center rounded-full px-8 h-12 eco-sans font-medium text-base border-2 border-emerald-200 text-emerald-800 hover:bg-emerald-50 transition-colors"
-                                >
-                                    Pelajari Konsep
-                                </Link>
-                            </motion.div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════
-          PARTNER LOGOS
-      ══════════════════════════════════════ */}
-            <section className="bg-[#f7f6f2] border-b border-stone-200 py-10">
-                <div className="max-w-6xl mx-auto px-6 md:px-12">
-                    <p className="eco-kicker text-stone-400 mb-7 text-center">Mitra Ekosistem Kami</p>
-                    <div className="flex flex-wrap items-center justify-center gap-10 lg:gap-16">
-                        {partners.map((p) => (
-                            <div
-                                key={p.alt}
-                                className="relative h-9 w-24 lg:h-11 lg:w-28 opacity-40 grayscale hover:opacity-80 hover:grayscale-0 transition-all duration-300"
+            <section className="border-t border-white/10 bg-[#020302] py-8 lg:py-14">
+                <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+                    <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
+                        <div>
+                            <p className="text-xs uppercase tracking-[0.26em] text-emerald-300/80">Mitra Ekosistem Kami</p>
+                            <h2 className="mt-2 font-sans text-2xl font-medium tracking-[-0.04em] text-white md:text-3xl lg:text-4xl">
+                                Jaringan kolaborasi yang menjaga loop keberlanjutan tetap hidup.
+                            </h2>
+                        </div>
+                        <p className="max-w-xl text-sm leading-5 text-gray-400 lg:leading-6">
+                            Baciraro, Tana Nyiur Lestari, Trash Recycle Center, dan ELMast menjadi simpul utama untuk pengumpulan data lapangan, edukasi, serta orkestrasi daur ulang bernilai.
+                        </p>
+                    </div>
+
+                    <div className="relative mt-6 lg:mt-10">
+                        <InfiniteSlider speedOnHover={20} speed={40} gap={112}>
+                            {partners.map((partner) => (
+                                <div key={partner.name} className="flex flex-col items-center gap-2">
+                                    <div className="relative h-8 w-28">
+                                        <Image
+                                            src={partner.logo}
+                                            alt={partner.name}
+                                            fill
+                                            className="object-contain"
+                                            sizes="112px"
+                                        />
+                                    </div>
+                                    <span className="text-xs text-gray-400">{partner.name}</span>
+                                </div>
+                            ))}
+                        </InfiniteSlider>
+                        <ProgressiveBlur
+                            className="pointer-events-none absolute left-0 top-0 h-full w-20"
+                            direction="left"
+                            blurIntensity={1}
+                        />
+                        <ProgressiveBlur
+                            className="pointer-events-none absolute right-0 top-0 h-full w-20"
+                            direction="right"
+                            blurIntensity={1}
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <section id="fondasi" className="bg-black py-10 lg:py-24">
+                <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+                    <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
+                        <div>
+                            <p className="text-xs uppercase tracking-[0.26em] text-emerald-300/80">Fondasi EcoDigital</p>
+                            <h2 className="mt-2 font-sans text-2xl font-medium tracking-[-0.04em] text-white md:text-3xl lg:mt-3 lg:text-5xl">
+                                Empat Pilar Keberlanjutan
+                            </h2>
+                        </div>
+                        <p className="max-w-xl text-sm leading-5 text-gray-400 lg:leading-6">
+                            Setiap aspek platform kami dirancang untuk menghasilkan dampak lingkungan positif yang terukur.
+                        </p>
+                    </div>
+
+                    <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:mt-10 lg:grid-cols-4 lg:gap-4">
+                        {pillars.map((pillar) => {
+                            const Icon = pillar.icon;
+
+                            return (
+                                <article
+                                    key={pillar.number}
+                                    className="liquid-glass rounded-[22px] border border-white/12 p-5 lg:rounded-[28px] lg:p-6"
+                                >
+                                    <div className="flex items-center justify-between text-white/50">
+                                        <span className="text-sm tracking-[0.18em]">{pillar.number}</span>
+                                        <Icon className="h-5 w-5 text-emerald-300" />
+                                    </div>
+                                    <h3 className="mt-6 font-sans text-xl font-medium tracking-[-0.03em] text-white lg:mt-10 lg:text-2xl">
+                                        {pillar.title}
+                                    </h3>
+                                    <p className="mt-3 text-sm leading-6 text-gray-300 lg:mt-4">
+                                        {pillar.description}
+                                    </p>
+                                </article>
+                            );
+                        })}
+                    </div>
+                </div>
+            </section>
+
+            <section className="bg-[#030504] py-10 lg:py-24">
+                <div className="mx-auto grid max-w-7xl gap-8 px-6 md:px-12 lg:gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] lg:items-center lg:px-16">
+                    <div className="relative overflow-hidden rounded-[32px] border border-white/12">
+                        <div className="relative aspect-[4/3] sm:aspect-[16/11] lg:aspect-[4/5]">
+                            <Image
+                                src="/images/ecosistem/Baciraro_ecosistem.jpg"
+                                alt="Ekosistem Baciraro"
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                            />
+                        </div>
+
+                        <div className="absolute inset-x-4 bottom-4 md:inset-x-6 md:bottom-6">
+                            <div className="liquid-glass rounded-2xl border border-white/20 p-4 md:p-5">
+                                <p className="text-xs uppercase tracking-[0.22em] text-emerald-300/80">Baciraro</p>
+                                <div className="mt-3 flex items-center gap-4">
+                                    <div className="relative h-14 w-14 overflow-hidden rounded-2xl bg-white/10">
+                                        <Image
+                                            src="/images/sponsor/Baciraro.png"
+                                            alt="Baciraro"
+                                            fill
+                                            className="object-contain p-2"
+                                            sizes="56px"
+                                        />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs uppercase tracking-[0.22em] text-white/55">Powered by</p>
+                                        <p className="mt-1 text-lg text-white">Baciraro Recycle</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <p className="text-xs uppercase tracking-[0.26em] text-emerald-300/80">Ekosistem Baciraro</p>
+                        <h2 className="mt-3 font-sans text-3xl font-medium tracking-[-0.04em] text-white md:text-4xl lg:text-5xl">
+                            Menghubungkan Semua
+                            <br />
+                            Pemangku Kepentingan
+                        </h2>
+                        <p className="mt-6 max-w-2xl text-base leading-7 text-gray-300 md:text-lg">
+                            Melalui platform digital, kami menghubungkan komunitas, operator lapangan, pengolah material, regulator, dan pelaku usaha dalam satu alur data terpadu — meningkatkan transparansi dan membuka peluang ekonomi baru berbasis limbah bernilai.
+                        </p>
+
+                        <ul className="mt-8 space-y-3">
+                            {ecosystemPoints.map((point) => (
+                                <li key={point} className="flex items-start gap-3 text-gray-200">
+                                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-300" />
+                                    <span className="text-sm leading-6 md:text-base">{point}</span>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <div className="mt-8 flex flex-wrap gap-4">
+                            <Link
+                                href="/contact"
+                                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white px-7 py-3 font-medium text-black transition-colors hover:bg-gray-100 sm:w-auto"
                             >
-                                <Image src={p.src} alt={p.alt} fill className="object-contain" sizes="120px" />
+                                Bergabung Sekarang
+                                <ArrowRight className="h-4 w-4" />
+                            </Link>
+                            <Link
+                                href="#filosofi"
+                                className="liquid-glass inline-flex w-full items-center justify-center gap-2 rounded-lg border border-white/18 px-7 py-3 font-medium text-white transition-colors hover:bg-white hover:text-black sm:w-auto"
+                            >
+                                Filosofi Kami
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="filosofi" className="bg-black py-10 lg:py-24">
+                <div className="mx-auto grid max-w-7xl gap-8 px-6 md:px-12 lg:gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start lg:px-16">
+                    <div>
+                        <p className="text-xs uppercase tracking-[0.26em] text-emerald-300/80">Filosofi Kami</p>
+                        <h2 className="mt-2 font-sans text-2xl font-medium tracking-[-0.04em] text-white md:text-3xl lg:mt-3 lg:text-5xl">
+                            Apa itu
+                            <br />
+                            EcoDigital?
+                        </h2>
+                        <p className="mt-3 text-sm text-gray-300 lg:mt-5 lg:text-lg">
+                            Filosofi di balik setiap baris kode kami
+                        </p>
+
+                        <div className="mt-5 space-y-4 text-sm leading-6 text-gray-300 lg:mt-8 lg:space-y-6 lg:text-base lg:leading-7">
+                            {philosophyParagraphs.map((paragraph) => (
+                                <p key={paragraph}>{paragraph}</p>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-2 lg:gap-4">
+                        <div className="relative overflow-hidden rounded-[24px] border border-white/12 sm:row-span-2 lg:rounded-[30px]">
+                            <div className="relative min-h-[260px] sm:min-h-[460px]">
+                                <Image
+                                    src={philosophyFrames[0].src}
+                                    alt={philosophyFrames[0].alt}
+                                    fill
+                                    className="object-cover"
+                                    sizes="(max-width: 1024px) 100vw, 40vw"
+                                />
+                            </div>
+                            <div className="absolute inset-x-0 bottom-0 p-5">
+                                <div className="liquid-glass rounded-2xl border border-white/20 p-4">
+                                    <p className="text-sm text-white">{philosophyFrames[0].title}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {philosophyFrames.slice(1).map((frame) => (
+                            <div key={frame.title} className="relative overflow-hidden rounded-[22px] border border-white/12 lg:rounded-[28px]">
+                                <div className="relative min-h-[160px] bg-white/[0.02] sm:min-h-[220px]">
+                                    <Image
+                                        src={frame.src}
+                                        alt={frame.alt}
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 100vw, 30vw"
+                                    />
+                                </div>
+                                <div className="absolute inset-x-0 bottom-0 p-4">
+                                    <div className="liquid-glass rounded-2xl border border-white/20 p-4">
+                                        <p className="text-sm text-white">{frame.title}</p>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════
-          4 PILLARS
-      ══════════════════════════════════════ */}
-            <section id="pillars" className="bg-white py-20 lg:py-28">
-                <div className="max-w-6xl mx-auto px-6 md:px-12">
-                    {/* Header */}
-                    <motion.div
-                        variants={stagger}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="mb-14"
-                    >
-                        <motion.p variants={fadeUp} className="eco-kicker text-emerald-600 mb-3">
-                            Fondasi EcoDigital
-                        </motion.p>
-                        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-                            <motion.h2
-                                variants={fadeUp}
-                                className="eco-serif text-[#0a1610] leading-tight"
-                                style={{ fontSize: 'clamp(1.75rem, 4vw, 2.75rem)' }}
-                            >
-                                Empat Pilar Keberlanjutan
-                            </motion.h2>
-                            <motion.p variants={fadeUp} className="eco-sans text-stone-500 text-sm max-w-xs leading-relaxed">
-                                Setiap aspek platform kami dirancang untuk menghasilkan dampak lingkungan positif yang terukur.
-                            </motion.p>
-                        </div>
-                        <div className="mt-6 h-px bg-stone-200" />
-                    </motion.div>
-
-                    {/* Grid */}
-                    <motion.div
-                        variants={stagger}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: '-60px' }}
-                        className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-stone-200 border border-stone-200"
-                    >
-                        {pillars.map((p) => {
-                            const Icon = p.icon;
-                            return (
-                                <motion.div
-                                    key={p.num}
-                                    variants={fadeUp}
-                                    className="bg-white p-8 flex flex-col gap-5 group hover:bg-[#f0faf4] transition-colors duration-300"
-                                >
-                                    <div className="flex items-start justify-between">
-                                        <span className="eco-sans text-stone-300 text-xs font-medium">{p.num}</span>
-                                        <Icon className="h-5 w-5 text-emerald-500" />
-                                    </div>
-                                    <div>
-                                        <h3 className="eco-serif text-[#0a1610] text-lg mb-2">{p.title}</h3>
-                                        <p className="eco-sans text-stone-500 text-sm leading-relaxed">{p.desc}</p>
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* ══════════════════════════════════════
-          ECOSYSTEM 2-COL
-      ══════════════════════════════════════ */}
-            <section className="bg-[#f7f6f2] py-20 lg:py-28">
-                <div className="max-w-6xl mx-auto px-6 md:px-12 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-                    {/* Photo */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -24 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-                        className="relative"
-                    >
-                        <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                            <Image
-                                src="/images/ecosistem/Baciraro_ecosistem.jpg"
-                                alt="Ekosistem Baciraro"
-                                fill
-                                className="object-cover"
-                                sizes="(max-width:768px) 100vw, 50vw"
-                            />
-                        </div>
-
-                        {/* Floating card — BACIRARO logo */}
-                        <div className="absolute -bottom-5 -right-4 lg:-right-8 bg-white border border-stone-200 rounded-xl px-5 py-4 shadow-lg flex items-center gap-4">
-                            <div className="relative h-14 w-14 lg:h-20 lg:w-20 rounded-xl overflow-hidden bg-stone-50 border border-stone-100 shrink-0">
-                                <Image
-                                    src="/images/sponsor/Baciraro.png"
-                                    alt="Baciraro"
-                                    fill
-                                    className="object-contain p-2"
-                                    sizes="(max-width: 1024px) 56px, 80px"
-                                />
-                            </div>
+            <section className="bg-[#020302] pb-12 lg:pb-24">
+                <div className="mx-auto max-w-7xl px-6 md:px-12 lg:px-16">
+                    <div className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))] p-6 md:p-10 lg:p-12 lg:rounded-[36px]">
+                        <div className="grid gap-6 lg:gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-end">
                             <div>
-                                <p className="eco-kicker text-emerald-600 font-bold mb-1" style={{ fontSize: '0.7rem' }}>Powered by</p>
-                                <p className="eco-sans text-[#0a1610] text-base lg:text-xl font-bold">Baciraro Recycle</p>
+                                <p className="text-xs uppercase tracking-[0.26em] text-emerald-300/80">Bergabung Bersama Kami</p>
+                                <h2 className="mt-3 font-sans text-3xl font-medium tracking-[-0.04em] text-white md:text-4xl lg:text-5xl">
+                                    Bergabunglah dengan
+                                    <br />
+                                    Gerakan EcoDigital
+                                </h2>
+                                <p className="mt-6 max-w-2xl text-base leading-7 text-gray-300 md:text-lg">
+                                    Mari bersama mendorong transformasi digital yang menghasilkan nilai bisnis sekaligus menumbuhkan regenerasi lingkungan.
+                                </p>
+
+                                <div className="mt-8 flex flex-wrap gap-4">
+                                    <Link
+                                        href="/contact"
+                                        className="inline-flex w-full items-center justify-center rounded-lg bg-white px-8 py-3 font-medium text-black transition-colors hover:bg-gray-100 sm:w-auto"
+                                    >
+                                        Mulai Proyek Berkelanjutan
+                                    </Link>
+                                    <Link
+                                        href="/portfolio"
+                                        className="liquid-glass inline-flex w-full items-center justify-center rounded-lg border border-white/20 px-8 py-3 font-medium text-white transition-colors hover:bg-white hover:text-black sm:w-auto"
+                                    >
+                                        Lihat Portfolio
+                                    </Link>
+                                </div>
+                            </div>
+
+                            <div className="relative overflow-hidden rounded-[28px] border border-white/12 bg-black/20">
+                                <div className="relative min-h-[260px]">
+                                    <Image
+                                        src="/images/ecosistem/AI_2.png"
+                                        alt="Visual gerakan EcoDigital"
+                                        fill
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 100vw, 340px"
+                                    />
+                                </div>
                             </div>
                         </div>
-
-                        {/* Corner accent */}
-                        <div className="absolute -top-3 -left-3 h-10 w-10 border-l-2 border-t-2 border-emerald-400 rounded-tl-lg" />
-                    </motion.div>
-
-                    {/* Text */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 24 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 }}
-                        className="space-y-6"
-                    >
-                        {/* Partner badge */}
-                        <div className="flex items-center gap-3 mb-2">
-                            <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-white border border-stone-200 shadow-sm shrink-0">
-                                <Image
-                                    src="/images/sponsor/Baciraro.png"
-                                    alt="Baciraro"
-                                    fill
-                                    className="object-contain p-1.5"
-                                    sizes="48px"
-                                />
-                            </div>
-                            <p className="eco-kicker text-emerald-600 font-bold tracking-widest" style={{ fontSize: '0.75rem' }}>Ekosistem Baciraro Recycle</p>
-                        </div>
-                        <h2
-                            className="eco-serif text-[#0a1610] leading-tight"
-                            style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)' }}
-                        >
-                            Menghubungkan Semua<br />Pemangku Kepentingan
-                        </h2>
-                        <p className="eco-sans text-stone-500 text-base leading-relaxed">
-                            Melalui platform digital, kami menghubungkan komunitas, operator lapangan, pengolah material, regulator, dan pelaku usaha dalam satu alur data terpadu — meningkatkan transparansi dan membuka peluang ekonomi baru berbasis limbah bernilai.
-                        </p>
-
-                        <ul className="space-y-3">
-                            {ecosystemPoints.map((item) => (
-                                <li key={item} className="flex items-start gap-3 eco-sans text-sm text-stone-600">
-                                    <CheckCircle2 className="h-4 w-4 text-emerald-500 mt-0.5 shrink-0" />
-                                    {item}
-                                </li>
-                            ))}
-                        </ul>
-
-                        <Link
-                            href="/contact"
-                            className="eco-sans inline-flex items-center gap-2 rounded-full bg-[#0a1610] px-7 py-3 text-sm font-medium text-white hover:bg-[#1a3320] transition-colors duration-200 group"
-                        >
-                            Bergabung Sekarang
-                            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                    </motion.div>
+                    </div>
                 </div>
             </section>
-
-            {/* ══════════════════════════════════════
-          WHAT IS ECODIGITAL
-      ══════════════════════════════════════ */}
-            <section className="bg-white py-20 lg:py-28">
-                <div className="max-w-6xl mx-auto px-6 md:px-12">
-                    <motion.div
-                        variants={stagger}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        className="grid lg:grid-cols-[1fr_2fr] gap-12 lg:gap-20"
-                    >
-                        {/* Left sticky label */}
-                        <motion.div variants={fadeUp} className="lg:pt-2">
-                            <p className="eco-kicker text-emerald-600 mb-4">Filosofi Kami</p>
-                            <h2
-                                className="eco-serif text-[#0a1610] leading-tight"
-                                style={{ fontSize: 'clamp(1.6rem, 3vw, 2.25rem)' }}
-                            >
-                                Apa itu<br />EcoDigital?
-                            </h2>
-                            <div className="mt-6 w-8 h-0.5 bg-emerald-400" />
-                            <p className="eco-sans text-stone-400 text-xs mt-4 leading-relaxed">
-                                Filosofi di balik setiap baris kode kami
-                            </p>
-                        </motion.div>
-
-                        {/* Right paragraphs */}
-                        <div className="space-y-6">
-                            {ecodigitalText.map((text, i) => (
-                                <motion.p
-                                    key={i}
-                                    variants={fadeUp}
-                                    className="eco-sans text-stone-600 text-base leading-[1.8] border-l-2 border-stone-100 pl-5"
-                                >
-                                    {text}
-                                </motion.p>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* ══════════════════════════════════════
-          CTA  — dark, photo accent
-      ══════════════════════════════════════ */}
-            <section className="bg-[#0a1610] py-20 lg:py-28 relative overflow-hidden">
-                {/* Faint forest image background */}
-                <div className="absolute inset-0 opacity-[0.08]">
-                    <Image
-                        src="/images/ecosistem/p1.jpg"
-                        alt=""
-                        fill
-                        className="object-cover object-center"
-                        sizes="100vw"
-                        aria-hidden
-                    />
-                </div>
-
-                {/* Fine line pattern */}
-                <div
-                    className="absolute inset-0 opacity-[0.04]"
-                    style={{
-                        backgroundImage:
-                            'repeating-linear-gradient(0deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px), repeating-linear-gradient(90deg, #fff 0px, #fff 1px, transparent 1px, transparent 40px)',
-                    }}
-                />
-
-                <div className="relative max-w-4xl mx-auto px-6 md:px-12 text-center">
-                    <motion.div
-                        variants={stagger}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                    >
-                        <motion.p variants={fadeUp} className="eco-kicker text-emerald-400 mb-5">
-                            Bergabung Bersama Kami
-                        </motion.p>
-                        <motion.h2
-                            variants={fadeUp}
-                            className="eco-serif text-white leading-tight mb-6"
-                            style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
-                        >
-                            Bergabunglah dengan<br />Gerakan EcoDigital
-                        </motion.h2>
-                        <motion.p variants={fadeUp} className="eco-sans text-white/60 text-base leading-relaxed max-w-xl mx-auto mb-10">
-                            Mari bersama mendorong transformasi digital yang menghasilkan nilai bisnis sekaligus menumbuhkan regenerasi lingkungan.
-                        </motion.p>
-                        <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <Link
-                                href="/contact"
-                                className="eco-sans inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-8 py-3.5 text-sm font-medium text-white hover:bg-emerald-400 transition-colors duration-200 group"
-                            >
-                                Mulai Proyek Berkelanjutan
-                                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                            </Link>
-                            <Link
-                                href="/portfolio"
-                                className="eco-sans inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-8 py-3.5 text-sm font-medium text-white/80 hover:border-white/40 hover:text-white transition-colors duration-200"
-                            >
-                                Lihat Portfolio
-                            </Link>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </section>
-        </>
+        </div>
     );
 }
