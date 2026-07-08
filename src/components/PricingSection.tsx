@@ -142,7 +142,7 @@ const WebsitePackageCard = ({
                     Lihat Contoh 2
                 </a>
                 <a
-                    href="/undangantrisha.html"
+                    href="/undangantrisha"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-2 px-6 bg-transparent border-2 border-[#FF7A00] text-[#FF7A00] hover:bg-[#FF7A00] hover:text-white font-medium rounded-lg transition-all duration-300 text-center block"

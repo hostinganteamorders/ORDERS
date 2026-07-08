@@ -37,6 +37,15 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  async rewrites() {
+    return [
+      {
+        source: '/undangantrisha',
+        destination: '/undangantrisha.html',
+      },
+    ];
+  },
+
   // Domain redirects untuk canonical URL
   async redirects() {
     return [
@@ -49,6 +58,11 @@ const nextConfig: NextConfig = {
           },
         ],
         destination: 'https://ordersapp.tech/:path*',
+        permanent: true,
+      },
+      {
+        source: '/undangantrisha.html',
+        destination: '/undangantrisha',
         permanent: true,
       },
     ];
