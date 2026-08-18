@@ -671,3 +671,49 @@ If you discover a security vulnerability, please send an email to [security@orde
   *Building the future, one sustainable solution at a time.*
 </div>
 >>>>>>> d9b347a145e1982adbef0cb28c7047974dd041da
+
+---
+
+# 🔐 ORDERS Admin Panel (`/admin`)
+
+Panel manajemen internal untuk mengelola project, pembagian hasil, jadwal tugas, dan sinkronisasi Google Calendar.
+
+## Fitur
+
+- **Login admin** di `/admin` (email/password via Supabase Auth). 1 admin punya akses penuh, 9 member lain hanya bisa melihat.
+- **Project & Bagi Hasil** — kelola project + nilai total, atur % kontribusi tiap member. **Kas ORDERS 10% otomatis** dipotong dari setiap project, sisanya 90% dibagikan sesuai % kontribusi. Riwayat pembagian tersimpan.
+- **Jadwal & Tugas** — buat tugas, assign ke member, tandai status, sinkron 2 arah dengan Google Calendar.
+- **Statistik Anggota** — jumlah project yang ditangani dan total pendapatan per member.
+
+## Setup Database (Supabase)
+
+1. Buat project di [supabase.com](https://supabase.com) dan catat URL + keys.
+2. Buka **SQL Editor** → paste isi **`supabase/schema.sql`** → **Run**.
+3. Salin `.env.example` ke `.env.local` dan isi:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=...
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+   SUPABASE_SERVICE_ROLE_KEY=...
+   ```
+4. Buat akun member & admin (9 member + 1 admin, password default `Orders123!`):
+   ```bash
+   node --env-file=.env.local scripts/seed.mjs
+   ```
+   Login admin: `aldy@ordersapp.tech` / `Orders123!`
+
+## Setup Google Calendar (opsional, sinkron 2 arah)
+
+### Cara cepat (tanpa Google Cloud / OAuth)
+1. **Kalender live**: di Google Calendar → Settings → Integrate calendar → salin URL dari Embed code, isi ke `NEXT_PUBLIC_GOOGLE_CALENDAR_EMBED_URL` di `.env.local`. Kalender tampil sebagai iframe di halaman `/admin/schedule`.
+2. **Impor event**: salin "Secret address in iCal format" (atau public), isi ke `GOOGLE_CALENDAR_ICS_URL`. Tombol "Ambil dari Kalender" di halaman Jadwal akan mengimpor semua event ke daftar tugas.
+
+### Sinkron 2 arah penuh (OAuth)
+1. Buka [Google Cloud Console](https://console.cloud.google.com) → buat project → aktifkan **Google Calendar API**.
+2. Buat **OAuth Client ID** (Web application), tambahkan redirect URI `https://ordersapp.tech/api/google/callback` (atau `http://localhost:3000/api/google/callback` untuk lokal).
+3. Isi di `.env.local` (dan Vercel):
+   ```env
+   GOOGLE_CLIENT_ID=...
+   GOOGLE_CLIENT_SECRET=...
+   GOOGLE_REDIRECT_URI=...
+   ```
+4. Di panel admin → menu **Google Calendar** → **Hubungkan Google Calendar**.

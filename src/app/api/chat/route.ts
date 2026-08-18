@@ -31,10 +31,12 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
 }
 
 // ===== OpenAI Client =====
-const client = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-    baseURL: process.env.OPENAI_BASE_URL,
-});
+function getClient() {
+    return new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+        baseURL: process.env.OPENAI_BASE_URL,
+    });
+}
 
 const MODEL = process.env.OPENAI_MODEL || 'deepseek-ai/deepseek-v3.1';
 
@@ -214,7 +216,7 @@ export async function POST(request: NextRequest) {
         // ===== Streaming Mode =====
         if (stream) {
             try {
-                const completion = await client.chat.completions.create({
+                const completion = await getClient().chat.completions.create({
                     model: MODEL,
                     messages,
                     temperature: 0.7,
@@ -280,7 +282,7 @@ export async function POST(request: NextRequest) {
 
         // ===== Non-Streaming Mode =====
         try {
-            const response = await client.chat.completions.create({
+            const response = await getClient().chat.completions.create({
                 model: MODEL,
                 messages,
                 temperature: 0.7,

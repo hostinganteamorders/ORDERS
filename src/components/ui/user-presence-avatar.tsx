@@ -80,6 +80,13 @@ const USERS = [
         tooltip: 'Given',
         online: false,
     },
+    {
+        id: 10,
+        src: '/images/team/Calvin%20Kakase.png',
+        fallback: 'CA',
+        tooltip: 'Calvin',
+        online: false,
+    },
 ];
 
 const AVATAR_SPRING = {

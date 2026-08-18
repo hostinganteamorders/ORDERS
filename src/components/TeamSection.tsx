@@ -45,6 +45,11 @@ export default function TeamSection() {
             name: 'Friesta',
             role: 'Team Creative',
             avatar: '/images/team/p4.png',
+        },
+        {
+            name: 'Calvin',
+            role: 'Media & Technical',
+            avatar: '/images/team/Calvin%20Kakase.png',
         }
     ];
 
