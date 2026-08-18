@@ -6,6 +6,13 @@ export async function updateSession(request: NextRequest) {
         request,
     })
 
+    // Guard: jika env Supabase belum terpasang (mis. build di Vercel tanpa
+    // NEXT_PUBLIC_SUPABASE_URL/ANON_KEY), jangan crash middleware —
+    // biarkan request tetap berjalan dan auth ditangani halaman.
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        return supabaseResponse
+    }
+
     const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -31,7 +38,7 @@ export async function updateSession(request: NextRequest) {
 
     const {
         data: { user },
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser().catch(() => ({ data: { user: null }, error: null }))
 
     const isAdminRoute = request.nextUrl.pathname.startsWith('/admin')
     const isLoginRoute = request.nextUrl.pathname === '/admin/login'
