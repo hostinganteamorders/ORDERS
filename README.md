@@ -4,7 +4,6 @@ This is a modern Next.js application for a digital solutions company, featuring 
 
 ## 🚀 Features
 
-
 - **Modern Design**: Built with Next.js 15, TypeScript, and Tailwind CSS
 - **AI ChatBot**: Integrated chatbot for intelligent conversations
 - **Responsive Design**: Mobile-first approach with beautiful animations
