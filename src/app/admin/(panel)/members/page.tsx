@@ -1,13 +1,24 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { formatRupiah, KAS_ORDERS_PERCENT } from '@/lib/format';
+import MembersManager from './MembersManager';
 
 export default async function AdminMembersPage() {
     const supabase = await createClient();
 
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data: currentProfile } = await supabase
+        .from('profiles')
+        .select('is_admin')
+        .eq('id', user?.id)
+        .single();
+
     const { data: members } = await supabase
         .from('profiles')
-        .select('id, name, role, avatar_url, is_admin')
+        .select('id, name, role, avatar_url, is_admin, status')
         .order('name');
 
     const { data: projectMembers } = await supabase
@@ -68,6 +79,18 @@ export default async function AdminMembersPage() {
                     Jumlah project yang ditangani dan pendapatan setiap anggota (Kas ORDERS {KAS_ORDERS_PERCENT}% dipotong otomatis).
                 </p>
             </div>
+
+            <MembersManager
+                members={(members ?? []).map((m) => ({
+                    id: m.id,
+                    name: m.name,
+                    role: m.role,
+                    avatar_url: m.avatar_url,
+                    is_admin: m.is_admin,
+                    status: m.status || 'active',
+                }))}
+                isAdmin={currentProfile?.is_admin ?? false}
+            />
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-white rounded-xl border border-gray-200 p-5">

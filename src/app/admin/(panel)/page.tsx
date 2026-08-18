@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { formatRupiah, formatDate, KAS_ORDERS_PERCENT } from '@/lib/format';
+import DashboardCharts, { statusName, statusColor } from '@/components/admin/DashboardCharts';
 
 type Project = {
     id: string;
@@ -40,6 +41,14 @@ export default async function AdminDashboardPage() {
         .from('project_members')
         .select('project_id, profile_id, contribution_percent, projects!inner(status, total_value)');
 
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+    sixMonthsAgo.setDate(1);
+    const { data: transactions } = await supabase
+        .from('transactions')
+        .select('date, type, amount')
+        .gte('date', sixMonthsAgo.toISOString().slice(0, 10));
+
     const allProjects: Project[] = (projects ?? []) as Project[];
 
     const totalRevenue = allProjects.reduce((s, p) => s + (Number(p.total_value) || 0), 0);
@@ -74,6 +83,25 @@ export default async function AdminDashboardPage() {
         return { ...m, projectCount, totalIncome };
     });
     memberStats.sort((a, b) => b.totalIncome - a.totalIncome);
+
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const now = new Date();
+    const monthly = Array.from({ length: 6 }, (_, i) => {
+        const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const monthTx = (transactions ?? []).filter((t: any) => (t.date ?? '').slice(0, 7) === key);
+        const income = monthTx.filter((t: any) => t.type === 'income').reduce((s: number, t: any) => s + Number(t.amount), 0);
+        const expense = monthTx.filter((t: any) => t.type === 'expense').reduce((s: number, t: any) => s + Number(t.amount), 0);
+        return { month: monthNames[d.getMonth()], income, expense };
+    });
+
+    const statusData = ['active', 'completed', 'paid']
+        .map((s) => ({
+            name: statusName[s] ?? s,
+            value: allProjects.filter((p) => p.status === s).length,
+            color: statusColor[s] ?? '#9CA3AF',
+        }))
+        .filter((s) => s.value > 0);
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -122,6 +150,8 @@ export default async function AdminDashboardPage() {
                     <p className="text-xs text-gray-400 mt-1">{paidCount} sudah dibayar</p>
                 </div>
             </div>
+
+            <DashboardCharts monthly={monthly} statusData={statusData} />
 
             <div className="grid lg:grid-cols-2 gap-8">
                 {/* Recent projects */}
