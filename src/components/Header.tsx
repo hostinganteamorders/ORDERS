@@ -9,7 +9,6 @@ const navigation = [
   { href: '/dashboard', label: 'Layanan' },
   { href: '/pricing', label: 'Harga' },
   { href: '/portfolio', label: 'Portfolio' },
-  { href: '/ecodigital', label: 'EcoDigital' },
   { href: '/contact', label: 'Kontak' },
 ];
 

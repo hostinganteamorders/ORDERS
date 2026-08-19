@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { formatRupiah, formatDate, calculateDistribution, KAS_ORDERS_PERCENT } from '@/lib/format';
-import { ensureExpenseFromPayout } from '@/lib/transactions';
 
 type Payout = {
     id: string;
@@ -152,21 +151,21 @@ export default function PayoutsClient({ payouts, payoutMembers, projects, projec
     }
 
     async function updateStatus(id: string, status: string) {
-        const supabase = createClient();
-        const { error: err } = await supabase.from('payouts').update({ status }).eq('id', id);
-        if (err) { showError('Gagal update status: ' + err.message); return; }
-        setRows((prev) => prev.map((p) => (p.id === id ? { ...p, status: status as Payout['status'] } : p)));
-        if (status === 'paid') {
-            const payout = rows.find((p) => p.id === id);
-            if (payout) {
-                const ok = await ensureExpenseFromPayout(supabase, payout);
-                if (ok) showSuccess(`Status payout diperbarui & dicatat sebagai pengeluaran di buku kas.`);
-                else showSuccess(`Status payout diperbarui (transaksi expense sudah tercatat sebelumnya).`);
-            } else {
-                showSuccess(`Status payout diperbarui menjadi "${statusLabel[status]}".`);
+        try {
+            const res = await fetch('/api/payouts/status', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status }),
+            });
+            const data = await res.json();
+            if (!res.ok || !data.ok) {
+                showError('Gagal update status: ' + (data.error ?? 'unknown'));
+                return;
             }
-        } else {
-            showSuccess(`Status payout diperbarui menjadi "${statusLabel[status]}".`);
+            setRows((prev) => prev.map((p) => (p.id === id ? { ...p, status: status as Payout['status'] } : p)));
+            showSuccess(data.message ?? `Status payout diperbarui menjadi "${statusLabel[status]}".`);
+        } catch (err) {
+            showError('Gagal update status: ' + (err instanceof Error ? err.message : 'unknown'));
         }
         router.refresh();
     }

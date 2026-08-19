@@ -89,6 +89,66 @@ const SERVICES: FlipCardData[] = [
     gradient: 'linear-gradient(135deg, #00B894, #55EFC4)',
     accentColor: '#00B894',
   },
+  {
+    iconUrl: diceBearUrl('Robot', 'b39ddb'),
+    title: 'AI Otomasi & Bot',
+    tagline: 'Balas otomatis WhatsApp & Instagram',
+    description:
+      'Kami buatkan bot otomatis untuk WhatsApp, Instagram, dan Telegram — balas pesan pelanggan, kirim follow-up, dan otomatiskan operasional bisnis Anda 24/7 tanpa perlu staff tambahan.',
+    features: [
+      'Balasan otomatis WA / IG / DM',
+      'Chatbot layanan pelanggan',
+      'Otomasi booking & follow-up',
+      'Laporan otomatis ke grup/email',
+    ],
+    gradient: 'linear-gradient(135deg, #7B1FA2, #BA68C8)',
+    accentColor: '#7B1FA2',
+  },
+  {
+    iconUrl: diceBearUrl('Analytics', 'ffcc80'),
+    title: 'AI Screening CV',
+    tagline: 'Saring kandidat otomatis dengan AI',
+    description:
+      'Lupakan membaca ratusan CV manual. Kami buatkan sistem AI yang membaca, menilai, dan merangking CV kandidat sesuai kebutuhan posisi — hasilnya rapi dalam laporan & Excel.',
+    features: [
+      'Analisis & skoring otomatis',
+      'Cocokkan dengan deskripsi pekerjaan',
+      'Proses batch ratusan CV',
+      'Ekspor laporan Excel',
+    ],
+    gradient: 'linear-gradient(135deg, #E65100, #FFB74D)',
+    accentColor: '#E65100',
+  },
+  {
+    iconUrl: diceBearUrl('Recycle', 'a5d6a7'),
+    title: 'Sistem Bank Sampah',
+    tagline: 'Kelola bank sampah & desa digital',
+    description:
+      'Aplikasi untuk mengelola bank sampah, TPS, atau program desa: pencatatan nasabah, setoran sampah, reward/poin, dan dashboard laporan — bukti nyata tim kami di bidang keberlanjutan.',
+    features: [
+      'Data nasabah & timbangan setoran',
+      'Reward / poin nasabah',
+      'Dashboard & laporan periodik',
+      'Terintegrasi manajemen project',
+    ],
+    gradient: 'linear-gradient(135deg, #2E7D32, #81C784)',
+    accentColor: '#2E7D32',
+  },
+  {
+    iconUrl: diceBearUrl('Data', '81d4fa'),
+    title: 'Layanan Data & Statistik',
+    tagline: 'Rekap, olah & visualkan data Anda',
+    description:
+      'Kami bantu mengolah data bisnis atau instansi Anda — rekapitulasi, validasi, dashboard visual, sampai sistem administrasi data — dengan pengalaman tim di BPS dan instansi publik.',
+    features: [
+      'Rekapitulasi & validasi data',
+      'Dashboard visualisasi',
+      'Sistem administrasi data',
+      'Laporan siap saji',
+    ],
+    gradient: 'linear-gradient(135deg, #0288D1, #4FC3F7)',
+    accentColor: '#0288D1',
+  },
 ];
 
 /* ─── Section Props ───────────────────────────────────────────── */

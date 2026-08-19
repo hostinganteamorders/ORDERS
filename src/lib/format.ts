@@ -1,11 +1,10 @@
 export function formatRupiah(value: number | string | null | undefined): string {
-    const num = Number(value ?? 0);
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(num);
+    const num = Math.round(Number(value ?? 0) || 0);
+    const neg = num < 0;
+    const abs = Math.abs(num)
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return `${neg ? '-' : ''}Rp ${abs}`;
 }
 
 export function formatDate(date: string | Date | null | undefined): string {

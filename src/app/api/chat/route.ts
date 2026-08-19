@@ -67,14 +67,18 @@ const SYSTEM_PROMPT = `Kamu adalah Orders AI — asisten digital resmi dari Orde
 - Gunakan emoji secukupnya untuk membuat percakapan lebih menarik.
 
 ## LAYANAN ORDERS
-• 🌐 Web Development - Website modern dan responsif
+• 🌐 Web Development - Website modern dan responsif (mulai Rp 750.000)
 • 📱 Mobile Apps - Aplikasi Android & iOS
 • 🎨 Desain Grafis - Logo, branding, material marketing
-• 💼 Digital Marketing - SEO, social media, content
-• ☁️ Cloud Solutions - Hosting, server, infrastruktur IT
-• 🛠️ IT Consulting - Konsultasi teknologi bisnis
+• 🎥 Video & Foto - Editing video promosi, konten, company profile
+• 🤖 AI Otomasi & Bot - Bot WhatsApp/Instagram, otomasi operasional (n8n), AI Screening CV
+• ♻️ Sistem Bank Sampah - Aplikasi pengelolaan bank sampah, nasabah, dan reward/poin
+• 📊 Layanan Data - Rekapitulasi, dashboard visualisasi, administrasi data
 
-Jika ditanya kontak: WhatsApp (tombol di website), Email: teamorders2k25@gmail.com`;
+## INFO ORDERS
+- Situs: www.ordersapp.tech. Lihat karya kami di /portfolio (case study).
+- Tim: alumni S1 Sistem Informasi UNSRAT, dengan pengalaman AI, Web3, cloud, desain, dan proyek keberlanjutan tingkat nasional.
+- Jika ditanya kontak: WhatsApp (tombol di website), Email: teamorders2k25@gmail.com`;
 
 // ===== Input Validation =====
 function validateMessage(message: unknown): { valid: boolean; error?: string } {
@@ -326,26 +330,27 @@ function getFallbackResponse(message: string): string {
     if (lowerMessage.includes('layanan') || lowerMessage.includes('service') || lowerMessage.includes('jasa')) {
         return `🎯 Orders menyediakan berbagai layanan digital profesional:
 
-• 🌐 **Web Development** - Pembuatan website modern dan responsif
+• 🌐 **Web Development** - Website modern dan responsif
 • 📱 **Mobile Apps** - Aplikasi Android & iOS
 • 🎨 **Desain Grafis** - Logo, branding, dan material marketing
-• 💼 **Digital Marketing** - SEO, social media, content marketing
-• ☁️ **Cloud Solutions** - Hosting, server, dan infrastruktur IT
-• 🛠️ **IT Consulting** - Konsultasi teknologi untuk bisnis Anda
+• 🎥 **Video & Foto** - Editing video promosi dan konten
+• 🤖 **AI Otomasi & Bot** - Bot WhatsApp/Instagram, otomasi operasional, AI Screening CV
+• ♻️ **Sistem Bank Sampah** - Aplikasi pengelolaan bank sampah, nasabah, reward/poin
+• 📊 **Layanan Data** - Rekapitulasi, dashboard, administrasi data
 
-Tertarik dengan layanan tertentu? Tanya saya lebih detail atau hubungi tim kami!`;
+Lihat detail layanan AI di tab "AI & Otomasi" di halaman Harga. Tertarik dengan layanan tertentu? Tanya saya lebih detail!`;
     }
 
     if (lowerMessage.includes('harga') || lowerMessage.includes('biaya') || lowerMessage.includes('price')) {
-        return `💰 Untuk informasi harga yang akurat dan sesuai kebutuhan Anda, saya sarankan:
+        return `💰 Beberapa gambaran harga kami:
 
-1. **Konsultasi Gratis** - Ceritakan project Anda terlebih dahulu
-2. **Penawaran Custom** - Setiap project memiliki kebutuhan unik
-3. **Paket Hemat** - Tersedia paket bundling untuk beberapa layanan
+• **Website**: mulai Rp 750.000 (Starter), hingga paket Ultimate
+• **Aplikasi Mobile**: mulai Rp 2.000.000
+• **AI & Otomasi**: Bot WhatsApp mulai Rp 900.000 + langganan bulanan, AI Screening CV mulai Rp 1.500.000, otomasi kustom mulai Rp 2.500.000
+• **Desain**: logo mulai Rp 250.000, poster mulai Rp 50.000
+• **Hosting**: mulai Rp 350.000 / 3 bulan
 
-Hubungi tim sales kami untuk mendapatkan penawaran terbaik! 📞
-
-Mau saya jelaskan lebih detail tentang layanan tertentu?`;
+Harga final menyesuaikan kebutuhan. Hubungi tim kami untuk penawaran terbaik — konsultasi gratis!`;
     }
 
     if (lowerMessage.includes('kontak') || lowerMessage.includes('hubungi') || lowerMessage.includes('contact')) {
@@ -410,6 +415,28 @@ Apa yang bisa saya bantu hari ini?`;
 **DevOps**: Docker, Kubernetes, CI/CD
 
 Kami selalu menggunakan best practices dan teknologi terkini untuk memastikan product berkualitas tinggi!`;
+    }
+
+    if (lowerMessage.includes('ai') || lowerMessage.includes('bot') || lowerMessage.includes('otomasi') || lowerMessage.includes('otomatis') || lowerMessage.includes('screening')) {
+        return `🤖 Layanan AI & Otomasi Orders:
+
+• **Bot WhatsApp/Instagram** - Balas otomatis 24/7, follow-up pelanggan, laporan otomatis (mulai Rp 900.000 + langganan bulanan)
+• **AI Screening CV** - Baca & rangking ratusan CV otomatis, cocokkan dengan deskripsi pekerjaan, ekspor Excel (mulai Rp 1.500.000)
+• **Otomasi Kustom (n8n)** - Integrasi WA/IG/CRM sesuai SOP bisnis Anda (mulai Rp 2.500.000)
+
+Lihat paket lengkap di tab "AI & Otomasi" di halaman Harga. Mau konsultasi kebutuhan otomasi bisnis Anda?`;
+    }
+
+    if (lowerMessage.includes('sampah') || lowerMessage.includes('waste') || lowerMessage.includes('bank sampah') || lowerMessage.includes('bank-sampah') || lowerMessage.includes('bank_sampah')) {
+        return `♻️ Sistem Bank Sampah dari Orders:
+
+• **Manajemen Nasabah** - Pendaftaran, kartu anggota, riwayat setoran
+• **Timbangan & Setoran** - Catat setoran per jenis, hitung berat & poin otomatis
+• **Reward / Poin** - Program poin transparan
+• **Dashboard & Laporan** - Laporan bulanan siap saji
+• Opsional **Web3** untuk riwayat reward yang immutable
+
+Minta demo langsung ke tim kami untuk melihat contoh dashboard-nya!`;
     }
 
     return `Terima kasih atas pertanyaan Anda! 😊

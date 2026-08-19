@@ -7,7 +7,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const routes = [
         '',
         '/contact',
-        '/ecodigital',
         '/portfolio',
         '/pricing',
         '/team',

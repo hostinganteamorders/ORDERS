@@ -2,8 +2,20 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
-const portfolioItems = [
+type PortfolioItem = {
+    title: string;
+    description: string;
+    technologies: string[];
+    image?: string;
+    gradient?: string;
+    emoji?: string;
+    link?: string;
+    slug?: string;
+};
+
+const portfolioItems: PortfolioItem[] = [
     {
         title: "Rumah Sampah Digital",
         description: "Aplikasi mobile untuk manajemen rumah sampah digital dengan sistem tracking dan reward.",
@@ -65,40 +77,168 @@ const portfolioItems = [
         image: "/images/portofolio/rakit.png",
     },
     {
-        title: "Project 1",
-        description: "Solusi digital custom untuk kebutuhan bisnis.",
-        technologies: ["React", "Tailwind", "Node.js"],
+        slug: "maleosan-tours",
+    title: "Maleosan Tours",
+        description: "Platform wisata multilingual Sulawesi Utara dengan CMS konten, paket tour, hotel, dan transportasi.",
+        technologies: ["Next.js", "TypeScript", "Prisma", "MySQL"],
+        link: "https://www.maleosantoursmanado.com/",
         image: "/images/portofolio/1.png",
     },
     {
-        title: "Project 2",
-        description: "Platform digital dengan fitur lengkap dan modern.",
-        technologies: ["Next.js", "TypeScript", "Prisma"],
+        slug: "baciraro",
+    title: "Baciraro Platform",
+        description: "Platform ekosistem keberlanjutan berbasis AI dengan semantic vector search dan RLS.",
+        technologies: ["Next.js", "Supabase", "pgvector", "AI"],
+        link: "https://www.baciraro.net/",
         image: "/images/portofolio/2.png",
     },
     {
-        title: "Project 3",
-        description: "Aplikasi web responsif dengan UI/UX terbaik.",
-        technologies: ["Vue.js", "Vuetify", "Firebase"],
+        slug: "sentivize",
+    title: "Sentivize - AI CV Analysis",
+        description: "Aplikasi analisis CV dan data karyawan berbasis AI dengan scoring dan ekspor Excel.",
+        technologies: ["Streamlit", "Python", "Hugging Face"],
+        link: "https://github.com/AldyLoing/Sentivize",
         image: "/images/portofolio/3.png",
     },
     {
-        title: "Project 4",
-        description: "Sistem informasi terintegrasi untuk enterprise.",
-        technologies: ["Angular", "Spring Boot", "MySQL"],
+        slug: "ecometer",
+    title: "EcoMeter Biogas IoT",
+        description: "Sistem distribusi biogas berbasis IoT dengan blockchain untuk transparansi dan efisiensi.",
+        technologies: ["IoT", "Blockchain", "Python"],
         image: "/images/portofolio/4.png",
     },
     {
-        title: "Project 5",
-        description: "Mobile app cross-platform dengan performa tinggi.",
-        technologies: ["Flutter", "Dart", "Firebase"],
+        title: "TouLeos",
+        description: "Aplikasi asisten belanja pasar tradisional untuk memudahkan pembeli, terutama lansia.",
+        technologies: ["Mobile App", "UI/UX", "Marketplace"],
         image: "/images/portofolio/5.png",
     },
     {
-        title: "Project 6",
-        description: "Website e-commerce dengan fitur pembayaran lengkap.",
-        technologies: ["Laravel", "Vue.js", "Stripe"],
+        title: "Eco Vending Machine",
+        description: "Mesin penukaran sampah otomatis dengan integrasi blockchain — Finalis BRIN AIDeaNation 2025.",
+        technologies: ["Blockchain", "IoT", "Sustainability"],
         image: "/images/portofolio/6.png",
+    },
+    {
+        title: "Jakarta Bersih",
+        description: "Platform pilot pengelolaan dan monitoring sistem persampahan DKI Jakarta (zero waste).",
+        technologies: ["Web Platform", "Data Monitoring", "AI"],
+        image: "/images/portofolio/image.png",
+    },
+    {
+        title: "Orderly Hire - AI CV Screening",
+        description: "Sistem rekrutmen dengan AI screening CV: pemeringkatan kandidat, analisis data lokasi, dan alur rekrutmen otomatis.",
+        technologies: ["Next.js", "Supabase", "AI"],
+        gradient: 'linear-gradient(135deg, #1E88E5, #4FC3F7)',
+        emoji: "🤖",
+    },
+    {
+        title: "ClimaSense AI",
+        description: "Platform prediksi cuaca berbasis AI dengan perbandingan data historis untuk pengambilan keputusan akurat.",
+        technologies: ["Next.js", "AI", "Weather API"],
+        gradient: 'linear-gradient(135deg, #00897B, #4DB6AC)',
+        emoji: "🌦️",
+    },
+    {
+        title: "MEDAI - Verifikasi Klaim",
+        description: "Verifikasi klaim asuransi/BPJS otomatis dengan AI: ekstraksi dokumen, validasi data, dan laporan ringkas.",
+        technologies: ["LLM", "Speech-to-Text", "Python"],
+        gradient: 'linear-gradient(135deg, #E53935, #EF9A9A)',
+        emoji: "🏥",
+    },
+    {
+        title: "Karwanua - Monitoring Iklim",
+        description: "Platform monitoring iklim dan kalkulator emisi karbon untuk kesadaran lingkungan dan pelaporan jejak karbon.",
+        technologies: ["Next.js", "Carbon Analytics", "Dashboard"],
+        gradient: 'linear-gradient(135deg, #2E7D32, #81C784)',
+        emoji: "🌍",
+    },
+    {
+        title: "GoldMind AI",
+        description: "Dashboard sinyal trading mata uang G10 berbasis AI dengan visualisasi tren dan indikator otomatis.",
+        technologies: ["Next.js", "Trading", "AI"],
+        gradient: 'linear-gradient(135deg, #F9A825, #FFD54F)',
+        emoji: "📈",
+    },
+    {
+        title: "Balesin Desk",
+        description: "CRM omnichannel dengan AI: kelola chat WhatsApp/Instagram, balas otomatis, dan pantau kepuasan pelanggan.",
+        technologies: ["Django", "n8n", "WhatsApp API"],
+        gradient: 'linear-gradient(135deg, #7B1FA2, #BA68C8)',
+        emoji: "💬",
+    },
+    {
+        title: "GUDANGKU - Inventory Medis",
+        description: "Manajemen inventaris alat kesehatan dengan prediksi permintaan berbasis AI dan peringatan stok otomatis.",
+        technologies: ["Web App", "AI", "Inventory"],
+        gradient: 'linear-gradient(135deg, #303F9F, #7986CB)',
+        emoji: "📦",
+    },
+    {
+        title: "Pemesanan Lapangan Futsal",
+        description: "Sistem pemesanan lapangan futsal online dengan penjadwalan, konfirmasi, dan manajemen pengguna.",
+        technologies: ["Web", "Booking", "MySQL"],
+        gradient: 'linear-gradient(135deg, #558B2F, #AED581)',
+        emoji: "⚽",
+    },
+    {
+        title: "Website Desa Toundanouw",
+        description: "Sistem informasi desa untuk pelayanan publik dan transparansi informasi — program KKT Universitas Sam Ratulangi.",
+        technologies: ["Web", "Sistem Informasi Desa", "PHP"],
+        gradient: 'linear-gradient(135deg, #F4511E, #FFAB91)',
+        emoji: "🏘️",
+    },
+    {
+        title: "CV Rindotama Perkasa",
+        description: "Website company profile perusahaan dengan halaman profil, layanan, dan kontak.",
+        technologies: ["Company Profile", "Web"],
+        gradient: 'linear-gradient(135deg, #455A64, #90A4AE)',
+        emoji: "🏢",
+    },
+    {
+        title: "Sentiment Analysis News",
+        description: "Analisis sentimen berita Indonesia dengan visualisasi data dan dashboard interaktif.",
+        technologies: ["Python", "NLP", "Visualisasi"],
+        gradient: 'linear-gradient(135deg, #00838F, #4DD0E1)',
+        emoji: "📰",
+    },
+    {
+        title: "RUSDI - Bank Sampah Digital",
+        description: "Aplikasi bank sampah digital dengan jadwal pickup, penukaran poin, dan login aman.",
+        technologies: ["Flutter", "Firebase", "Dart"],
+        gradient: 'linear-gradient(135deg, #00695C, #26A69A)',
+        emoji: "♻️",
+    },
+    {
+        title: "MatchaTime - POS Kafe",
+        description: "Aplikasi kasir kafe dengan pembayaran QR dan manajemen menu.",
+        technologies: ["Mobile", "POS", "QR"],
+        gradient: 'linear-gradient(135deg, #AD1457, #F06292)',
+        emoji: "🧋",
+    },
+    {
+        title: "Waste-Tech - Sistem Bank Sampah",
+        description: "Demo sistem pengelolaan bank sampah digital: nasabah, timbangan setoran, reward/poin, dan dashboard laporan.",
+        technologies: ["Sistem Bank Sampah", "Dashboard", "Live Demo"],
+        gradient: 'linear-gradient(135deg, #00695C, #26A69A)',
+        emoji: "♻️",
+        link: "/waste-tech",
+    },
+    {
+        title: "EcoDigital - Inisiatif Hijau",
+        description: "Ekosistem strategi teknologi digital yang selaras dengan prinsip keberlanjutan dan jejak karbon minimal.",
+        technologies: ["Keberlanjutan", "Green Tech", "Live Demo"],
+        gradient: 'linear-gradient(135deg, #1B5E20, #66BB6A)',
+        emoji: "🌱",
+        link: "/ecodigital",
+    },
+    {
+        title: "Panel - Manajemen Tim",
+        description: "Demo panel manajemen tim: dashboard, project & bagi hasil, kas, payouts, jadwal, dan rapat dalam satu sistem.",
+        technologies: ["Next.js", "Supabase", "Live Demo"],
+        gradient: 'linear-gradient(135deg, #303F9F, #7986CB)',
+        emoji: "🛡️",
+        link: "/panel",
     },
 ];
 
@@ -199,19 +339,31 @@ export default function PortfolioSection() {
     );
 }
 
-function PortfolioCard({ item }: { item: typeof portfolioItems[0] }) {
+function PortfolioCard({ item }: { item: PortfolioItem }) {
     return (
         <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-slate-100 group cursor-pointer">
             {/* Image */}
-            <div className="relative h-48 bg-slate-100 overflow-hidden">
-                <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </div>
+            {item.image ? (
+                <div className="relative h-48 bg-slate-100 overflow-hidden">
+                    <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+            ) : (
+                <div
+                    className="relative h-48 overflow-hidden"
+                    style={{ background: item.gradient }}
+                >
+                    <span className="absolute inset-0 flex items-center justify-center text-6xl group-hover:scale-110 transition-transform duration-500">
+                        {item.emoji}
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+            )}
 
             {/* Content */}
             <div className="p-5">
@@ -233,6 +385,44 @@ function PortfolioCard({ item }: { item: typeof portfolioItems[0] }) {
                         </span>
                     ))}
                 </div>
+
+                {/* Link */}
+                {item.link && (item.link.startsWith('/') ? (
+                    <Link
+                        href={item.link}
+                        className="inline-flex items-center gap-1 mt-4 text-xs font-semibold text-orange-500 hover:text-orange-600 transition-colors"
+                    >
+                        Live Demo
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </Link>
+                ) : (
+                    <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 mt-4 text-xs font-semibold text-orange-500 hover:text-orange-600 transition-colors"
+                    >
+                        Lihat Live
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                    </a>
+                ))}
+
+                {/* Case Study */}
+                {item.slug && (
+                    <Link
+                        href={`/portfolio/${item.slug}`}
+                        className="inline-flex items-center gap-1 mt-3 text-xs font-semibold text-slate-700 hover:text-orange-500 transition-colors"
+                    >
+                        Lihat Case Study
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </Link>
+                )}
             </div>
         </div>
     );

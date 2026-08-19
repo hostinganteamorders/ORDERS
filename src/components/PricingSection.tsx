@@ -34,6 +34,14 @@ interface HostingPackage {
     price: string;
 }
 
+// AI Service Package interface
+interface AiPackage {
+    name: string;
+    setup: string;
+    monthly: string;
+    features: string[];
+}
+
 // Tab component
 const Tab = ({
     label,
@@ -280,6 +288,56 @@ const HostingPackageCard = ({
     </motion.div>
 );
 
+// AI Service Package Card component
+const AiPackageCard = ({
+    pkg,
+    index
+}: {
+    pkg: AiPackage;
+    index: number;
+}) => (
+    <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 * index }}
+        className="bg-white rounded-xl shadow-lg hover:shadow-xl p-6 transform hover:scale-105 transition-all duration-300 relative border border-gray-100 flex flex-col h-full"
+    >
+        <div className="text-center mb-6">
+            <h3 className="text-xl font-bold text-[#061E44] mb-2">{pkg.name}</h3>
+            <div className="text-3xl font-bold text-[#7B1FA2] mb-1">{pkg.setup}</div>
+            <div className="text-sm text-gray-500 font-medium">{pkg.monthly}</div>
+        </div>
+        <div className="space-y-3 mb-6 flex-1">
+            {pkg.features.map((feature, i) => (
+                <div key={i} className="flex items-start space-x-2">
+                    <svg className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span className="text-gray-600 text-xs sm:text-sm leading-relaxed">{feature}</span>
+                </div>
+            ))}
+        </div>
+        <div className="flex flex-col gap-2">
+            <a
+                href={`https://wa.me/6282195965483?text=Halo!%20Saya%20tertarik%20dengan%20paket%20${encodeURIComponent(pkg.name)}.%20Bisakah%20Anda%20memberikan%20informasi%20lebih%20lanjut?`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 px-6 bg-[#7B1FA2] hover:bg-[#FF7A00] text-white font-medium rounded-lg transition-all duration-300 text-center block"
+            >
+                Pesan Sekarang
+            </a>
+            <a
+                href="https://wa.me/6282195965483?text=Halo!%20Saya%20ingin%20konsultasi%20gratis%20mengenai%20layanan%20AI%20dan%20otomasi."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-6 bg-transparent border-2 border-[#7B1FA2] text-[#7B1FA2] hover:bg-[#7B1FA2] hover:text-white font-medium rounded-lg transition-all duration-300 text-center block"
+            >
+                Konsultasi Gratis
+            </a>
+        </div>
+    </motion.div>
+);
+
 export default function PricingSection() {
     const [activeTab, setActiveTab] = useState('website');
     const websiteSliderRef = useRef<HTMLDivElement>(null);
@@ -502,10 +560,52 @@ export default function PricingSection() {
         { duration: '6 Bulan', price: 'Rp 500.000' },
         { duration: '1 Tahun', price: 'Rp 750.000' },
         { duration: '3 Tahun', price: 'Rp 1.800.000' }
-    ]; const tabs = [
+    ];
+
+    // AI & Automation packages data
+    const aiPackages: AiPackage[] = [
+        {
+            name: 'Bot WhatsApp Bisnis',
+            setup: 'Mulai Rp 900.000',
+            monthly: 'Setup sekali + langganan Rp 150.000/bulan',
+            features: [
+                'Balasan otomatis WhatsApp 24/7',
+                'Quick reply & menu layanan',
+                'Follow-up pelanggan otomatis',
+                'Integrasi form / landing page',
+                'Laporan percakapan berkala'
+            ]
+        },
+        {
+            name: 'AI Screening CV',
+            setup: 'Mulai Rp 1.500.000',
+            monthly: 'Per project / batch (tanpa langganan)',
+            features: [
+                'Analisis & skoring ratusan CV otomatis',
+                'Cocokkan dengan deskripsi pekerjaan',
+                'Ranking kandidat terbaik',
+                'Ekspor laporan Excel',
+                'Dashboard rekap per posisi'
+            ]
+        },
+        {
+            name: 'Otomasi Kustom (n8n)',
+            setup: 'Mulai Rp 2.500.000',
+            monthly: 'Per proyek + maintenance Rp 200.000/bulan',
+            features: [
+                'Integrasi WA / IG / Telegram / CRM',
+                'Alur otomasi sesuai SOP bisnis Anda',
+                'Otomasi laporan ke grup & email',
+                'Monitoring & maintenance berkala',
+                'Dokumentasi & training tim'
+            ]
+        }
+    ];
+    const tabs = [
         { id: 'website', label: 'Website' },
         { id: 'mobile', label: 'Aplikasi Mobile' },
-        { id: 'design', label: 'Desain & Konten' }]; return (
+        { id: 'design', label: 'Desain & Konten' },
+        { id: 'ai', label: 'AI & Otomasi' }]; return (
             <section id="pricing-packages" className="py-8 md:py-20 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Tabs */}
@@ -739,6 +839,38 @@ export default function PricingSection() {
                                             </svg>
                                             Konsultasi Gratis
                                         </a>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}                    {/* AI & Otomasi Tab */}
+                        {activeTab === 'ai' && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <div className="max-w-6xl mx-auto">
+                                    {/* Mobile: stacked cards */}
+                                    <div className="md:hidden space-y-4">
+                                        {aiPackages.map((pkg, index) => (
+                                            <AiPackageCard key={pkg.name} pkg={pkg} index={index} />
+                                        ))}
+                                    </div>
+
+                                    {/* Desktop Grid */}
+                                    <div className="hidden md:grid md:grid-cols-3 gap-6">
+                                        {aiPackages.map((pkg, index) => (
+                                            <AiPackageCard key={pkg.name} pkg={pkg} index={index} />
+                                        ))}
+                                    </div>
+
+                                    {/* Notes */}
+                                    <div className="bg-purple-50 border-l-4 border-purple-400 p-6 rounded-lg mt-8">
+                                        <h4 className="font-semibold text-[#061E44] mb-3">Catatan Penting:</h4>
+                                        <ul className="space-y-2 text-gray-700 text-sm">
+                                            <li>• Harga bersifat indikatif, menyesuaikan kompleksitas & jumlah pesan.</li>
+                                            <li>• Konsultasi gratis untuk memetakan kebutuhan otomasi bisnis Anda.</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </motion.div>
