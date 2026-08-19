@@ -28,6 +28,14 @@ export default async function AdminMembersPage() {
         )
         .order('created_at', { ascending: false });
 
+    const { data: payoutMembers } = await supabase
+        .from('payout_members')
+        .select('member_id, amount');
+
+    const { data: payouts } = await supabase
+        .from('payouts')
+        .select('net_amount, status');
+
     const allProjects = new Map<string, { name: string; status: string; total_value: number }>();
     (projectMembers ?? []).forEach((pm: any) => {
         if (pm.projects) {
@@ -52,12 +60,9 @@ export default async function AdminMembersPage() {
         const activeProjects = rows.filter((pm: any) => pm.projects?.status === 'active').length;
         const paidProjects = rows.filter((pm: any) => pm.projects?.status === 'paid').length;
 
-        const totalIncome = rows.reduce((sum: number, pm: any) => {
-            if (pm.projects?.status !== 'paid') return sum;
-            const value = Number(pm.projects?.total_value) || 0;
-            const percent = Number(pm.contribution_percent) || 0;
-            return sum + ((value * (100 - KAS_ORDERS_PERCENT)) / 100) * (percent / 100);
-        }, 0);
+        const totalIncome = (payoutMembers ?? [])
+            .filter((pm: any) => pm.member_id === member.id)
+            .reduce((sum: number, pm: any) => sum + Number(pm.amount), 0);
 
         const pendingIncome = rows.reduce((sum: number, pm: any) => {
             if (pm.projects?.status !== 'completed') return sum;
@@ -70,6 +75,9 @@ export default async function AdminMembersPage() {
     });
 
     const totalIncomeAll = stats.reduce((s, m) => s + m.totalIncome, 0);
+    const pendingPayout = (payouts ?? [])
+        .filter((p: any) => p.status !== 'paid')
+        .reduce((s: number, p: any) => s + Number(p.net_amount), 0);
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -103,12 +111,14 @@ export default async function AdminMembersPage() {
                     <p className="text-xs text-gray-400 mt-1">total keterlibatan</p>
                 </div>
                 <div className="bg-white rounded-xl border border-gray-200 p-5">
-                    <p className="text-sm text-gray-500">Total Pendapatan (Dibayar)</p>
+                    <p className="text-sm text-gray-500">Total Dibayar ke Anggota</p>
                     <p className="text-xl font-bold text-emerald-600 mt-1">{formatRupiah(totalIncomeAll)}</p>
+                    <p className="text-xs text-gray-400 mt-1">dari payout</p>
                 </div>
                 <div className="bg-white rounded-xl border border-gray-200 p-5">
-                    <p className="text-sm text-gray-500">Kas ORDERS</p>
-                    <p className="text-xl font-bold text-[#FF7A00] mt-1">{formatRupiah(totalIncomeAll / (100 - KAS_ORDERS_PERCENT) * KAS_ORDERS_PERCENT)}</p>
+                    <p className="text-sm text-gray-500">Payout Belum Dibayar</p>
+                    <p className="text-xl font-bold text-[#FF7A00] mt-1">{formatRupiah(pendingPayout)}</p>
+                    <p className="text-xs text-gray-400 mt-1">pending + diproses</p>
                 </div>
             </div>
 
@@ -134,7 +144,7 @@ export default async function AdminMembersPage() {
                             </div>
                             <div className="text-right shrink-0">
                                 <p className="text-lg font-bold text-emerald-600">{formatRupiah(m.totalIncome)}</p>
-                                <p className="text-xs text-gray-400">pendapatan dibayar</p>
+                                <p className="text-xs text-gray-400">payout diterima</p>
                             </div>
                         </div>
 

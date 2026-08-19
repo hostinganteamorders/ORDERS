@@ -93,6 +93,9 @@ export default async function AdminProjectsPage() {
                                             <div className="inline-flex flex-col items-end gap-2">
                                                 <ProjectStatusActions
                                                     projectId={project.id}
+                                                    projectName={project.name}
+                                                    clientName={project.client_name}
+                                                    totalValue={project.total_value}
                                                     currentStatus={project.status}
                                                     completedAt={project.completed_at}
                                                     isAdmin={isAdmin}

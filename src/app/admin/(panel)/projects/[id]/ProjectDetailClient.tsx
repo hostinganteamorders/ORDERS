@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { formatRupiah, formatDate, calculateDistribution, KAS_ORDERS_PERCENT } from '@/lib/format';
+import { formatRupiah, formatDate, calculateDistribution } from '@/lib/format';
+import { ensureIncomeFromProject } from '@/lib/transactions';
 
 type Project = {
     id: string;
@@ -26,19 +27,11 @@ type Member = {
 };
 
 type AllMember = { id: string; name: string; role: string };
-type Distribution = {
-    id: string;
-    total_value: number;
-    kas_orders_amount: number;
-    member_amount: number;
-    created_at: string;
-};
 
 type Props = {
     project: Project;
     members: Member[];
     allMembers: AllMember[];
-    distributions: Distribution[];
     isAdmin: boolean;
     statusLabel: Record<string, string>;
     statusColor: Record<string, string>;
@@ -48,7 +41,6 @@ export default function ProjectDetailClient({
     project: initialProject,
     members: initialMembers,
     allMembers,
-    distributions: initialDistributions,
     isAdmin,
     statusLabel,
     statusColor,
@@ -56,7 +48,6 @@ export default function ProjectDetailClient({
     const router = useRouter();
     const [project, setProject] = useState(initialProject);
     const [members, setMembers] = useState(initialMembers);
-    const [distributions, setDistributions] = useState(initialDistributions);
     const [editing, setEditing] = useState(false);
     const [form, setForm] = useState({
         name: initialProject.name,
@@ -116,6 +107,15 @@ export default function ProjectDetailClient({
             return;
         }
 
+        if (form.status === 'paid') {
+            await ensureIncomeFromProject(supabase, {
+                id: project.id,
+                name: form.name.trim(),
+                client_name: form.client_name.trim() || null,
+                total_value: value,
+            });
+        }
+
         setProject((p) => ({ ...p, ...form, total_value: value, completed_at: form.status === 'active' ? null : (p.completed_at ?? new Date().toISOString()) }));
         setEditing(false);
         showSuccess('Project berhasil diperbarui.');
@@ -172,46 +172,6 @@ export default function ProjectDetailClient({
         router.refresh();
     }
 
-    async function distribute() {
-        setLoading(true);
-        setError(null);
-        const totalPercent = members.reduce((s, m) => s + m.contribution_percent, 0);
-        if (totalPercent !== 100) {
-            showError(`Total kontribusi harus tepat 100% (sekarang ${totalPercent}%).`);
-            setLoading(false);
-            return;
-        }
-        const dist = calculateDistribution(Number(project.total_value), members.map((m) => ({ percent: m.contribution_percent })));
-
-        const { error: err } = await supabase.from('distributions').insert({
-            project_id: project.id,
-            total_value: dist.total,
-            kas_orders_percent: KAS_ORDERS_PERCENT,
-            kas_orders_amount: dist.kasAmount,
-            member_amount: dist.distributable,
-        });
-
-        if (err) {
-            showError('Gagal menyimpan bagi hasil: ' + err.message);
-            setLoading(false);
-            return;
-        }
-
-        setDistributions((prev) => [
-            {
-                id: crypto.randomUUID(),
-                total_value: dist.total,
-                kas_orders_amount: dist.kasAmount,
-                member_amount: dist.distributable,
-                created_at: new Date().toISOString(),
-            },
-            ...prev,
-        ]);
-        showSuccess('Bagi hasil berhasil disimpan ke riwayat.');
-        setLoading(false);
-        router.refresh();
-    }
-
     async function deleteProject() {
         if (!confirm('Hapus project ini beserta seluruh datanya? Tindakan ini tidak bisa dibatalkan.')) return;
         const { error: err } = await supabase.from('projects').delete().eq('id', project.id);
@@ -255,13 +215,14 @@ export default function ProjectDetailClient({
                     <div className="flex gap-2">
                         {isAdmin && (
                             <>
-                                <button
-                                    onClick={distribute}
-                                    disabled={loading}
-                                    className="px-4 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition disabled:opacity-50"
-                                >
-                                    {loading ? 'Menyimpan...' : 'Simpan Bagi Hasil'}
-                                </button>
+                                {(project.status === 'completed' || project.status === 'paid') && (
+                                    <button
+                                        onClick={() => router.push(`/admin/payouts?project=${project.id}`)}
+                                        className="px-4 py-2.5 rounded-lg bg-emerald-600 text-white text-sm font-semibold hover:bg-emerald-700 transition"
+                                    >
+                                        Buat Payout
+                                    </button>
+                                )}
                                 <button
                                     onClick={() => { setEditing(!editing); setError(null); }}
                                     className="px-4 py-2.5 rounded-lg border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 transition"
@@ -411,29 +372,6 @@ export default function ProjectDetailClient({
                     <div className={`mt-4 flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium ${dist.totalPercent === 100 ? 'bg-emerald-50 text-emerald-700' : 'bg-orange-50 text-[#FF7A00]'}`}>
                         <span>Total kontribusi</span>
                         <span>{dist.totalPercent}% {dist.totalPercent === 100 ? '✓' : `(kurang ${(100 - dist.totalPercent).toFixed(1)}%)`}</span>
-                    </div>
-                )}
-            </div>
-
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h2 className="text-lg font-semibold text-[#061E44] mb-4">Riwayat Bagi Hasil</h2>
-                {distributions.length === 0 ? (
-                    <div className="text-center py-8 text-gray-400 text-sm border border-dashed border-gray-300 rounded-lg">
-                        Belum ada riwayat bagi hasil. Klik &quot;Simpan Bagi Hasil&quot; untuk mendistribusikan dana.
-                    </div>
-                ) : (
-                    <div className="space-y-3">
-                        {distributions.map((d) => (
-                            <div key={d.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                <div>
-                                    <p className="text-sm font-medium text-[#061E44]">{formatDate(d.created_at)}</p>
-                                    <p className="text-xs text-gray-500">
-                                        Kas ORDERS {formatRupiah(d.kas_orders_amount)} · Dibagikan {formatRupiah(d.member_amount)}
-                                    </p>
-                                </div>
-                                <span className="text-sm font-semibold text-emerald-600">{formatRupiah(d.total_value)}</span>
-                            </div>
-                        ))}
                     </div>
                 )}
             </div>

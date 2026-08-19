@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { formatRupiah, formatDate, calculateDistribution, KAS_ORDERS_PERCENT } from '@/lib/format';
+import { ensureExpenseFromPayout } from '@/lib/transactions';
 
 type Payout = {
     id: string;
@@ -35,6 +36,7 @@ type Props = {
     projects: Project[];
     projectMembers: ProjectMember[];
     isAdmin: boolean;
+    preselectProjectId?: string | null;
 };
 
 const statusLabel: Record<string, string> = { pending: 'Menunggu', processing: 'Diproses', paid: 'Dibayar' };
@@ -44,14 +46,14 @@ const statusColor: Record<string, string> = {
     paid: 'bg-emerald-100 text-emerald-700',
 };
 
-export default function PayoutsClient({ payouts, payoutMembers, projects, projectMembers, isAdmin }: Props) {
+export default function PayoutsClient({ payouts, payoutMembers, projects, projectMembers, isAdmin, preselectProjectId }: Props) {
     const router = useRouter();
     const [rows, setRows] = useState(payouts);
     const [members, setMembers] = useState(payoutMembers);
     const [filter, setFilter] = useState<'all' | 'pending' | 'processing' | 'paid'>('all');
-    const [showForm, setShowForm] = useState(false);
+    const [showForm, setShowForm] = useState(Boolean(preselectProjectId));
     const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-    const [form, setForm] = useState({ project_id: '', date: new Date().toISOString().slice(0, 10) });
+    const [form, setForm] = useState({ project_id: preselectProjectId ?? '', date: new Date().toISOString().slice(0, 10) });
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
     const [saving, setSaving] = useState(false);
@@ -154,7 +156,18 @@ export default function PayoutsClient({ payouts, payoutMembers, projects, projec
         const { error: err } = await supabase.from('payouts').update({ status }).eq('id', id);
         if (err) { showError('Gagal update status: ' + err.message); return; }
         setRows((prev) => prev.map((p) => (p.id === id ? { ...p, status: status as Payout['status'] } : p)));
-        showSuccess(`Status payout diperbarui menjadi "${statusLabel[status]}".`);
+        if (status === 'paid') {
+            const payout = rows.find((p) => p.id === id);
+            if (payout) {
+                const ok = await ensureExpenseFromPayout(supabase, payout);
+                if (ok) showSuccess(`Status payout diperbarui & dicatat sebagai pengeluaran di buku kas.`);
+                else showSuccess(`Status payout diperbarui (transaksi expense sudah tercatat sebelumnya).`);
+            } else {
+                showSuccess(`Status payout diperbarui menjadi "${statusLabel[status]}".`);
+            }
+        } else {
+            showSuccess(`Status payout diperbarui menjadi "${statusLabel[status]}".`);
+        }
         router.refresh();
     }
 

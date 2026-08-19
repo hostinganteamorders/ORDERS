@@ -259,7 +259,7 @@ export default function ScheduleClient({ tasks, members, projects, isAdmin, goog
 
             {!googleConnected && !icsConfigured && (
                 <div className="mb-6 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-sm text-amber-700">
-                    Kalender belum terhubung. Gunakan <span className="font-medium">+ Tambahkan</span> (buka Google Calendar) atau <span className="font-medium">.ics</span> (unduh file untuk diimpor) pada tugas. Untuk sinkron otomatis, isi <span className="font-mono text-xs">GOOGLE_CALENDAR_ICS_URL</span> di .env.local atau hubungkan lewat menu <a href="/admin/settings" className="underline font-medium">Google Calendar</a>.
+                    Kalender belum terhubung. Gunakan <span className="font-medium">+ Tambahkan</span> (buka Google Calendar) atau <span className="font-medium">.ics</span> (unduh file untuk diimpor) pada tugas. Untuk tampilan live & impor otomatis, isi <span className="font-mono text-xs">NEXT_PUBLIC_GOOGLE_CALENDAR_EMBED_URL</span> dan <span className="font-mono text-xs">GOOGLE_CALENDAR_ICS_URL</span> di .env.local / Vercel.
                 </div>
             )}
 

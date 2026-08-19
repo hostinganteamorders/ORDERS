@@ -13,11 +13,11 @@ export async function GET(request: NextRequest) {
     const expectedState = cookieStore.get('google_oauth_state')?.value;
 
     if (!code) {
-        return NextResponse.redirect(new URL('/admin/settings?error=no_code', url.origin));
+        return NextResponse.redirect(new URL('/admin/schedule?error=no_code', url.origin));
     }
 
     if (!expectedState || state !== expectedState) {
-        return NextResponse.redirect(new URL('/admin/settings?error=state_mismatch', url.origin));
+        return NextResponse.redirect(new URL('/admin/schedule?error=state_mismatch', url.origin));
     }
 
     const supabase = await createClient();
@@ -46,13 +46,13 @@ export async function GET(request: NextRequest) {
         );
 
         if (error) {
-            return NextResponse.redirect(new URL('/admin/settings?error=save_failed', url.origin));
+            return NextResponse.redirect(new URL('/admin/schedule?error=save_failed', url.origin));
         }
 
         cookieStore.delete('google_oauth_state');
-        return NextResponse.redirect(new URL('/admin/settings?connected=1', url.origin));
+        return NextResponse.redirect(new URL('/admin/schedule?connected=1', url.origin));
     } catch (err) {
         console.error('Google OAuth callback error:', err);
-        return NextResponse.redirect(new URL('/admin/settings?error=auth_failed', url.origin));
+        return NextResponse.redirect(new URL('/admin/schedule?error=auth_failed', url.origin));
     }
 }

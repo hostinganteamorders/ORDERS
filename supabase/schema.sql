@@ -114,38 +114,6 @@ create policy "only admins can delete project_members"
   using (public.is_admin());
 
 -- =============================================
--- DISTRIBUTIONS (riwayat bagi hasil)
--- =============================================
-create table if not exists public.distributions (
-  id uuid primary key default gen_random_uuid(),
-  project_id uuid not null references public.projects (id) on delete cascade,
-  total_value numeric(15,2) not null default 0,
-  kas_orders_percent numeric(5,2) not null default 10,
-  kas_orders_amount numeric(15,2) not null default 0,
-  member_amount numeric(15,2) not null default 0,
-  created_by uuid references auth.users (id),
-  created_at timestamptz not null default now()
-);
-
-alter table public.distributions enable row level security;
-
-create policy "distributions are readable by all authenticated users"
-  on public.distributions for select
-  using (auth.role() = 'authenticated');
-
-create policy "only admins can insert distributions"
-  on public.distributions for insert
-  with check (public.is_admin());
-
-create policy "only admins can update distributions"
-  on public.distributions for update
-  using (public.is_admin());
-
-create policy "only admins can delete distributions"
-  on public.distributions for delete
-  using (public.is_admin());
-
--- =============================================
 -- TASKS (jadwal / pembagian tugas)
 -- =============================================
 create table if not exists public.tasks (
@@ -421,7 +389,6 @@ create index if not exists idx_project_members_project on public.project_members
 create index if not exists idx_project_members_profile on public.project_members (profile_id);
 create index if not exists idx_tasks_assigned_to on public.tasks (assigned_to);
 create index if not exists idx_tasks_start_at on public.tasks (start_at);
-create index if not exists idx_distributions_project on public.distributions (project_id);
 create index if not exists idx_transactions_date on public.transactions (date);
 create index if not exists idx_transactions_type on public.transactions (type);
 create index if not exists idx_payouts_status on public.payouts (status);

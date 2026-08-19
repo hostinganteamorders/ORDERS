@@ -1,7 +1,12 @@
 import { createClient } from '@/lib/supabase/server';
 import PayoutsClient from './PayoutsClient';
 
-export default async function AdminPayoutsPage() {
+export default async function AdminPayoutsPage({
+    searchParams,
+}: {
+    searchParams: Promise<{ project?: string }>;
+}) {
+    const { project } = await searchParams;
     const supabase = await createClient();
 
     const {
@@ -69,6 +74,7 @@ export default async function AdminPayoutsPage() {
                 member_name: pm.profiles?.name ?? 'Anggota',
             }))}
             isAdmin={profile?.is_admin ?? false}
+            preselectProjectId={project ?? null}
         />
     );
 }

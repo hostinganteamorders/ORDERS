@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { formatRupiah, formatDate, KAS_ORDERS_PERCENT } from '@/lib/format';
+import { formatRupiah, formatDate } from '@/lib/format';
 import DashboardCharts, { statusName, statusColor } from '@/components/admin/DashboardCharts';
 
 type Project = {
@@ -41,18 +41,21 @@ export default async function AdminDashboardPage() {
         .from('project_members')
         .select('project_id, profile_id, contribution_percent, projects!inner(status, total_value)');
 
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
-    sixMonthsAgo.setDate(1);
     const { data: transactions } = await supabase
         .from('transactions')
-        .select('date, type, amount')
-        .gte('date', sixMonthsAgo.toISOString().slice(0, 10));
+        .select('date, type, amount');
+
+    const { data: payoutMembers } = await supabase
+        .from('payout_members')
+        .select('member_id, amount');
 
     const allProjects: Project[] = (projects ?? []) as Project[];
 
     const totalRevenue = allProjects.reduce((s, p) => s + (Number(p.total_value) || 0), 0);
-    const totalKas = (totalRevenue * KAS_ORDERS_PERCENT) / 100;
+    const allTx = transactions ?? [];
+    const totalIncome = allTx.filter((t: any) => t.type === 'income').reduce((s: number, t: any) => s + Number(t.amount), 0);
+    const totalExpense = allTx.filter((t: any) => t.type === 'expense').reduce((s: number, t: any) => s + Number(t.amount), 0);
+    const kasRiil = totalIncome - totalExpense;
     const activeCount = allProjects.filter((p) => p.status === 'active').length;
     const completedCount = allProjects.filter((p) => p.status === 'completed' || p.status === 'paid').length;
     const paidCount = allProjects.filter((p) => p.status === 'paid').length;
@@ -70,16 +73,13 @@ export default async function AdminDashboardPage() {
         paid: 'bg-green-600 text-white',
     };
 
-    // Per-member stats
+    // Per-member stats (pendapatan riil dari payout)
     const memberStats = (members ?? []).map((m) => {
         const rows = (projectMembers ?? []).filter((pm: any) => pm.profile_id === m.id);
         const projectCount = rows.length;
-        const paidProjects = rows.filter((pm: any) => pm.projects?.status === 'paid');
-        const totalIncome = paidProjects.reduce((sum: number, pm: any) => {
-            const value = Number(pm.projects?.total_value) || 0;
-            const percent = Number(pm.contribution_percent) || 0;
-            return sum + ((value * (100 - KAS_ORDERS_PERCENT)) / 100) * (percent / 100);
-        }, 0);
+        const totalIncome = (payoutMembers ?? [])
+            .filter((pm: any) => pm.member_id === m.id)
+            .reduce((sum: number, pm: any) => sum + Number(pm.amount), 0);
         return { ...m, projectCount, totalIncome };
     });
     memberStats.sort((a, b) => b.totalIncome - a.totalIncome);
@@ -135,9 +135,9 @@ export default async function AdminDashboardPage() {
                     <p className="text-xs text-gray-400 mt-1">{allProjects.length} project</p>
                 </div>
                 <div className="bg-white rounded-xl border border-gray-200 p-5">
-                    <p className="text-sm text-gray-500">Kas ORDERS ({KAS_ORDERS_PERCENT}%)</p>
-                    <p className="text-xl font-bold text-[#FF7A00] mt-1">{formatRupiah(totalKas)}</p>
-                    <p className="text-xs text-gray-400 mt-1">otomatis dari setiap project</p>
+                    <p className="text-sm text-gray-500">Kas Riil (Buku Kas)</p>
+                    <p className={`text-xl font-bold mt-1 ${kasRiil >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>{formatRupiah(kasRiil)}</p>
+                    <p className="text-xs text-gray-400 mt-1">dari pemasukan − pengeluaran</p>
                 </div>
                 <div className="bg-white rounded-xl border border-gray-200 p-5">
                     <p className="text-sm text-gray-500">Project Aktif</p>

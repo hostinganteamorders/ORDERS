@@ -3,15 +3,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import { ensureIncomeFromProject } from '@/lib/transactions';
 
 type Props = {
     projectId: string;
+    projectName: string;
+    clientName: string | null;
+    totalValue: number;
     currentStatus: string;
     completedAt: string | null;
     isAdmin: boolean;
 };
 
-export default function ProjectStatusActions({ projectId, currentStatus, completedAt, isAdmin }: Props) {
+export default function ProjectStatusActions({ projectId, projectName, clientName, totalValue, currentStatus, completedAt, isAdmin }: Props) {
     const router = useRouter();
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -35,6 +39,16 @@ export default function ProjectStatusActions({ projectId, currentStatus, complet
             setUpdating(false);
             return;
         }
+
+        if (nextStatus === 'paid') {
+            await ensureIncomeFromProject(supabase, {
+                id: projectId,
+                name: projectName,
+                client_name: clientName,
+                total_value: totalValue,
+            });
+        }
+
         setUpdating(false);
         router.refresh();
     }
