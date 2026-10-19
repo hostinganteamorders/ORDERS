@@ -1,5 +1,5 @@
 import { google } from 'googleapis';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, isAdminConfigured } from '@/lib/supabase/admin';
 
 export const GOOGLE_CALENDAR_SCOPES = ['https://www.googleapis.com/auth/calendar'];
 
@@ -57,6 +57,8 @@ type StoredToken = {
 };
 
 export async function getStoredToken(userId: string): Promise<StoredToken | null> {
+    if (!isAdminConfigured()) return null;
+
     const supabase = createAdminClient();
     const { data } = await supabase
         .from('calendar_tokens')

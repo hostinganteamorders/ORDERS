@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
+import { createAdminClient, isAdminConfigured } from '@/lib/supabase/admin';
 
 export async function PATCH(req: Request) {
+    if (!isSupabaseConfigured() || !isAdminConfigured()) {
+        return NextResponse.json({ error: 'Service not configured' }, { status: 503 });
+    }
+
     const supabase = await createClient();
     const {
         data: { user },

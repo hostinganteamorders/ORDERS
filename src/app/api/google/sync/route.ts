@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
+import { createAdminClient, isAdminConfigured } from '@/lib/supabase/admin';
 import { getAuthorizedClient, createCalendarEvent, updateCalendarEvent, deleteCalendarEvent, listCalendarEvents } from '@/lib/google';
 import { fetchIcsEvents } from '@/lib/ics';
 
 export async function POST(request: NextRequest) {
+    if (!isSupabaseConfigured() || !isAdminConfigured()) {
+        return NextResponse.json({ error: 'Service not configured' }, { status: 503 });
+    }
+
     const supabase = await createClient();
     const {
         data: { user },
@@ -52,6 +56,10 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+    if (!isSupabaseConfigured() || !isAdminConfigured()) {
+        return NextResponse.json({ error: 'Service not configured' }, { status: 503 });
+    }
+
     const supabase = await createClient();
     const {
         data: { user },
@@ -83,6 +91,10 @@ export async function DELETE(request: NextRequest) {
 }
 
 export async function GET() {
+    if (!isSupabaseConfigured() || !isAdminConfigured()) {
+        return NextResponse.json({ error: 'Service not configured' }, { status: 503 });
+    }
+
     const supabase = await createClient();
     const {
         data: { user },

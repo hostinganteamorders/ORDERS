@@ -7,7 +7,13 @@ export default async function AdminLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const supabase = await createClient();
+    let supabase;
+    try {
+        supabase = await createClient();
+    } catch (err) {
+        console.error('Admin layout: Supabase belum dikonfigurasi atau tidak dapat diakses:', err);
+        redirect('/admin/login');
+    }
 
     const {
         data: { user },

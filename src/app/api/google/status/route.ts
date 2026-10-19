@@ -1,8 +1,12 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { isGoogleConfigured, getStoredToken } from '@/lib/google';
 
 export async function GET() {
+    if (!isSupabaseConfigured()) {
+        return NextResponse.json({ error: 'Service not configured' }, { status: 503 });
+    }
+
     const supabase = await createClient();
     const {
         data: { user },

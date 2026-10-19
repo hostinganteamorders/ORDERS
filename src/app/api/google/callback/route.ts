@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { createClient } from '@/lib/supabase/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
+import { createAdminClient, isAdminConfigured } from '@/lib/supabase/admin';
 import { exchangeCode } from '@/lib/google';
 
 export async function GET(request: NextRequest) {
     const url = request.nextUrl;
+
+    if (!isSupabaseConfigured() || !isAdminConfigured()) {
+        return NextResponse.redirect(new URL('/admin/schedule?error=config', url.origin));
+    }
+
     const code = url.searchParams.get('code');
     const state = url.searchParams.get('state');
 

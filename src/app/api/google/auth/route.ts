@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { createClient } from '@/lib/supabase/server';
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { getAuthUrl, isGoogleConfigured } from '@/lib/google';
 
 export async function GET() {
+    if (!isSupabaseConfigured()) {
+        return NextResponse.json({ error: 'Service not configured' }, { status: 503 });
+    }
+
     const cookieStore = await cookies();
     const supabase = await createClient();
 
