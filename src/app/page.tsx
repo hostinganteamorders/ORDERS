@@ -1,9 +1,10 @@
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import StatsSection from '@/components/StatsSection';
-import TestimonialsSection from '@/components/TestimonialsSection';
-import WhyOrdersSection from '@/components/WhyOrdersSection';
+import StatsStrip from '@/components/StatsStrip';
+import ServicesPreview from '@/components/ServicesPreview';
+import LiveProjectsSection from '@/components/LiveProjectsSection';
+import ProcessSection from '@/components/ProcessSection';
+import AboutTeamSection from '@/components/AboutTeamSection';
 import CTASection from '@/components/CTASection';
 import Footer from '@/components/Footer';
 
@@ -13,10 +14,11 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <AboutSection />
-        <StatsSection />
-        <TestimonialsSection />
-        <WhyOrdersSection />
+        <StatsStrip />
+        <ServicesPreview />
+        <LiveProjectsSection />
+        <ProcessSection />
+        <AboutTeamSection />
         <CTASection />
       </main>
       <Footer />

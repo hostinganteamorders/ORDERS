@@ -1,6 +1,14 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import FloatingActionButtons from '@/components/FloatingActionButtons';
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+  variable: '--font-jakarta',
+});
 
 export const metadata: Metadata = {
   title: 'ORDERS Manado | Digital Solutions Company',
@@ -49,12 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="id" className={`scroll-smooth ${jakarta.variable}`}>
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
         <FloatingActionButtons />
