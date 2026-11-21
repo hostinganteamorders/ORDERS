@@ -69,6 +69,9 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    // Vercel membalas 402 (kuota optimasi gambar plan gratis habis) sehingga foto tidak tampil.
+    // Dengan unoptimized, foto dimuat langsung dari /public tanpa lewat /_next/image.
+    unoptimized: true,
     dangerouslyAllowSVG: true,
     remotePatterns: [
       {
