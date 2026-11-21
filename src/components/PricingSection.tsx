@@ -409,22 +409,21 @@ export default function PricingSection() {
     const websitePackages: WebsitePackage[] = [
         {
             name: 'Starter',
-            price: 'Rp 750.000',
+            price: 'Rp 1.500.000',
             features: [
                 '✅ Landing Page / One-Page Website',
                 '✅ Desain Modern & Responsive (Mobile Friendly)',
                 '✅ Integrasi WhatsApp Chat & Google Maps',
                 '✅ Basic SEO (Terdaftar di Google Search)',
                 '✅ Free SSL (HTTPS) untuk Keamanan',
-                '✅ Kapasitas Hosting Sesuai Kebutuhan',
-                '✅ Domain .com / .my.id (Opsional)'
+                '✅ Gratis Domain .com / .my.id & Hosting Tahun Pertama'
             ],
-            maintenance: 'Maintenance Ringan: Rp 100.000 / bln',
+            maintenance: 'Maintenance Ringan: Rp 25.000 / bln',
             revisions: '3x Revisi Desain'
         },
         {
             name: 'Company',
-            price: 'Rp 1.250.000',
+            price: 'Rp 2.750.000',
             features: [
                 '✅ Website Company Profile (5-8 Halaman)',
                 '✅ Halaman Portofolio / Galeri Layanan',
@@ -433,14 +432,15 @@ export default function PricingSection() {
                 '✅ Admin Panel untuk Update Konten Sendiri',
                 '✅ Integrasi Social Media Feed',
                 '✅ Slider Dashboard yang Menarik',
-                '✅ Kecepatan Akses Website Dioptimalkan'
+                '✅ Kecepatan Akses Website Dioptimalkan',
+                '✅ Gratis Domain .com & Hosting Tahun Pertama'
             ],
-            maintenance: 'Maintenance Full: Rp 200.000 / bln',
+            maintenance: 'Maintenance Full: Rp 50.000 / bln',
             revisions: '5x Revisi Desain'
         },
         {
             name: 'Business',
-            price: 'Rp 3.000.000',
+            price: 'Rp 6.500.000',
             features: [
                 '✅ Toko Online / E-Commerce System',
                 '✅ Manajemen Produk & Inventaris Aktif',
@@ -451,12 +451,12 @@ export default function PricingSection() {
                 '✅ Fitur Diskon & Kupon Promosi',
                 '✅ Optimasi SEO E-commerce (Indexing Produk)'
             ],
-            maintenance: 'Support Prioritas: Rp 450.000 / bln',
+            maintenance: 'Support Prioritas: Rp 110.000 / bln',
             revisions: '10x Revisi / Free Update Konten'
         },
         {
             name: 'Ultimate',
-            price: 'Rp 7.000.000',
+            price: 'Mulai Rp 15.000.000',
             features: [
                 '✅ Web Application Custom (SaaS / ERP / CRM)',
                 '✅ Arsitektur Database Kompleks & Skalabel',
@@ -468,7 +468,7 @@ export default function PricingSection() {
                 '✅ Pendampingan Teknis & Training Admin',
                 '✅ Backup Data Otomatis & Recovery System'
             ],
-            maintenance: 'Dedicated Support: Rp 950.000 / bln',
+            maintenance: 'Dedicated Support: Rp 250.000 / bln',
             revisions: 'Unlimited selama Masa Pengembangan'
         },
         {
@@ -494,7 +494,7 @@ export default function PricingSection() {
     const mobileAppPackages: MobileAppPackage[] = [
         {
             name: 'Bronze',
-            price: 'Rp 2.000.000',
+            price: 'Rp 5.000.000',
             features: [
                 'Aplikasi Mobile (Maks. 5 Screen)',
                 'Integrasi Data Sederhana (Firebase/Supabase)'
@@ -502,7 +502,7 @@ export default function PricingSection() {
         },
         {
             name: 'Silver',
-            price: 'Rp 3.000.000',
+            price: 'Rp 10.000.000',
             features: [
                 'Aplikasi Mobile (Maks. 10 Screen)',
                 'Integrasi Data Sederhana (Firebase/Supabase)'
@@ -510,7 +510,7 @@ export default function PricingSection() {
         },
         {
             name: 'Gold',
-            price: 'Rp 5.000.000',
+            price: 'Rp 15.000.000',
             features: [
                 'Aplikasi Mobile (Maks. 30 Screen)',
                 'Integrasi Data Kompleks (Firebase/Supabase)'
@@ -534,12 +534,12 @@ export default function PricingSection() {
         },
         {
             name: 'Desain Logo',
-            price: 'Mulai dari Rp 250.000',
-            description: 'Termasuk Revisi Tanpa Batas'
+            price: 'Mulai dari Rp 500.000',
+            description: 'Termasuk 3x Revisi'
         },
         {
             name: 'Desain Poster',
-            price: 'Mulai dari Rp 50.000',
+            price: 'Mulai dari Rp 85.000',
             description: 'Termasuk 3x Revisi (+ sertifikat jika diperlukan)'
         },
         {
@@ -556,18 +556,18 @@ export default function PricingSection() {
 
     // Hosting packages data
     const hostingPackages: HostingPackage[] = [
-        { duration: '3 Bulan', price: 'Rp 350.000' },
-        { duration: '6 Bulan', price: 'Rp 500.000' },
-        { duration: '1 Tahun', price: 'Rp 750.000' },
-        { duration: '3 Tahun', price: 'Rp 1.800.000' }
+        { duration: '3 Bulan', price: 'Rp 150.000' },
+        { duration: '6 Bulan', price: 'Rp 275.000' },
+        { duration: '1 Tahun', price: 'Rp 500.000' },
+        { duration: '3 Tahun', price: 'Rp 1.200.000' }
     ];
 
     // AI & Automation packages data
     const aiPackages: AiPackage[] = [
         {
             name: 'Bot WhatsApp Bisnis',
-            setup: 'Mulai Rp 900.000',
-            monthly: 'Setup sekali + langganan Rp 150.000/bulan',
+            setup: 'Mulai Rp 1.500.000',
+            monthly: 'Setup sekali + langganan Rp 300.000/bulan (belum termasuk biaya pesan WhatsApp dari Meta)',
             features: [
                 'Balasan otomatis WhatsApp 24/7',
                 'Quick reply & menu layanan',
@@ -683,7 +683,7 @@ export default function PricingSection() {
                                 <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-lg mt-8">
                                     <h4 className="font-semibold text-[#061E44] mb-3">Catatan Penting:</h4>
                                     <ul className="space-y-2 text-gray-700">
-                                        <li>• Harga paket di atas belum termasuk biaya hosting & domain (Kecuali paket tertentu).</li>
+                                        <li>• Paket Starter dan Company sudah termasuk domain & hosting tahun pertama. Paket lain belum termasuk biaya hosting & domain.</li>
                                         <li>• Biaya penambahan fitur baru di luar paket mulai dari Rp 100.000.</li>
                                     </ul>
                                 </div>
@@ -903,10 +903,10 @@ export function HostingSection() {
 
     // Hosting packages data - Updated pricing based on market reference  
     const hostingPackages: HostingPackage[] = [
-        { duration: '3 Bulan', price: 'Rp 350.000' },
-        { duration: '6 Bulan', price: 'Rp 650.000' },
-        { duration: '1 Tahun', price: 'Rp 1.200.000' },
-        { duration: '3 Tahun', price: 'Rp 3.200.000' }
+        { duration: '3 Bulan', price: 'Rp 150.000' },
+        { duration: '6 Bulan', price: 'Rp 275.000' },
+        { duration: '1 Tahun', price: 'Rp 500.000' },
+        { duration: '3 Tahun', price: 'Rp 1.200.000' }
     ]; return (
         <section className="py-8 md:py-16 bg-gradient-to-br from-gray-50 to-white">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -67,7 +67,7 @@ const SYSTEM_PROMPT = `Kamu adalah Orders AI — asisten digital resmi dari Orde
 - Gunakan emoji secukupnya untuk membuat percakapan lebih menarik.
 
 ## LAYANAN ORDERS
-• 🌐 Web Development - Website modern dan responsif (mulai Rp 750.000)
+• 🌐 Web Development - Website modern dan responsif (mulai Rp 1.500.000)
 • 📱 Mobile Apps - Aplikasi Android & iOS
 • 🎨 Desain Grafis - Logo, branding, material marketing
 • 🎥 Video & Foto - Editing video promosi, konten, company profile
@@ -344,11 +344,11 @@ Lihat detail layanan AI di tab "AI & Otomasi" di halaman Harga. Tertarik dengan 
     if (lowerMessage.includes('harga') || lowerMessage.includes('biaya') || lowerMessage.includes('price')) {
         return `💰 Beberapa gambaran harga kami:
 
-• **Website**: mulai Rp 750.000 (Starter), hingga paket Ultimate
-• **Aplikasi Mobile**: mulai Rp 2.000.000
-• **AI & Otomasi**: Bot WhatsApp mulai Rp 900.000 + langganan bulanan, AI Screening CV mulai Rp 1.500.000, otomasi kustom mulai Rp 2.500.000
-• **Desain**: logo mulai Rp 250.000, poster mulai Rp 50.000
-• **Hosting**: mulai Rp 350.000 / 3 bulan
+• **Website**: mulai Rp 1.500.000 (Starter, sudah termasuk domain & hosting tahun pertama), hingga paket Ultimate
+• **Aplikasi Mobile**: mulai Rp 5.000.000
+• **AI & Otomasi**: Bot WhatsApp mulai Rp 1.500.000 + langganan bulanan (belum termasuk biaya pesan WhatsApp dari Meta), AI Screening CV mulai Rp 1.500.000, otomasi kustom mulai Rp 2.500.000
+• **Desain**: logo mulai Rp 500.000, poster mulai Rp 85.000
+• **Hosting**: mulai Rp 150.000 / 3 bulan
 
 Harga final menyesuaikan kebutuhan. Hubungi tim kami untuk penawaran terbaik — konsultasi gratis!`;
     }
@@ -420,7 +420,7 @@ Kami selalu menggunakan best practices dan teknologi terkini untuk memastikan pr
     if (lowerMessage.includes('ai') || lowerMessage.includes('bot') || lowerMessage.includes('otomasi') || lowerMessage.includes('otomatis') || lowerMessage.includes('screening')) {
         return `🤖 Layanan AI & Otomasi Orders:
 
-• **Bot WhatsApp/Instagram** - Balas otomatis 24/7, follow-up pelanggan, laporan otomatis (mulai Rp 900.000 + langganan bulanan)
+• **Bot WhatsApp/Instagram** - Balas otomatis 24/7, follow-up pelanggan, laporan otomatis (mulai Rp 1.500.000 + langganan bulanan)
 • **AI Screening CV** - Baca & rangking ratusan CV otomatis, cocokkan dengan deskripsi pekerjaan, ekspor Excel (mulai Rp 1.500.000)
 • **Otomasi Kustom (n8n)** - Integrasi WA/IG/CRM sesuai SOP bisnis Anda (mulai Rp 2.500.000)
 

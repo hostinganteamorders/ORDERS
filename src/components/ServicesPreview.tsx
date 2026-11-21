@@ -6,13 +6,13 @@ const SERVICES = [
     icon: Globe,
     title: 'Website',
     text: 'Company profile, toko online, website desa dan yayasan. Cepat, rapi di HP, dan terdaftar di Google.',
-    price: 'Mulai Rp 750.000',
+    price: 'Mulai Rp 1.500.000',
   },
   {
     icon: Smartphone,
     title: 'Aplikasi Mobile & Web',
     text: 'Aplikasi Android/iOS dan sistem internal: kasir, pemesanan, inventaris, sampai dashboard keuangan.',
-    price: 'Mulai Rp 2.000.000',
+    price: 'Mulai Rp 5.000.000',
   },
   {
     icon: Bot,

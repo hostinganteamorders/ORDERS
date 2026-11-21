@@ -52,8 +52,8 @@ export default function HeroSection() {
           </div>
 
           <p className="text-sm text-white/70">
-            Website mulai <strong className="text-white">Rp 750.000</strong> · Aplikasi mobile mulai{' '}
-            <strong className="text-white">Rp 2.000.000</strong>
+            Website mulai <strong className="text-white">Rp 1.500.000</strong> · Aplikasi mobile mulai{' '}
+            <strong className="text-white">Rp 5.000.000</strong>
           </p>
         </div>
 

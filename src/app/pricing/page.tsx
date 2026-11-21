@@ -24,7 +24,7 @@ export default function PricingPage() {
         },
         {
             question: "Apakah hosting sudah termasuk dalam paket website?",
-            answer: "Tidak, biaya hosting terpisah. Anda bisa melihat paket hosting kami di section \"Paket Hosting\" dengan harga mulai dari Rp 350.000 untuk 3 bulan."
+            answer: "Paket Starter dan Company sudah termasuk domain dan hosting untuk tahun pertama. Untuk paket lain, hosting dihitung terpisah; lihat section \"Paket Hosting\" dengan harga mulai dari Rp 150.000 untuk 3 bulan."
         },
         {
             question: "Bagaimana proses revisi dilakukan?",
